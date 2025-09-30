@@ -34,9 +34,7 @@ def auto_select_projection_month(month_cols):
     today = datetime.now()
     today_key = (today.year, today.month - 1)
     prior = [kc for kc in keys if kc[0] <= today_key]
-    if prior:
-        return prior[-1][1]
-    return keys[0][1]
+    return prior[-1][1] if prior else keys[0][1]
 
 # ========= Readers =========
 def read_any(file, header=None):
@@ -78,28 +76,25 @@ def load_tabular(file):
     df.columns = [str(c).strip() for c in df.columns]
     return df
 
-# ========= Column detection / key normalization =========
-def first_col(df, options):
-    normalize = lambda s: re.sub(r"[^a-z0-9]", "", str(s).lower())
-    norm_map = {normalize(c): c for c in df.columns}
-    for opt in options:
-        key = normalize(opt)
-        if key in norm_map:
-            return norm_map[key]
-    for opt in options:
-        if opt in df.columns:
-            return opt
-    return None
-
+# ========= Key normalization / helpers =========
 DASHES = r"\u2010\u2011\u2012\u2013\u2014\u2212"
 DASH_RE = re.compile(f"[{DASHES}]")
-
 def _norm_key(x):
     if pd.isna(x): return None
     s = str(x)
     s = DASH_RE.sub("-", s)
     s = s.strip().upper()
     return re.sub(r"[^A-Z0-9\-_/]", "", s)
+
+def first_col(df, options):
+    normalize = lambda s: re.sub(r"[^a-z0-9]", "", str(s).lower())
+    norm_map = {normalize(c): c for c in df.columns}
+    for opt in options:
+        key = normalize(opt)
+        if key in norm_map: return norm_map[key]
+    for opt in options:
+        if opt in df.columns: return opt
+    return None
 
 # ========= Slimmers =========
 def slim_inventory(inv_df, aggregate=True):
@@ -117,13 +112,14 @@ def slim_inventory(inv_df, aggregate=True):
     return inv
 
 def slim_open_orders(oo_df):
-    item_col = first_col(oo_df, ["ItemNumber","Item Number","SKU","sku","Sku","DelSolSku","Del Sol Sku"])
+    item_col = first_col(oo_df, ["SKU","ItemNumber","Item Number","DelSolSku","Del Sol Sku"])
     if item_col is None:
-        raise ValueError("Open Orders require ItemNumber (or SKU/DelSolSku).")
-    qty_col = first_col(oo_df, ["OrderQTY","Qty Ordered","QtyOrdered","Quantity Ordered","Qty"])
+        raise ValueError("Open Orders require a SKU/ItemNumber column.")
+    qty_col = first_col(oo_df, ["Qty Ordered","OrderQTY","QtyOrdered","Quantity Ordered","Qty"])
     if qty_col is None:
         raise ValueError("Open Orders require a quantity column.")
-    slim = oo_df[[item_col, qty_col]].copy().rename(columns={item_col:"ItemNumber", qty_col:"OrderQTY"})
+    slim = oo_df[[item_col, qty_col]].copy()
+    slim.columns = ["ItemNumber", "OrderQTY"]
     slim["OrderQTY"] = pd.to_numeric(slim["OrderQTY"], errors="coerce").fillna(0.0)
     return slim
 
@@ -162,29 +158,26 @@ def slim_projections(proj_df):
 
 def slim_allocations(alloc_df):
     """
-    Allocations file is ALWAYS your internal SKU + Qty.
-    We SUM by SKU and preserve the exact SKU string for display.
+    Allocations file is YOUR internal SKU + Qty. Sum duplicates by SKU.
     """
     item_col = first_col(alloc_df, ["SKU","sku","Sku","ItemNumber","Item Number"])
     if item_col is None:
-        raise ValueError("Allocated Items sheet must include a 'SKU' column.")
+        raise ValueError("Allocated items sheet must include a 'SKU' column.")
     qty_col = first_col(alloc_df, ["Qty","QTY","Quantity","AllocatedQty","Allocated Qty"])
     if qty_col is None:
-        raise ValueError("Allocated Items sheet must include a qty column (e.g., 'Qty').")
-
+        raise ValueError("Allocated items sheet must include a qty column.")
     df = alloc_df[[item_col, qty_col]].copy()
-    df.columns = ["SKU", "AllocatedQty"]
+    df.columns = ["SKU","AllocatedQty"]
     df["AllocatedQty"] = pd.to_numeric(df["AllocatedQty"], errors="coerce").fillna(0).clip(lower=0)
-    # normalize key for matching; keep canonical raw SKU for output
     df["_JOIN_SKU"] = df["SKU"].map(_norm_key)
-    # group: sum qty, keep first seen raw SKU spelling
+    # Sum by normalized key; keep first raw SKU spelling for display
     df = df.groupby("_JOIN_SKU", as_index=False).agg(
-        AllocatedQty=("AllocatedQty", "sum"),
-        SKU=("SKU", "first")
+        AllocatedQty=("AllocatedQty","sum"),
+        SKU=("SKU","first")
     )
     return df
 
-# ========= Build a master SKU set (inventory + allocations + open orders) =========
+# ========= Build master =========
 def build_master_sku(inv, alloc, oo, im):
     cols = ["SKU","ProductName","WarehouseName","OnHand"]
     if inv is not None:
@@ -195,74 +188,62 @@ def build_master_sku(inv, alloc, oo, im):
     else:
         base = pd.DataFrame(columns=cols)
 
-    # Add Item Master columns if present
     if im is not None:
         base = base.merge(im, on="SKU", how="left")
     else:
         base["DelSolSku"] = pd.NA
 
-    # Join keys
     base["_JOIN_SKU"] = base["SKU"].map(_norm_key)
 
-    # Ensure Allocations-only rows exist (use RAW SKU from allocations)
+    # Ensure all allocations SKUs exist
     if alloc is not None and len(alloc) > 0:
-        alloc_keys = set(alloc["_JOIN_SKU"].dropna().tolist())
-        present_keys = set(base["_JOIN_SKU"].dropna().tolist())
-        missing_keys = sorted(list(alloc_keys - present_keys))
-        if missing_keys:
-            # map missing JOIN keys -> raw SKU string from alloc
-            lookup_raw = dict(zip(alloc["_JOIN_SKU"], alloc["SKU"]))
-            add = [{"SKU": lookup_raw[k], "OnHand": 0.0} for k in missing_keys]
+        present = set(base["_JOIN_SKU"].dropna().tolist())
+        missing = sorted(list(set(alloc["_JOIN_SKU"].dropna().tolist()) - present))
+        if missing:
+            raw_lookup = dict(zip(alloc["_JOIN_SKU"], alloc["SKU"]))
+            add = [{"SKU": raw_lookup[k], "OnHand": 0.0} for k in missing]
             add_df = pd.DataFrame(add)
-            # carry any expected columns
             for col in ["ProductName","WarehouseName","Primary Vendor","Primary Vendor Sku","Status","DelSolSku"]:
-                if col not in add_df.columns:
-                    add_df[col] = pd.NA
+                if col not in add_df.columns: add_df[col] = pd.NA
             base = pd.concat([base, add_df], ignore_index=True)
             base["_JOIN_SKU"] = base["SKU"].map(_norm_key)
 
-    # Ensure Open Orders-only rows exist via normalized item key
+    # Ensure open-order SKUs exist (best-effort)
     if oo is not None and len(oo) > 0:
         oo_tmp = oo.copy()
         oo_tmp["_JOIN_ITEM"] = oo_tmp["ItemNumber"].map(_norm_key)
-        present_keys = set(base["_JOIN_SKU"].dropna().tolist())
-        missing_keys = sorted(list(set(oo_tmp["_JOIN_ITEM"].dropna().tolist()) - present_keys))
-        if missing_keys:
-            extra = [{"SKU": k, "OnHand": 0.0} for k in missing_keys]  # best effort if SKU-like
+        present = set(base["_JOIN_SKU"].dropna().tolist())
+        missing = sorted(list(set(oo_tmp["_JOIN_ITEM"].dropna().tolist()) - present))
+        if missing:
+            extra = [{"SKU": k, "OnHand": 0.0} for k in missing]
             extra_df = pd.DataFrame(extra)
             for col in ["ProductName","WarehouseName","Primary Vendor","Primary Vendor Sku","Status","DelSolSku"]:
-                if col not in extra_df.columns:
-                    extra_df[col] = pd.NA
+                if col not in extra_df.columns: extra_df[col] = pd.NA
             base = pd.concat([base, extra_df], ignore_index=True).drop_duplicates(subset=["SKU"], keep="first")
             base["_JOIN_SKU"] = base["SKU"].map(_norm_key)
 
     return base
 
-# ========= UI Layout =========
+# ========= UI =========
 left, right = st.columns([0.66, 0.34])
 b1, b2 = st.columns([0.5, 0.5])
 
 with left:
     st.subheader("① Upload your data")
-    st.caption("Inventory + Open Orders recommended. Allocations file is YOUR SKU + Qty; duplicates will be summed.")
-    inv_u  = st.file_uploader("Inventory (ShipStation export; no scrubbing)", type=["csv","xlsx","xls"])
-    oo_u   = st.file_uploader("Open Orders (PO report)", type=["csv","xlsx","xls"])
-    alloc_u= st.file_uploader("Allocated / Shortages (Your SKU, Qty)", type=["csv","xlsx","xls"])
-    im_u   = st.file_uploader("Item Master (optional; default bundled)", type=["csv","xlsx","xls"])
-    proj_u = st.file_uploader("Projections (optional; default bundled)", type=["csv","xlsx","xls"])
+    st.caption("Allocations file is YOUR SKU + Qty. Duplicates will be summed.")
+    inv_u   = st.file_uploader("Inventory (ShipStation export; no scrubbing)", type=["csv","xlsx","xls"])
+    oo_u    = st.file_uploader("Open Orders (PO report; YOUR SKU + Qty)", type=["csv","xlsx","xls"])
+    alloc_u = st.file_uploader("Allocated / Shortages (Your SKU, Qty)", type=["csv","xlsx","xls"])
+    im_u    = st.file_uploader("Item Master (optional; default bundled)", type=["csv","xlsx","xls"])
+    proj_u  = st.file_uploader("Projections (optional; default bundled)", type=["csv","xlsx","xls"])
 
 with right:
     st.subheader("② Parameters")
-    lt = st.number_input("Lead Time (days)", min_value=0, max_value=365, value=st.session_state.lt, step=1)
-    rc = st.number_input("Replen Cycle (days)", min_value=0, max_value=365, value=st.session_state.rc, step=1)
-    ss = st.number_input("Safety Stock (days)", min_value=0, max_value=365, value=st.session_state.ss, step=1)
+    lt  = st.number_input("Lead Time (days)",  min_value=0, max_value=365, value=st.session_state.lt, step=1)
+    rc  = st.number_input("Replen Cycle (days)", min_value=0, max_value=365, value=st.session_state.rc, step=1)
+    ss  = st.number_input("Safety Stock (days)", min_value=0, max_value=365, value=st.session_state.ss, step=1)
     aggregate = st.checkbox("Aggregate OnHand by SKU (sum across rows/locations)", value=True)
-    ignore_pos_for_alloc = st.checkbox(
-        "Ignore open POs when covering allocations (recommended)",
-        value=True,
-        help="If ON, the shortage is always ordered in full. If OFF, we subtract open POs from the shortage."
-    )
-    sku_probe = st.text_input("Debug: probe a SKU (e.g., 4T93-XL)", value="")
+    sku_probe = st.text_input("Debug: probe a SKU (e.g., 1010-3XL)", value="")
 
 with b1:
     st.subheader("③ Data checks & mapping")
@@ -271,44 +252,40 @@ with b1:
     inv = im = proj = oo = alloc = None
     selected_month = None
 
-    # Inventory (optional but recommended)
+    # Inventory
     if inv_u is not None:
-        inv_raw = load_tabular(inv_u)
         try:
+            inv_raw = load_tabular(inv_u)
             inv = slim_inventory(inv_raw, aggregate=aggregate)
             st.success("Inventory loaded.")
             st.dataframe(inv.head(10), use_container_width=True)
         except Exception as e:
             issues.append(str(e))
 
-    # Open Orders (optional)
+    # Open Orders
     if oo_u is not None:
         try:
             oo_raw = load_tabular(oo_u)
             oo = slim_open_orders(oo_raw)
             st.info("Open Orders included.")
             with st.expander("Debug: Open Orders mapping", expanded=False):
-                item_guess = first_col(oo_raw, ["ItemNumber","Item Number","SKU","sku","Sku","DelSolSku","Del Sol Sku"])
-                qty_guess  = first_col(oo_raw, ["OrderQTY","Qty Ordered","QtyOrdered","Quantity Ordered","Qty"])
-                st.write(
-                    {
-                        "detected_item_column": item_guess,
-                        "detected_qty_column": qty_guess,
-                        "uploaded_rows": int(len(oo_raw)),
-                        "uploaded_qty_total": float(oo["OrderQTY"].sum()),
-                        "unique_items_in_upload": int(oo["ItemNumber"].nunique()),
-                    }
-                )
+                st.write({
+                    "detected_item_column": first_col(oo_raw, ["SKU","ItemNumber","Item Number","DelSolSku","Del Sol Sku"]),
+                    "detected_qty_column": first_col(oo_raw, ["Qty Ordered","OrderQTY","QtyOrdered","Quantity Ordered","Qty"]),
+                    "uploaded_rows": int(len(oo_raw)),
+                    "uploaded_qty_total": float(oo["OrderQTY"].sum()),
+                    "unique_items_in_upload": int(oo["ItemNumber"].nunique()),
+                })
                 st.dataframe(oo.head(20))
         except Exception as e:
             issues.append("Open Orders: " + str(e))
 
-    # Allocations / Shortages (explicit demand; YOUR SKU)
+    # Allocations (firm demand)
     if alloc_u is not None:
         try:
             alloc_raw = load_tabular(alloc_u)
             alloc = slim_allocations(alloc_raw)
-            st.success("Allocated/Shortages loaded & aggregated (explicit demand by YOUR SKU).")
+            st.success("Allocated/Shortages loaded & aggregated (firm demand).")
             st.dataframe(alloc.head(10), use_container_width=True)
         except Exception as e:
             issues.append("Allocated/Shortages: " + str(e))
@@ -329,8 +306,6 @@ with b1:
             st.dataframe(im.head(10), use_container_width=True)
         except Exception as e:
             issues.append("Item Master: " + str(e))
-    else:
-        st.info("No Item Master uploaded; vendor mapping limited.")
 
     # Projections (optional; default if present)
     if proj_u is not None:
@@ -346,8 +321,6 @@ with b1:
             st.dataframe(proj.head(10), use_container_width=True)
         except Exception as e:
             issues.append("Projections: " + str(e))
-    else:
-        st.info("No Projections uploaded; VelocityMonthly will be 0 unless defaults exist.")
 
     if issues:
         st.error(" • " + "\n • ".join(issues))
@@ -355,29 +328,29 @@ with b1:
 with b2:
     st.subheader("④ Recommended Orders")
 
-    # Build master (inventory + allocations + open orders)
+    # Build master
     master = build_master_sku(inv, alloc, oo, im)
 
-    # Projections join (via DelSolSku if available; otherwise velocity=0)
-    if 'DelSolSku' in master.columns and isinstance(master['DelSolSku'], pd.Series) and proj is not None:
+    # Projections join (DelSolSku -> VelocityMonthly), else 0
+    if 'DelSolSku' in master.columns and proj is not None:
         master = master.merge(proj, left_on="DelSolSku", right_on="ItemNumberJoin", how="left")
-    else:
+    if "VelocityMonthly" not in master.columns:
         master["VelocityMonthly"] = 0.0
 
-    # Open Orders (aggregate; join by normalized key into master)
+    # Open Orders (aggregate by YOUR SKU)
     if oo is not None and len(oo) > 0:
         oo_agg = oo.groupby("ItemNumber", as_index=False)["OrderQTY"].sum()
-        master["_JOIN_SKU"]   = master["SKU"].map(_norm_key)
-        oo_agg["_JOIN_ITEM"]  = oo_agg["ItemNumber"].map(_norm_key)
+        master["_JOIN_SKU"]  = master["SKU"].map(_norm_key)
+        oo_agg["_JOIN_ITEM"] = oo_agg["ItemNumber"].map(_norm_key)
         m = master.merge(
             oo_agg[["_JOIN_ITEM","OrderQTY"]].rename(columns={"OrderQTY":"OpenOrderQty"}),
             left_on="_JOIN_SKU", right_on="_JOIN_ITEM", how="left"
         )
-        master["OpenOrderQty"] = m.get("OpenOrderQty").fillna(0.0)
+        master["OpenOrderQty"] = m["OpenOrderQty"].fillna(0.0)
     else:
         master["OpenOrderQty"] = 0.0
 
-    # Allocations merge (YOUR SKU)
+    # Allocations (YOUR SKU)
     if alloc is not None and len(alloc) > 0:
         if "_JOIN_SKU" not in master.columns:
             master["_JOIN_SKU"] = master["SKU"].map(_norm_key)
@@ -387,56 +360,49 @@ with b2:
         master["AllocatedQty"] = 0.0
 
     # ========= Calculation =========
+    # Firm demand rule:
+    #   If AllocatedQty > 0  -> recommend = AllocatedQty + SS_units
+    #   (SS_units = ceil((VelocityMonthly/30) * ss); if no velocity -> 0)
+    #
+    # Non-allocated:
+    #   target = (lt + rc + ss) * (VelocityMonthly/30)
+    #   recommend = ceil(max(0, target - OnHand - OpenOrderQty))
     master["VelocityMonthly"] = pd.to_numeric(master.get("VelocityMonthly", 0), errors="coerce").fillna(0.0)
     master["OnHand"]          = pd.to_numeric(master.get("OnHand", 0), errors="coerce").fillna(0.0)
     master["OpenOrderQty"]    = pd.to_numeric(master.get("OpenOrderQty", 0), errors="coerce").fillna(0.0)
     master["AllocatedQty"]    = pd.to_numeric(master.get("AllocatedQty", 0), errors="coerce").fillna(0.0)
 
     daily_velocity = master["VelocityMonthly"] / 30.0
-    # Safety stock units (only if velocity exists; else 0 per your rule)
     ss_units = (daily_velocity * ss).apply(lambda x: math.ceil(x) if x > 0 else 0)
 
-    # --- Allocated SKUs path: order shortage + safety stock (if velocity>0).
-    #     If ignore_pos_for_alloc is OFF, subtract open POs from shortage.
-    if ignore_pos_for_alloc:
-        alloc_component = master["AllocatedQty"]
-    else:
-        alloc_component = (master["AllocatedQty"] - master["OpenOrderQty"]).clip(lower=0)
+    # Allocated path (firm demand + SS). We do NOT net allocations against OnHand or Open POs.
+    rec_alloc = master["AllocatedQty"] + ss_units
 
-    rec_alloc = alloc_component + ss_units
-
-    # --- Non-allocated SKUs path: standard target = (lt+rc+ss) * daily_velocity
+    # Non-allocated path (standard target coverage)
     target_level = daily_velocity * (lt + rc + ss)
-    to_target    = (target_level - master["OnHand"]).clip(lower=0)
-    rec_normal   = (to_target - master["OpenOrderQty"]).apply(lambda x: math.ceil(x) if x > 0 else 0)
+    rec_normal = (target_level - master["OnHand"] - master["OpenOrderQty"]).apply(lambda x: math.ceil(x) if x > 0 else 0)
 
-    # Choose path per row
     master["recommended"] = np.where(master["AllocatedQty"] > 0, rec_alloc, rec_normal)
-    master["recommended"] = master["recommended"].apply(lambda x: max(0, math.ceil(float(x))))
+    master["recommended"] = master["recommended"].apply(lambda x: max(0, int(math.ceil(float(x)))))
 
     # ========= Output =========
     cols = ["SKU","DelSolSku","ProductName","WarehouseName","Primary Vendor","Primary Vendor Sku","Status",
             "OnHand","AllocatedQty","OpenOrderQty","VelocityMonthly","recommended"]
     cols = [c for c in cols if c in master.columns]
 
-    # Always include all allocations, even if recommended == 0 due to settings
-    out = master[(master["AllocatedQty"] > 0) | (master["recommended"] > 0)][cols] \
+    # Always include any SKU with allocations or open POs, even if recommended = 0
+    out = master[(master["AllocatedQty"] > 0) | (master["OpenOrderQty"] > 0) | (master["recommended"] > 0)][cols] \
             .sort_values(by=["AllocatedQty","recommended","OpenOrderQty"], ascending=[False, False, False]) \
             .reset_index(drop=True)
 
-    # Debug probe (e.g., 4T93-XL)
+    # Debug probe
+    sku_probe = st.session_state.get("sku_probe_val", "")
     if sku_probe:
         key = _norm_key(sku_probe)
         probe_cols = cols + [c for c in ["_JOIN_SKU"] if c in master.columns]
         probe = master[master["_JOIN_SKU"] == key][probe_cols]
         st.markdown("**Debug – Probe result**")
         st.dataframe(probe, use_container_width=True)
-
-    # Diagnostics captions
-    if alloc is not None and len(alloc) > 0:
-        uploaded_alloc = float(alloc["AllocatedQty"].sum())
-        reflected_alloc = float(out["AllocatedQty"].fillna(0).sum())
-        st.caption(f"Allocations uploaded total: {uploaded_alloc:,.0f} • Allocations reflected in output: {reflected_alloc:,.0f}")
 
     st.dataframe(out, use_container_width=True)
 
@@ -458,7 +424,7 @@ with b2:
     if st.button("Material Shortages / Allocated Items"):
         if alloc is not None and len(alloc) > 0:
             st.subheader("Aggregated Allocations (by YOUR SKU)")
-            st.caption("Duplicates combined. Keys normalized to ensure clean matching.")
+            st.caption("Duplicates combined; keys normalized for matching.")
             st.dataframe(alloc.rename(columns={"_JOIN_SKU":"Key"}), use_container_width=True)
             now = datetime.now().strftime("%Y%m%d_%H%M%S")
             alloc_csv = alloc.rename(columns={"_JOIN_SKU":"Key"}).to_csv(index=False).encode("utf-8")
