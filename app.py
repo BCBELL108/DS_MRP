@@ -6,7 +6,7 @@ import streamlit as st
 from pathlib import Path
 from datetime import datetime
 
-st.set_page_config(page_title="Reorder Calculator — Clean Mac", layout="wide")
+st.set_page_config(page_title="DelSol MRP", layout="wide")
 
 DATA_DIR = Path("data")
 DEFAULT_IM = DATA_DIR / "item_master_default.csv"
@@ -72,8 +72,21 @@ def load_tabular(file):
     return df
 
 def first_col(df, options):
-    for c in options:
-        if c in df.columns: return c
+    """
+    Find the first matching column name in df for any of the provided options,
+    ignoring case and punctuation (spaces/underscores/dashes/etc.).
+    Example: 'QtyOrdered', 'qty ordered', 'QTY_ORDERED' will all match.
+    """
+    normalize = lambda s: re.sub(r"[^a-z0-9]", "", str(s).lower())
+    norm_map = {normalize(c): c for c in df.columns}  # normalized -> original
+    for opt in options:
+        key = normalize(opt)
+        if key in norm_map:
+            return norm_map[key]
+    # fallback exact match
+    for opt in options:
+        if opt in df.columns:
+            return opt
     return None
 
 # ===== Key normalizer (fixes spaces/case/weird dashes) =====
@@ -111,12 +124,13 @@ def slim_open_orders(oo_df):
     ])
     if item_col is None:
         raise ValueError("Open Orders require ItemNumber (or SKU/DelSolSku).")
-    qty_col = None
-    for c in ["OrderQTY","Qty Ordered","Qty ordered","QTY ORDERED","QtyOrdered","Quantity Ordered","Qty"]:
-        if c in oo_df.columns:
-            qty_col = c; break
+
+    qty_col = first_col(oo_df, [
+        "OrderQTY","Qty Ordered","QtyOrdered","Quantity Ordered","Qty"
+    ])
     if qty_col is None:
-        raise ValueError("Open Orders require a quantity column (e.g., 'Qty Ordered' or 'OrderQTY').")
+        raise ValueError("Open Orders require a quantity column (e.g., 'Qty Ordered', 'QtyOrdered', or 'OrderQTY').")
+
     slim = oo_df[[item_col, qty_col]].copy().rename(columns={item_col:"ItemNumber", qty_col:"OrderQTY"})
     slim["OrderQTY"] = pd.to_numeric(slim["OrderQTY"], errors="coerce").fillna(0.0)
     return slim
@@ -224,7 +238,7 @@ with b1:
             st.info("Open Orders included.")
             with st.expander("Debug: Open Orders mapping", expanded=False):
                 item_guess = first_col(oo_raw, ["ItemNumber","Item Number","SKU","sku","Sku","DelSolSku","Del Sol Sku"])
-                qty_guess  = first_col(oo_raw, ["OrderQTY","Qty Ordered","Qty ordered","QTY ORDERED","QtyOrdered","Quantity Ordered","Qty"])
+                qty_guess  = first_col(oo_raw, ["OrderQTY","Qty Ordered","QtyOrdered","Quantity Ordered","Qty"])
                 st.write(
                     {
                         "detected_item_column": item_guess,
@@ -355,7 +369,6 @@ with b2:
             merged["AllocatedQty"] = 0.0
 
         # ===== Calculation =====
-        # Spreadsheet equivalence:
         # target = (rc+ss+lt) * (VelocityMonthly/30)
         # available = OnHand - AllocatedQty
         # recommended = target - available - OpenQty
