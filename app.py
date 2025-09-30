@@ -6,7 +6,7 @@ import streamlit as st
 from pathlib import Path
 from datetime import datetime
 
-st.set_page_config(page_title="DelSol MRP", layout="wide")
+st.set_page_config(page_title="DelSol MRP Tool", layout="wide")
 
 DATA_DIR = Path("data")
 DEFAULT_IM = DATA_DIR / "item_master_default.csv"
@@ -27,6 +27,19 @@ def month_key(col: str):
     if mon == "Sept": mon = "Sep"
     year = int(parts[1])
     return (year, MONTHS_ORDER.index(mon))
+
+def auto_select_projection_month(month_cols):
+    """Pick the best month column based on 'today':
+       - Prefer the latest column <= today (year, month)
+       - If all columns are in the future, pick the earliest available.
+    """
+    keys = sorted([(month_key(c), c) for c in month_cols], key=lambda x: x[0])
+    today = datetime.now()
+    today_key = (today.year, today.month - 1)  # month_key uses 0-based month index
+    prior = [kc for kc in keys if kc[0] <= today_key]
+    if prior:
+        return prior[-1][1]   # closest not after today
+    return keys[0][1]         # all future -> earliest available
 
 # ===== General readers =====
 def read_any(file, header=None):
@@ -155,15 +168,19 @@ def slim_item_master(im_df):
     return im
 
 def slim_projections(proj_df):
-    """Pick one month column; standardize to ItemNumberJoin + VelocityMonthly (floats)."""
+    """Auto-pick one month column; standardize to ItemNumberJoin + VelocityMonthly (floats)."""
     join_col = first_col(proj_df, ["Item Number","Del Sol Sku","DelSolSku","ItemNumber","itemnumber"])
     if not join_col:
         raise ValueError("Projections need a join column: Item Number / DelSolSku")
+
     month_cols = [c for c in proj_df.columns if isinstance(c, str) and MONTH_RE.match(c.strip())]
     if not month_cols:
         raise ValueError("Projections sheet is missing month columns like 'Sep 2025 Qty'.")
-    month_cols_sorted = sorted(month_cols, key=month_key)
-    selected = st.selectbox("Select projections month", month_cols_sorted, index=len(month_cols_sorted)-1)
+
+    # Auto-select based on today's date
+    selected = auto_select_projection_month(month_cols)
+    st.caption(f"Projections month auto-selected: {selected}")
+
     slim = proj_df[[join_col, selected]].copy()
     slim = slim.rename(columns={join_col:"ItemNumberJoin", selected:"VelocityMonthly"})
     slim["VelocityMonthly"] = pd.to_numeric(slim["VelocityMonthly"], errors="coerce").fillna(0.0)
@@ -434,4 +451,4 @@ with b2:
         else:
             st.info("No Allocated/Shortages sheet uploaded; nothing to report.")
 
-st.caption("SilverScreen – DelSol Material Replenishment Calculator")
+st.caption("SilverScreen – DelSol MRP")
