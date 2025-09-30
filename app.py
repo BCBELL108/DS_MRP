@@ -13,9 +13,9 @@ DEFAULT_IM = DATA_DIR / "item_master_default.csv"
 DEFAULT_PROJ = DATA_DIR / "projections_default.csv"
 
 # ===== UI defaults (editable on the right) =====
-st.session_state.setdefault("lt", 7)  # lead time (days)
-st.session_state.setdefault("rc", 7)  # replen cycle (days)
-st.session_state.setdefault("ss", 21) # safety stock (days)
+st.session_state.setdefault("lt", 7)   # lead time (days)
+st.session_state.setdefault("rc", 7)   # replen cycle (days)
+st.session_state.setdefault("ss", 21)  # safety stock (days)
 
 # ===== Month helpers for projections =====
 MONTHS_ORDER = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
@@ -106,13 +106,13 @@ def slim_open_orders(oo_df):
     """Accept common item & quantity names; standardize to ItemNumber + OrderQTY (floats)."""
     item_col = first_col(oo_df, [
         "ItemNumber","Item Number",
-        "SKU","sku","Sku",              # <- includes 'Sku' (your header)
+        "SKU","sku","Sku",
         "DelSolSku","Del Sol Sku"
     ])
     if item_col is None:
         raise ValueError("Open Orders require ItemNumber (or SKU/DelSolSku).")
     qty_col = None
-    for c in ["OrderQTY","Qty Ordered","Qty ordered","QTY ORDERED","QtyOrdered","Quantity Ordered"]:
+    for c in ["OrderQTY","Qty Ordered","Qty ordered","QTY ORDERED","QtyOrdered","Quantity Ordered","Qty"]:
         if c in oo_df.columns:
             qty_col = c; break
     if qty_col is None:
@@ -156,6 +156,26 @@ def slim_projections(proj_df):
     slim = slim.drop_duplicates(subset=["ItemNumberJoin"], keep="first")
     return slim, selected
 
+def slim_allocations(alloc_df):
+    """
+    Accepts a simple 'allocated shortages' sheet with two columns:
+    - SKU (or ItemNumber)
+    - Qty (allocated/short)
+    Duplicates are allowed; we aggregate by SKU.
+    """
+    item_col = first_col(alloc_df, ["SKU","sku","Sku","ItemNumber","Item Number"])
+    if item_col is None:
+        raise ValueError("Allocated Items sheet must include a 'SKU' or 'ItemNumber' column.")
+    qty_col = first_col(alloc_df, ["Qty","QTY","Quantity","AllocatedQty","Allocated Qty"])
+    if qty_col is None:
+        raise ValueError("Allocated Items sheet must include a qty column (e.g., 'Qty').")
+    slim = alloc_df[[item_col, qty_col]].copy()
+    slim.columns = ["SKU","AllocatedQty"]
+    slim["AllocatedQty"] = pd.to_numeric(slim["AllocatedQty"], errors="coerce").fillna(0)
+    # aggregate duplicates by SKU
+    slim = slim.groupby("SKU", as_index=False)["AllocatedQty"].sum()
+    return slim
+
 # ===== UI Layout =====
 left, right = st.columns([0.65, 0.35])
 b1, b2 = st.columns([0.5, 0.5])
@@ -165,8 +185,10 @@ with left:
     st.caption("Start with Inventory + Open Orders. Item Master & Projections are optional (defaults can be used).")
     inv_u = st.file_uploader("Inventory (ShipStation export; no scrubbing)", type=["csv","xlsx","xls"])
     oo_u  = st.file_uploader("Open Orders (PO report)", type=["csv","xlsx","xls"])
-    im_u  = st.file_uploader("Item Master (optional; default bundled)", type=["csv","xlsx","xls"])
-    proj_u= st.file_uploader("Projections (optional; default bundled)", type=["csv","xlsx","xls"])
+    # NEW: allocations uploader
+    alloc_u = st.file_uploader("Allocated / Shortages (two columns: SKU, Qty; duplicates OK)", type=["csv","xlsx","xls"])
+    im_u   = st.file_uploader("Item Master (optional; default bundled)", type=["csv","xlsx","xls"])
+    proj_u = st.file_uploader("Projections (optional; default bundled)", type=["csv","xlsx","xls"])
 
 with right:
     st.subheader("② Parameters")
@@ -179,7 +201,7 @@ with b1:
     st.subheader("③ Data checks & mapping")
 
     issues = []
-    inv = im = proj = oo = None
+    inv = im = proj = oo = alloc = None
     selected_month = None
 
     # Inventory (required)
@@ -202,7 +224,7 @@ with b1:
             st.info("Open Orders included.")
             with st.expander("Debug: Open Orders mapping", expanded=False):
                 item_guess = first_col(oo_raw, ["ItemNumber","Item Number","SKU","sku","Sku","DelSolSku","Del Sol Sku"])
-                qty_guess  = first_col(oo_raw, ["OrderQTY","Qty Ordered","Qty ordered","QTY ORDERED","QtyOrdered","Quantity Ordered"])
+                qty_guess  = first_col(oo_raw, ["OrderQTY","Qty Ordered","Qty ordered","QTY ORDERED","QtyOrdered","Quantity Ordered","Qty"])
                 st.write(
                     {
                         "detected_item_column": item_guess,
@@ -215,6 +237,18 @@ with b1:
                 st.dataframe(oo.head(20))
         except Exception as e:
             issues.append("Open Orders: " + str(e))
+
+    # Allocations / Shortages (NEW)
+    if alloc_u is not None:
+        try:
+            alloc_raw = load_tabular(alloc_u)
+            alloc = slim_allocations(alloc_raw)
+            st.success("Allocated/Shortages loaded & aggregated.")
+            st.dataframe(alloc.head(10), use_container_width=True)
+        except Exception as e:
+            issues.append("Allocated/Shortages: " + str(e))
+    else:
+        st.info("No Allocated/Shortages sheet uploaded; assuming 0 allocations.")
 
     # Item Master (optional; default if present)
     if im_u is not None:
@@ -306,28 +340,47 @@ with b2:
         else:
             merged["OrderQTY"] = 0.0
 
+        # ===== NEW: merge Allocations and subtract from available =====
+        if alloc is not None and len(alloc) > 0:
+            # normalize keys for safer matching on SKU
+            alloc["_JOIN_SKU"] = alloc["SKU"].map(_norm_key)
+            merged["_JOIN_SKU"] = merged["SKU"].map(_norm_key)
+            merged = merged.merge(
+                alloc[["_JOIN_SKU", "AllocatedQty"]],
+                on="_JOIN_SKU",
+                how="left"
+            )
+            merged.drop(columns=["_JOIN_SKU"], inplace=True)
+        else:
+            merged["AllocatedQty"] = 0.0
+
         # ===== Calculation =====
         # Spreadsheet equivalence:
         # target = (rc+ss+lt) * (VelocityMonthly/30)
-        # recommended = target - (OnHand - Allocated + OpenQty) ; Allocated=0 here
+        # available = OnHand - AllocatedQty
+        # recommended = target - available - OpenQty
         merged["VelocityMonthly"] = pd.to_numeric(merged.get("VelocityMonthly", 0), errors="coerce").fillna(0.0)
-        daily_velocity = merged["VelocityMonthly"] / 30.0
-        target_level = daily_velocity * (lt + rc + ss)
-        position_now = merged["OnHand"].fillna(0.0) + 0.0 + merged["OrderQTY"].fillna(0.0) * (-1)  # equivalent to -(H - G + F) with G=0
-        # Simpler and identical to spreadsheet with Allocated=0:
-        position_now = merged["OnHand"].fillna(0.0) + merged["OrderQTY"].fillna(0.0) * 0  # keep 0 to not double-subtract
-        # Final: target - OnHand - OpenQty
-        merged["recommended"] = (target_level - merged["OnHand"].fillna(0.0) - merged["OrderQTY"].fillna(0.0)).apply(lambda x: max(0, math.ceil(x)))
+        merged["AllocatedQty"]   = pd.to_numeric(merged.get("AllocatedQty", 0), errors="coerce").fillna(0.0)
+        merged["OnHand"]         = pd.to_numeric(merged.get("OnHand", 0), errors="coerce").fillna(0.0)
+        merged["OrderQTY"]       = pd.to_numeric(merged.get("OrderQTY", 0), errors="coerce").fillna(0.0)
 
-        # ===== Output (omit lt/rc/ss columns per your note) =====
-        out = merged[(merged["recommended"] > 0) | (merged["OrderQTY"] > 0)].copy()
+        daily_velocity = merged["VelocityMonthly"] / 30.0
+        target_level   = daily_velocity * (lt + rc + ss)
+        available_now  = merged["OnHand"] - merged["AllocatedQty"]
+        merged["recommended"] = (target_level - available_now - merged["OrderQTY"]).apply(lambda x: max(0, math.ceil(x)))
+
+        # ===== Output (include AllocatedQty for visibility) =====
+        out = merged[(merged["recommended"] > 0) | (merged["OrderQTY"] > 0) | (merged["AllocatedQty"] > 0)].copy()
 
         cols = ["SKU","DelSolSku"]
         for opt in ["Primary Vendor","Primary Vendor Sku","Status","ProductName","WarehouseName"]:
             if opt in out.columns: cols.append(opt)
-        cols += ["OnHand","OrderQTY","VelocityMonthly","recommended"]
+        cols += ["OnHand","AllocatedQty","OrderQTY","VelocityMonthly","recommended"]
         cols = [c for c in cols if c in out.columns]
-        out = out[cols].sort_values(by=["recommended","OrderQTY"] if "OrderQTY" in out.columns else ["recommended"], ascending=[False,False])
+        out = out[cols].sort_values(
+            by=[c for c in ["recommended","AllocatedQty","OrderQTY"] if c in cols],
+            ascending=[False, False, False]
+        )
 
         st.dataframe(out, use_container_width=True)
 
@@ -345,5 +398,27 @@ with b2:
         st.download_button("Download XLSX", data=xlsx[0], file_name=xlsx[1], mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
     else:
         st.info("Upload Inventory to begin.")
+
+    # ===== NEW: Standalone Material Shortages / Allocated Items report =====
+    st.markdown("---")
+    if st.button("Material Shortages/ Allocated Items"):
+        if alloc is not None and len(alloc) > 0:
+            st.subheader("Aggregated Allocations (by SKU)")
+            st.caption("This combines duplicate SKUs from the uploaded allocations sheet.")
+            st.dataframe(alloc, use_container_width=True)
+
+            # download for allocations-only report
+            now = datetime.now().strftime("%Y%m%d_%H%M%S")
+            alloc_csv = alloc.to_csv(index=False).encode("utf-8")
+            xbuf2 = io.BytesIO()
+            with pd.ExcelWriter(xbuf2, engine="openpyxl") as w:
+                alloc.to_excel(w, index=False, sheet_name="Allocated")
+            st.download_button("Download Allocations CSV", data=alloc_csv,
+                               file_name=f"Material_Shortages_Allocated_{now}.csv", mime="text/csv")
+            st.download_button("Download Allocations XLSX", data=xbuf2.getvalue(),
+                               file_name=f"Material_Shortages_Allocated_{now}.xlsx",
+                               mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        else:
+            st.info("No Allocated/Shortages sheet uploaded; nothing to report.")
 
 st.caption("SilverScreen – DelSol Material Replenishment Calculator")
