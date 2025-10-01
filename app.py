@@ -8,13 +8,29 @@ from datetime import datetime
 
 # ------------------ App meta ------------------
 st.set_page_config(page_title="DelSol MRP Tool", layout="wide")
-APP_VERSION = "v2025.10.01-ui-r4"  # tiny sidebar version tag
+APP_VERSION = "v2025.10.01-ui-r5"  # tiny sidebar version tag
 st.sidebar.markdown(f"**App version:** {APP_VERSION}")
 
 # ------------------ Paths / defaults ------------------
 DATA_DIR = Path("data")
 DEFAULT_IM   = DATA_DIR / "item_master_default.csv"
 DEFAULT_PROJ = DATA_DIR / "projections_default.csv"
+LOGO_PATH    = DATA_DIR / "silverscreen_logo.png"   # <- add your logo here
+
+# ------------------ Header / Branding ------------------
+col_l, col_c, col_r = st.columns([1, 4, 1])
+with col_c:
+    if LOGO_PATH.exists():
+        st.image(str(LOGO_PATH), use_container_width=True)
+    else:
+        st.markdown(
+            "<h2 style='text-align:center;margin:0 0 0.25rem;'>SilverScreen – Decoration & Fulfillment</h2>",
+            unsafe_allow_html=True,
+        )
+    st.markdown(
+        "<div style='text-align:center;color:#9aa0a6;margin:-0.25rem 0 0.75rem;'>Built and Deployed by Brandon Bell</div>",
+        unsafe_allow_html=True,
+    )
 
 # Parameters (same defaults)
 st.session_state.setdefault("lt", 7)
@@ -136,7 +152,7 @@ def slim_item_master(im_df):
     dels_col = first_col(im_df, ["DelSolSku","Del Sol Sku","ItemNumber","itemnumber"])
     if not sku_col or not dels_col:
         raise ValueError("Item Master must include Inventory SKU and DelSolSku/Item Number.")
-    # Optional fields we want to carry over
+    # Optional fields (description/name + vendor fields)
     prod_col = first_col(im_df, [
         "ProductName","Product Name","Item Description","Description","Item Name","Name"
     ])
@@ -257,20 +273,16 @@ def build_master_sku(inv, alloc, oo, im):
         im_union = pd.concat([im_union_a, im_union_b], ignore_index=True)
         im_union = im_union.dropna(subset=["_JOIN"]).drop_duplicates("_JOIN")
 
-        # Merge with suffixes so we can fill from *_im reliably
         base = base.merge(im_union, left_on="_JOIN_SKU", right_on="_JOIN", how="left", suffixes=("", "_im"))
         base.drop(columns=["_JOIN"], inplace=True, errors="ignore")
 
-        # Fill blanks in base from Item Master (_im columns), then drop *_im
+        # Fill blanks in base from right-side (*_im) columns, then drop *_im
         for c in ["DelSolSku","ProductName","Primary Vendor","Primary Vendor Sku","Status"]:
-            cim = c  # right-side columns currently NOT suffixed due to union source; add suffix manually
-            # Ensure we treat the right columns as *_im to avoid confusion
-            if c in base.columns and c + "_im" not in base.columns:
-                base.rename(columns={c: c + "_im"}, inplace=True)
-            if c not in base.columns:
-                base[c] = pd.NA
-            base[c] = base[c].combine_first(base.get(c + "_im"))
-            base.drop(columns=[c + "_im"], inplace=True, errors="ignore")
+            if c + "_im" in base.columns:
+                if c not in base.columns:
+                    base[c] = pd.NA
+                base[c] = base[c].combine_first(base[c + "_im"])
+                base.drop(columns=[c + "_im"], inplace=True, errors="ignore")
     else:
         for c in ["DelSolSku","Primary Vendor","Primary Vendor Sku","Status"]:
             if c not in base.columns: base[c] = pd.NA
