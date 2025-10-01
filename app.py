@@ -17,6 +17,7 @@ DEFAULT_PROJ = DATA_DIR / "projections_default.csv"
 st.session_state.setdefault("lt", 7)   # lead time (days)
 st.session_state.setdefault("rc", 7)   # replen cycle (days)
 st.session_state.setdefault("ss", 21)  # safety stock (days)
+st.session_state.setdefault("proj_month", None)  # user-selected forecast month override
 
 # ========= Month helpers for projections =========
 MONTHS_ORDER = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
@@ -56,7 +57,7 @@ def detect_header_and_load(file):
     header_row = 0
     for i in range(min(30, len(df_raw))):
         row = [str(x).strip() for x in df_raw.iloc[i].values]
-        has_join = any(v.lower() in ["item number","del sol sku","delsolsku","itemnumber","sku"] for v in row)
+        has_join  = any(v.lower() in ["item number","del sol sku","delsolsku","itemnumber","sku"] for v in row)
         has_month = any(isinstance(v, str) and MONTH_RE.match(v) for v in row)
         if has_join and has_month:
             header_row = i
@@ -141,25 +142,24 @@ def slim_item_master(im_df):
     im = im.drop_duplicates(subset=["SKU"], keep="first")
     return im
 
-def slim_projections(proj_df):
+def months_from_proj(df):
+    return [c for c in df.columns if isinstance(c, str) and MONTH_RE.match(c.strip())]
+
+def build_velocity(proj_df, selected_month):
+    """Return a slim projections DF with columns [ItemNumberJoin, VelocityMonthly] for selected_month."""
     join_col = first_col(proj_df, ["Item Number","Del Sol Sku","DelSolSku","ItemNumber","itemnumber"])
     if not join_col:
         raise ValueError("Projections need a join column: Item Number / DelSolSku")
-    month_cols = [c for c in proj_df.columns if isinstance(c, str) and MONTH_RE.match(c.strip())]
-    if not month_cols:
-        raise ValueError("Projections sheet is missing month columns like 'Sep 2025 Qty'.")
-    selected = auto_select_projection_month(month_cols)
-    st.caption(f"Projections month auto-selected: {selected}")
-    slim = proj_df[[join_col, selected]].copy()
-    slim = slim.rename(columns={join_col:"ItemNumberJoin", selected:"VelocityMonthly"})
+    if selected_month not in proj_df.columns:
+        raise ValueError("Selected projection month not found in uploaded file.")
+    slim = proj_df[[join_col, selected_month]].copy()
+    slim = slim.rename(columns={join_col:"ItemNumberJoin", selected_month:"VelocityMonthly"})
     slim["VelocityMonthly"] = pd.to_numeric(slim["VelocityMonthly"], errors="coerce").fillna(0.0)
     slim = slim.drop_duplicates(subset=["ItemNumberJoin"], keep="first")
-    return slim, selected
+    return slim
 
 def slim_allocations(alloc_df):
-    """
-    Allocations file is YOUR internal SKU + Qty. Sum duplicates by SKU.
-    """
+    """Allocations file is YOUR SKU + Qty. Sum duplicates by SKU (normalized)."""
     item_col = first_col(alloc_df, ["SKU","sku","Sku","ItemNumber","Item Number"])
     if item_col is None:
         raise ValueError("Allocated items sheet must include a 'SKU' column.")
@@ -170,7 +170,7 @@ def slim_allocations(alloc_df):
     df.columns = ["SKU","AllocatedQty"]
     df["AllocatedQty"] = pd.to_numeric(df["AllocatedQty"], errors="coerce").fillna(0).clip(lower=0)
     df["_JOIN_SKU"] = df["SKU"].map(_norm_key)
-    # Sum by normalized key; keep first raw SKU spelling for display
+    # Sum by normalized key; keep first raw SKU for display
     df = df.groupby("_JOIN_SKU", as_index=False).agg(
         AllocatedQty=("AllocatedQty","sum"),
         SKU=("SKU","first")
@@ -195,7 +195,7 @@ def build_master_sku(inv, alloc, oo, im):
 
     base["_JOIN_SKU"] = base["SKU"].map(_norm_key)
 
-    # Ensure all allocations SKUs exist
+    # Ensure Allocation SKUs exist
     if alloc is not None and len(alloc) > 0:
         present = set(base["_JOIN_SKU"].dropna().tolist())
         missing = sorted(list(set(alloc["_JOIN_SKU"].dropna().tolist()) - present))
@@ -208,7 +208,7 @@ def build_master_sku(inv, alloc, oo, im):
             base = pd.concat([base, add_df], ignore_index=True)
             base["_JOIN_SKU"] = base["SKU"].map(_norm_key)
 
-    # Ensure open-order SKUs exist (best-effort)
+    # Ensure Open-Order SKUs exist (best-effort)
     if oo is not None and len(oo) > 0:
         oo_tmp = oo.copy()
         oo_tmp["_JOIN_ITEM"] = oo_tmp["ItemNumber"].map(_norm_key)
@@ -243,7 +243,6 @@ with right:
     rc  = st.number_input("Replen Cycle (days)", min_value=0, max_value=365, value=st.session_state.rc, step=1)
     ss  = st.number_input("Safety Stock (days)", min_value=0, max_value=365, value=st.session_state.ss, step=1)
     aggregate = st.checkbox("Aggregate OnHand by SKU (sum across rows/locations)", value=True)
-    sku_probe = st.text_input("Debug: probe a SKU (e.g., 1010-3XL)", value="")
 
 with b1:
     st.subheader("③ Data checks & mapping")
@@ -251,6 +250,7 @@ with b1:
     issues = []
     inv = im = proj = oo = alloc = None
     selected_month = None
+    month_cols = []
 
     # Inventory
     if inv_u is not None:
@@ -280,12 +280,12 @@ with b1:
         except Exception as e:
             issues.append("Open Orders: " + str(e))
 
-    # Allocations (firm demand)
+    # Allocations
     if alloc_u is not None:
         try:
             alloc_raw = load_tabular(alloc_u)
             alloc = slim_allocations(alloc_raw)
-            st.success("Allocated/Shortages loaded & aggregated (firm demand).")
+            st.success("Allocated/Shortages loaded & aggregated.")
             st.dataframe(alloc.head(10), use_container_width=True)
         except Exception as e:
             issues.append("Allocated/Shortages: " + str(e))
@@ -307,20 +307,35 @@ with b1:
         except Exception as e:
             issues.append("Item Master: " + str(e))
 
-    # Projections (optional; default if present)
+    # Projections (optional; default if present) + month picker
+    proj_raw = None
     if proj_u is not None:
         proj_raw = detect_header_and_load(proj_u)
     elif DEFAULT_PROJ.exists():
         proj_raw = detect_header_and_load(DEFAULT_PROJ.open("rb"))
-    else:
-        proj_raw = None
+
     if proj_raw is not None:
         try:
-            proj, selected_month = slim_projections(proj_raw)
+            month_cols = months_from_proj(proj_raw)
+            if not month_cols:
+                raise ValueError("Projections sheet is missing month columns like 'Sep 2025 Qty'.")
+            auto_month = auto_select_projection_month(month_cols)
+            # UI: choose month and apply
+            with st.expander("Forecast month", expanded=True):
+                sel = st.selectbox("Select projection month", month_cols, index=month_cols.index(st.session_state.get("proj_month") or auto_month))
+                if st.button("Apply selected month"):
+                    st.session_state.proj_month = sel
+                st.caption(f"Using month: **{st.session_state.get('proj_month') or auto_month}**")
+            selected_month = st.session_state.get("proj_month") or auto_month
+            proj = build_velocity(proj_raw, selected_month)
             st.success(f"Projections ready (month: {selected_month}).")
             st.dataframe(proj.head(10), use_container_width=True)
         except Exception as e:
             issues.append("Projections: " + str(e))
+            proj = None
+    else:
+        proj = None
+        st.info("No Projections uploaded; VelocityMonthly will be 0 unless defaults exist.")
 
     if issues:
         st.error(" • " + "\n • ".join(issues))
@@ -328,7 +343,7 @@ with b1:
 with b2:
     st.subheader("④ Recommended Orders")
 
-    # Build master
+    # Build master (inventory + allocations + open orders + IM)
     master = build_master_sku(inv, alloc, oo, im)
 
     # Projections join (DelSolSku -> VelocityMonthly), else 0
@@ -359,31 +374,19 @@ with b2:
     else:
         master["AllocatedQty"] = 0.0
 
-    # ========= Calculation =========
-    # Firm demand rule:
-    #   If AllocatedQty > 0  -> recommend = AllocatedQty + SS_units
-    #   (SS_units = ceil((VelocityMonthly/30) * ss); if no velocity -> 0)
-    #
-    # Non-allocated:
-    #   target = (lt + rc + ss) * (VelocityMonthly/30)
-    #   recommend = ceil(max(0, target - OnHand - OpenOrderQty))
+    # ========= Calculation (EXACT sheet logic) =========
+    # RECOMMENDED = ((RC+SS+LT)*(VelocityMonthly/30)) - (OnHand - AllocatedQty + OpenOrderQty)
     master["VelocityMonthly"] = pd.to_numeric(master.get("VelocityMonthly", 0), errors="coerce").fillna(0.0)
     master["OnHand"]          = pd.to_numeric(master.get("OnHand", 0), errors="coerce").fillna(0.0)
     master["OpenOrderQty"]    = pd.to_numeric(master.get("OpenOrderQty", 0), errors="coerce").fillna(0.0)
     master["AllocatedQty"]    = pd.to_numeric(master.get("AllocatedQty", 0), errors="coerce").fillna(0.0)
 
     daily_velocity = master["VelocityMonthly"] / 30.0
-    ss_units = (daily_velocity * ss).apply(lambda x: math.ceil(x) if x > 0 else 0)
+    target_level   = (rc + ss + lt) * daily_velocity
+    rhs            = master["OnHand"] - master["AllocatedQty"] + master["OpenOrderQty"]
 
-    # Allocated path (firm demand + SS). We do NOT net allocations against OnHand or Open POs.
-    rec_alloc = master["AllocatedQty"] + ss_units
-
-    # Non-allocated path (standard target coverage)
-    target_level = daily_velocity * (lt + rc + ss)
-    rec_normal = (target_level - master["OnHand"] - master["OpenOrderQty"]).apply(lambda x: math.ceil(x) if x > 0 else 0)
-
-    master["recommended"] = np.where(master["AllocatedQty"] > 0, rec_alloc, rec_normal)
-    master["recommended"] = master["recommended"].apply(lambda x: max(0, int(math.ceil(float(x)))))
+    master["recommended_raw"] = target_level - rhs
+    master["recommended"]     = master["recommended_raw"].apply(lambda x: max(0, math.ceil(float(x))))
 
     # ========= Output =========
     cols = ["SKU","DelSolSku","ProductName","WarehouseName","Primary Vendor","Primary Vendor Sku","Status",
@@ -392,17 +395,8 @@ with b2:
 
     # Always include any SKU with allocations or open POs, even if recommended = 0
     out = master[(master["AllocatedQty"] > 0) | (master["OpenOrderQty"] > 0) | (master["recommended"] > 0)][cols] \
-            .sort_values(by=["AllocatedQty","recommended","OpenOrderQty"], ascending=[False, False, False]) \
+            .sort_values(by=["recommended","AllocatedQty","OpenOrderQty"], ascending=[False, False, False]) \
             .reset_index(drop=True)
-
-    # Debug probe
-    sku_probe = st.session_state.get("sku_probe_val", "")
-    if sku_probe:
-        key = _norm_key(sku_probe)
-        probe_cols = cols + [c for c in ["_JOIN_SKU"] if c in master.columns]
-        probe = master[master["_JOIN_SKU"] == key][probe_cols]
-        st.markdown("**Debug – Probe result**")
-        st.dataframe(probe, use_container_width=True)
 
     st.dataframe(out, use_container_width=True)
 
