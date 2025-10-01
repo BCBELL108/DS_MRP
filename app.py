@@ -8,7 +8,7 @@ from datetime import datetime
 
 # ------------------ App meta ------------------
 st.set_page_config(page_title="DelSol MRP Tool", layout="wide")
-APP_VERSION = "v2025.10.01-ui-r2"  # tiny sidebar tag
+APP_VERSION = "v2025.10.01-ui-r3"  # tiny sidebar version tag
 st.sidebar.markdown(f"**App version:** {APP_VERSION}")
 
 # ------------------ Paths / defaults ------------------
@@ -131,19 +131,29 @@ def slim_open_orders(oo_df):
     return slim
 
 def slim_item_master(im_df):
+    # Required keys
     sku_col  = first_col(im_df, ["SKU","Silverscreen Sku","ItemNumber","itemnumber","sku"])
     dels_col = first_col(im_df, ["DelSolSku","Del Sol Sku","ItemNumber","itemnumber"])
     if not sku_col or not dels_col:
         raise ValueError("Item Master must include Inventory SKU and DelSolSku/Item Number.")
+    # Optional fields we want to carry over
+    # Product/Description
+    prod_col = first_col(im_df, [
+        "ProductName","Product Name","Item Description","Description","Item Name","Name"
+    ])
     vendor     = first_col(im_df, ["Primary Vendor","Vendor","PrimaryVendor","primary vendor","primary_vendor"])
     vendor_sku = first_col(im_df, ["Primary Vendor Sku","Primary Vendor SKU","Vendor Sku","Vendor SKU","primary vendor sku","primary_vendor_sku"])
     status     = first_col(im_df, ["Status","Item Status","status"])
-    keep = [sku_col, dels_col] + [c for c in [vendor, vendor_sku, status] if c]
+
+    keep = [sku_col, dels_col] + [c for c in [prod_col, vendor, vendor_sku, status] if c]
     im = im_df[keep].copy()
+
     rename_map = {sku_col:"SKU", dels_col:"DelSolSku"}
-    if vendor:     rename_map[vendor] = "Primary Vendor"
-    if vendor_sku: rename_map[vendor_sku] = "Primary Vendor Sku"
-    if status:     rename_map[status] = "Status"
+    if prod_col:  rename_map[prod_col]  = "ProductName"
+    if vendor:    rename_map[vendor]    = "Primary Vendor"
+    if vendor_sku:rename_map[vendor_sku]= "Primary Vendor Sku"
+    if status:    rename_map[status]    = "Status"
+
     im = im.rename(columns=rename_map)
     im = im.drop_duplicates(subset=["SKU"], keep="first")
     return im
@@ -177,11 +187,11 @@ def slim_allocations(alloc_df):
     )
     return df
 
-# ------------------ Build master rows (FIXED) ------------------
+# ------------------ Build master rows (FIXED & ENRICHED) ------------------
 def build_master_sku(inv, alloc, oo, im):
     """
     Build base SKU list from Inventory, add SKUs appearing only in Allocations/Open Orders (raw strings),
-    then enrich all rows with Item Master fields by joining on normalized SKU.
+    then enrich all rows with Item Master fields by joining on a union key (SKU OR DelSolSku).
     """
     base_cols = ["SKU","ProductName","WarehouseName","OnHand"]
     if inv is not None:
@@ -229,24 +239,33 @@ def build_master_sku(inv, alloc, oo, im):
                 base = pd.concat([base, extra_df], ignore_index=True)
                 base["_JOIN_SKU"] = base["SKU"].map(_norm_key)
 
-    # Deduplicate on normalized key
+    # Deduplicate on normalized key (keep first occurrence)
     base = base.drop_duplicates(subset=["_JOIN_SKU"], keep="first")
 
-    # Enrich with Item Master at the END (normalized join)
+    # Enrich with Item Master at the END using a UNION key (SKU OR DelSolSku)
     if im is not None and "SKU" in im.columns:
         im2 = im.copy()
-        im2["_JOIN_SKU"] = im2["SKU"].map(_norm_key)
-        # Drop IM raw SKU to preserve base display SKU; join on normalized key
-        im2 = im2.drop(columns=[c for c in ["SKU"] if c in im2.columns])
-        base = base.merge(im2, on="_JOIN_SKU", how="left", suffixes=("", "_im"))
+        im2["_JOIN_SKU"]    = im2["SKU"].map(_norm_key)
+        im2["_JOIN_DELSOL"] = im2["DelSolSku"].map(_norm_key) if "DelSolSku" in im2.columns else np.nan
 
-        # Prefer base values; fill missing from _im
-        to_fill = ["DelSolSku","ProductName","WarehouseName","Primary Vendor","Primary Vendor Sku","Status"]
+        # Build union table where either SKU or DelSolSku can match the base SKU
+        im_union_a = im2.rename(columns={"_JOIN_SKU":"_JOIN"})[
+            ["_JOIN","DelSolSku","ProductName","Primary Vendor","Primary Vendor Sku","Status"]
+        ]
+        im_union_b = im2.rename(columns={"_JOIN_DELSOL":"_JOIN"})[
+            ["_JOIN","DelSolSku","ProductName","Primary Vendor","Primary Vendor Sku","Status"]
+        ]
+        im_union = pd.concat([im_union_a, im_union_b], ignore_index=True)
+        im_union = im_union.dropna(subset=["_JOIN"]).drop_duplicates("_JOIN")
+
+        base = base.merge(im_union, left_on="_JOIN_SKU", right_on="_JOIN", how="left", suffixes=("", "_im"))
+        base.drop(columns=["_JOIN"], inplace=True, errors="ignore")
+
+        # Fill blanks in base from Item Master
+        to_fill = ["DelSolSku","ProductName","Primary Vendor","Primary Vendor Sku","Status"]
         for c in to_fill:
-            cim = c + "_im"
-            if cim in base.columns:
-                base[c] = base[c].combine_first(base[cim])
-                base.drop(columns=[cim], inplace=True, errors="ignore")
+            cim = c  # columns come from im_union with same names
+            base[c] = base.get(c, pd.Series(index=base.index, dtype="object")).combine_first(base[cim])
     else:
         for c in ["DelSolSku","Primary Vendor","Primary Vendor Sku","Status"]:
             if c not in base.columns: base[c] = pd.NA
@@ -351,7 +370,7 @@ with b1:
 with b2:
     st.subheader("④ Recommended Orders")
 
-    # Build master (now enriches Item Master at the end)
+    # Build master (now enriched via union IM join)
     master = build_master_sku(inv, alloc, oo, im)
 
     # Projections join (DelSolSku -> VelocityMonthly), else 0
