@@ -8,7 +8,7 @@ from datetime import datetime
 
 # ------------------ App meta ------------------
 st.set_page_config(page_title="DelSol MRP Tool", layout="wide")
-APP_VERSION = "v2025.10.01-ui-only"
+APP_VERSION = "v2025.10.01-ui-r2"  # tiny sidebar tag
 st.sidebar.markdown(f"**App version:** {APP_VERSION}")
 
 # ------------------ Paths / defaults ------------------
@@ -16,7 +16,7 @@ DATA_DIR = Path("data")
 DEFAULT_IM   = DATA_DIR / "item_master_default.csv"
 DEFAULT_PROJ = DATA_DIR / "projections_default.csv"
 
-# Parameters (same defaults as before)
+# Parameters (same defaults)
 st.session_state.setdefault("lt", 7)
 st.session_state.setdefault("rc", 7)
 st.session_state.setdefault("ss", 21)
@@ -103,7 +103,7 @@ def first_col(df, options):
         if opt in df.columns: return opt
     return None
 
-# ------------------ Slimmers (unchanged logic) ------------------
+# ------------------ Slimmers (logic unchanged) ------------------
 def slim_inventory(inv_df, aggregate=True):
     need = [c for c in ["SKU","OnHand"] if c not in inv_df.columns]
     if need:
@@ -177,48 +177,79 @@ def slim_allocations(alloc_df):
     )
     return df
 
-# ------------------ Build master rows ------------------
+# ------------------ Build master rows (FIXED) ------------------
 def build_master_sku(inv, alloc, oo, im):
-    cols = ["SKU","ProductName","WarehouseName","OnHand"]
+    """
+    Build base SKU list from Inventory, add SKUs appearing only in Allocations/Open Orders (raw strings),
+    then enrich all rows with Item Master fields by joining on normalized SKU.
+    """
+    base_cols = ["SKU","ProductName","WarehouseName","OnHand"]
     if inv is not None:
         base = inv.copy()
-        for c in cols:
+        for c in base_cols:
             if c not in base.columns:
                 base[c] = pd.NA if c != "OnHand" else 0.0
     else:
-        base = pd.DataFrame(columns=cols)
-
-    if im is not None:
-        base = base.merge(im, on="SKU", how="left")
-    else:
-        base["DelSolSku"] = pd.NA
+        base = pd.DataFrame(columns=base_cols)
 
     base["_JOIN_SKU"] = base["SKU"].map(_norm_key)
 
+    # Ensure Allocation SKUs exist
     if alloc is not None and len(alloc) > 0:
-        present = set(base["_JOIN_SKU"].dropna().tolist())
-        missing = sorted(list(set(alloc["_JOIN_SKU"].dropna().tolist()) - present))
-        if missing:
-            raw_lookup = dict(zip(alloc["_JOIN_SKU"], alloc["SKU"]))
-            add = [{"SKU": raw_lookup[k], "OnHand": 0.0} for k in missing]
-            add_df = pd.DataFrame(add)
-            for col in ["ProductName","WarehouseName","Primary Vendor","Primary Vendor Sku","Status","DelSolSku"]:
-                if col not in add_df.columns: add_df[col] = pd.NA
-            base = pd.concat([base, add_df], ignore_index=True)
-            base["_JOIN_SKU"] = base["SKU"].map(_norm_key)
+        have = set(base["_JOIN_SKU"].dropna().tolist())
+        missing_keys = sorted(list(set(alloc["_JOIN_SKU"].dropna().tolist()) - have))
+        if missing_keys:
+            raw_lookup = dict(zip(alloc["_JOIN_SKU"], alloc["SKU"]))  # normalized -> raw SKU
+            add = [{"SKU": raw_lookup[k], "OnHand": 0.0} for k in missing_keys if k in raw_lookup]
+            if add:
+                add_df = pd.DataFrame(add)
+                for col in ["ProductName","WarehouseName"]:
+                    if col not in add_df.columns: add_df[col] = pd.NA
+                base = pd.concat([base, add_df], ignore_index=True)
+                base["_JOIN_SKU"] = base["SKU"].map(_norm_key)
 
+    # Ensure Open-Order SKUs exist
     if oo is not None and len(oo) > 0:
         oo_tmp = oo.copy()
         oo_tmp["_JOIN_ITEM"] = oo_tmp["ItemNumber"].map(_norm_key)
-        present = set(base["_JOIN_SKU"].dropna().tolist())
-        missing = sorted(list(set(oo_tmp["_JOIN_ITEM"].dropna().tolist()) - present))
-        if missing:
-            extra = [{"SKU": k, "OnHand": 0.0} for k in missing]
-            extra_df = pd.DataFrame(extra)
-            for col in ["ProductName","WarehouseName","Primary Vendor","Primary Vendor Sku","Status","DelSolSku"]:
-                if col not in extra_df.columns: extra_df[col] = pd.NA
-            base = pd.concat([base, extra_df], ignore_index=True).drop_duplicates(subset=["SKU"], keep="first")
-            base["_JOIN_SKU"] = base["SKU"].map(_norm_key)
+        oo_raw_lookup = (
+            oo_tmp.dropna(subset=["_JOIN_ITEM"])
+                 .drop_duplicates("_JOIN_ITEM")
+                 .set_index("_JOIN_ITEM")["ItemNumber"]
+                 .to_dict()
+        )
+        have = set(base["_JOIN_SKU"].dropna().tolist())
+        missing_keys = sorted(list(set(oo_tmp["_JOIN_ITEM"].dropna().tolist()) - have))
+        if missing_keys:
+            add = [{"SKU": oo_raw_lookup[k], "OnHand": 0.0} for k in missing_keys if k in oo_raw_lookup]
+            if add:
+                extra_df = pd.DataFrame(add)
+                for col in ["ProductName","WarehouseName"]:
+                    if col not in extra_df.columns: extra_df[col] = pd.NA
+                base = pd.concat([base, extra_df], ignore_index=True)
+                base["_JOIN_SKU"] = base["SKU"].map(_norm_key)
+
+    # Deduplicate on normalized key
+    base = base.drop_duplicates(subset=["_JOIN_SKU"], keep="first")
+
+    # Enrich with Item Master at the END (normalized join)
+    if im is not None and "SKU" in im.columns:
+        im2 = im.copy()
+        im2["_JOIN_SKU"] = im2["SKU"].map(_norm_key)
+        # Drop IM raw SKU to preserve base display SKU; join on normalized key
+        im2 = im2.drop(columns=[c for c in ["SKU"] if c in im2.columns])
+        base = base.merge(im2, on="_JOIN_SKU", how="left", suffixes=("", "_im"))
+
+        # Prefer base values; fill missing from _im
+        to_fill = ["DelSolSku","ProductName","WarehouseName","Primary Vendor","Primary Vendor Sku","Status"]
+        for c in to_fill:
+            cim = c + "_im"
+            if cim in base.columns:
+                base[c] = base[c].combine_first(base[cim])
+                base.drop(columns=[cim], inplace=True, errors="ignore")
+    else:
+        for c in ["DelSolSku","Primary Vendor","Primary Vendor Sku","Status"]:
+            if c not in base.columns: base[c] = pd.NA
 
     return base
 
@@ -320,7 +351,7 @@ with b1:
 with b2:
     st.subheader("④ Recommended Orders")
 
-    # Build master
+    # Build master (now enriches Item Master at the end)
     master = build_master_sku(inv, alloc, oo, im)
 
     # Projections join (DelSolSku -> VelocityMonthly), else 0
@@ -351,7 +382,7 @@ with b2:
     else:
         master["AllocatedQty"] = 0.0
 
-    # --------- Calculation (unchanged; matches your sheet) ---------
+    # --------- Calculation (matches your spreadsheet) ---------
     # RECOMMENDED = ((RC+SS+LT)*(VelocityMonthly/30)) - (OnHand - AllocatedQty + OpenOrderQty)
     lt, rc, ss = st.session_state.lt, st.session_state.rc, st.session_state.ss
     master["VelocityMonthly"] = pd.to_numeric(master.get("VelocityMonthly", 0), errors="coerce").fillna(0.0)
