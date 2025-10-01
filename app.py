@@ -8,7 +8,7 @@ from datetime import datetime
 
 # ------------------ App meta ------------------
 st.set_page_config(page_title="DelSol MRP Tool", layout="wide")
-APP_VERSION = "v2025.10.01-ui-r3"  # tiny sidebar version tag
+APP_VERSION = "v2025.10.01-ui-r4"  # tiny sidebar version tag
 st.sidebar.markdown(f"**App version:** {APP_VERSION}")
 
 # ------------------ Paths / defaults ------------------
@@ -103,7 +103,7 @@ def first_col(df, options):
         if opt in df.columns: return opt
     return None
 
-# ------------------ Slimmers (logic unchanged) ------------------
+# ------------------ Slimmers ------------------
 def slim_inventory(inv_df, aggregate=True):
     need = [c for c in ["SKU","OnHand"] if c not in inv_df.columns]
     if need:
@@ -137,7 +137,6 @@ def slim_item_master(im_df):
     if not sku_col or not dels_col:
         raise ValueError("Item Master must include Inventory SKU and DelSolSku/Item Number.")
     # Optional fields we want to carry over
-    # Product/Description
     prod_col = first_col(im_df, [
         "ProductName","Product Name","Item Description","Description","Item Name","Name"
     ])
@@ -149,10 +148,10 @@ def slim_item_master(im_df):
     im = im_df[keep].copy()
 
     rename_map = {sku_col:"SKU", dels_col:"DelSolSku"}
-    if prod_col:  rename_map[prod_col]  = "ProductName"
-    if vendor:    rename_map[vendor]    = "Primary Vendor"
-    if vendor_sku:rename_map[vendor_sku]= "Primary Vendor Sku"
-    if status:    rename_map[status]    = "Status"
+    if prod_col:   rename_map[prod_col]   = "ProductName"
+    if vendor:     rename_map[vendor]     = "Primary Vendor"
+    if vendor_sku: rename_map[vendor_sku] = "Primary Vendor Sku"
+    if status:     rename_map[status]     = "Status"
 
     im = im.rename(columns=rename_map)
     im = im.drop_duplicates(subset=["SKU"], keep="first")
@@ -248,7 +247,7 @@ def build_master_sku(inv, alloc, oo, im):
         im2["_JOIN_SKU"]    = im2["SKU"].map(_norm_key)
         im2["_JOIN_DELSOL"] = im2["DelSolSku"].map(_norm_key) if "DelSolSku" in im2.columns else np.nan
 
-        # Build union table where either SKU or DelSolSku can match the base SKU
+        # Union table where either SKU or DelSolSku can match the base SKU
         im_union_a = im2.rename(columns={"_JOIN_SKU":"_JOIN"})[
             ["_JOIN","DelSolSku","ProductName","Primary Vendor","Primary Vendor Sku","Status"]
         ]
@@ -258,14 +257,20 @@ def build_master_sku(inv, alloc, oo, im):
         im_union = pd.concat([im_union_a, im_union_b], ignore_index=True)
         im_union = im_union.dropna(subset=["_JOIN"]).drop_duplicates("_JOIN")
 
+        # Merge with suffixes so we can fill from *_im reliably
         base = base.merge(im_union, left_on="_JOIN_SKU", right_on="_JOIN", how="left", suffixes=("", "_im"))
         base.drop(columns=["_JOIN"], inplace=True, errors="ignore")
 
-        # Fill blanks in base from Item Master
-        to_fill = ["DelSolSku","ProductName","Primary Vendor","Primary Vendor Sku","Status"]
-        for c in to_fill:
-            cim = c  # columns come from im_union with same names
-            base[c] = base.get(c, pd.Series(index=base.index, dtype="object")).combine_first(base[cim])
+        # Fill blanks in base from Item Master (_im columns), then drop *_im
+        for c in ["DelSolSku","ProductName","Primary Vendor","Primary Vendor Sku","Status"]:
+            cim = c  # right-side columns currently NOT suffixed due to union source; add suffix manually
+            # Ensure we treat the right columns as *_im to avoid confusion
+            if c in base.columns and c + "_im" not in base.columns:
+                base.rename(columns={c: c + "_im"}, inplace=True)
+            if c not in base.columns:
+                base[c] = pd.NA
+            base[c] = base[c].combine_first(base.get(c + "_im"))
+            base.drop(columns=[c + "_im"], inplace=True, errors="ignore")
     else:
         for c in ["DelSolSku","Primary Vendor","Primary Vendor Sku","Status"]:
             if c not in base.columns: base[c] = pd.NA
@@ -297,7 +302,6 @@ with b1:
 
     issues = []
     inv = im = proj = oo = alloc = None
-    selected_month = None
 
     # Inventory
     if inv_u is not None:
@@ -417,8 +421,9 @@ with b2:
     master["recommended"]     = master["recommended_raw"].apply(lambda x: max(0, math.ceil(float(x))))
 
     # --------- Output ---------
-    cols = ["SKU","DelSolSku","ProductName","WarehouseName","Primary Vendor","Primary Vendor Sku","Status",
-            "OnHand","AllocatedQty","OpenOrderQty","VelocityMonthly","recommended"]
+    cols = ["SKU","DelSolSku","ProductName",
+            "Primary Vendor","Primary Vendor Sku","Status",
+            "OnHand","AllocatedQty","OpenOrderQty","VelocityMonthly","recommended"]  # WarehouseName removed
     cols = [c for c in cols if c in master.columns]
 
     out = master[(master["AllocatedQty"] > 0) | (master["OpenOrderQty"] > 0) | (master["recommended"] > 0)][cols] \
