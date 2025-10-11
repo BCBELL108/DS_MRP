@@ -1,4 +1,4 @@
-Del Sol Sku,Silverscreen Sku,Primary Vendor Sku,Primary Vendor,Item Description,Del Sol Color,Primary Vendor Color,Status
+﻿Del Sol Sku,Silverscreen Sku,Primary Vendor Sku,Primary Vendor,Item Description,Del Sol Color,Primary Vendor Color,Status
 10108BLN,1010-2XL,PC54-2XL,SanMar,M Crew Tee,White,White,Pick
 10109BLN,1010-3XL,PC54-3XL,SanMar,M Crew Tee,White,White,Pick
 10106BLN,1010-L,PC54-L,SanMar,M Crew Tee,White,White,Pick
@@ -72,48 +72,48 @@ Del Sol Sku,Silverscreen Sku,Primary Vendor Sku,Primary Vendor,Item Description,
 3X485BLN,3X48-M,6926-M,LAT Apparel,M Hoodie,Black,Black,Custom
 3X484BLN,3X48-S,6926-S,LAT Apparel,M Hoodie,Black,Black,Custom
 3X487BLN,3X48-XL,6926-XL,LAT Apparel,M Hoodie,Black,Black,Custom
-4G678BLN,4G67-2XL,6210-2XL,Next Level,M Crew T,Ice Blue,Ice Blue,Custom Pick
-4G679BLN,4G67-3XL,6210-3XL,Next Level,M Crew T,Ice Blue,Ice Blue,Custom Pick
-4G676BLN,4G67-L,6210-L,Next Level,M Crew T,Ice Blue,Ice Blue,Custom Pick
-4G675BLN,4G67-M,6210-M,Next Level,M Crew T,Ice Blue,Ice Blue,Custom Pick
-4G674BLN,4G67-S,6210-S,Next Level,M Crew T,Ice Blue,Ice Blue,Custom Pick
-4G677BLN,4G67-XL,6210-XL,Next Level,M Crew T,Ice Blue,Ice Blue,Custom Pick
-4I678BLN,4I67-2XL,6610-2XL,Next Level,W Crew T,Ice Blue,Ice Blue,Custom Pick
-4I676BLN,4I67-L,6610-L,Next Level,W Crew T,Ice Blue,Ice Blue,Custom Pick
-4I675BLN,4I67-M,6610-M,Next Level,W Crew T,Ice Blue,Ice Blue,Custom Pick
-4I674BLN,4I67-S,6610-S,Next Level,W Crew T,Ice Blue,Ice Blue,Custom Pick
-4I677BLN,4I67-XL,6610-XL,Next Level,W Crew T,Ice Blue,Ice Blue,Custom Pick
-4I673BLN,4I67-YL,3312-L,Next Level,FJ Crew Tee,Ice Blue,Ice Blue,Custom Pick
-4I672BLN,4I67-YM,3312-M,Next Level,FJ Crew Tee,Ice Blue,Ice Blue,Custom Pick
-4I671BLN,4I67-YS,3312-S,Next Level,FJ Crew Tee,Ice Blue,Ice Blue,Custom Pick
-4I670BLN,4I67-YXS,3312-XS,Next Level,FJ Crew Tee,Ice Blue,Ice Blue,Custom Pick
-4S118BLN,4S11-2XL,3516-2XL,LAT Apparel,Women Boyfriend T,Natural,Natural,Custom Pick
-4S116BLN,4S11-L,3516-L,LAT Apparel,Women Boyfriend T,Natural,Natural,Custom Pick
-4S115BLN,4S11-M,3516-M,LAT Apparel,Women Boyfriend T,Natural,Natural,Custom Pick
-4S114BLN,4S11-S,3516-S,LAT Apparel,Women Boyfriend T,Natural,Natural,Custom Pick
-4S117BLN,4S11-XL,3516-XL,LAT Apparel,Women Boyfriend T,Natural,Natural,Custom Pick
+4G678BLN,4G67-2XL,6210-2XL,Next Level,M Crew T,Ice Blue,Ice Blue,Pick
+4G679BLN,4G67-3XL,6210-3XL,Next Level,M Crew T,Ice Blue,Ice Blue,Pick
+4G676BLN,4G67-L,6210-L,Next Level,M Crew T,Ice Blue,Ice Blue,Pick
+4G675BLN,4G67-M,6210-M,Next Level,M Crew T,Ice Blue,Ice Blue,Pick
+4G674BLN,4G67-S,6210-S,Next Level,M Crew T,Ice Blue,Ice Blue,Pick
+4G677BLN,4G67-XL,6210-XL,Next Level,M Crew T,Ice Blue,Ice Blue,Pick
+4I678BLN,4I67-2XL,6610-2XL,Next Level,W Crew T,Ice Blue,Ice Blue,Pick
+4I676BLN,4I67-L,6610-L,Next Level,W Crew T,Ice Blue,Ice Blue,Pick
+4I675BLN,4I67-M,6610-M,Next Level,W Crew T,Ice Blue,Ice Blue,Pick
+4I674BLN,4I67-S,6610-S,Next Level,W Crew T,Ice Blue,Ice Blue,Pick
+4I677BLN,4I67-XL,6610-XL,Next Level,W Crew T,Ice Blue,Ice Blue,Pick
+4I673BLN,4I67-YL,3312-L,Next Level,FJ Crew Tee,Ice Blue,Ice Blue,Pick
+4I672BLN,4I67-YM,3312-M,Next Level,FJ Crew Tee,Ice Blue,Ice Blue,Pick
+4I671BLN,4I67-YS,3312-S,Next Level,FJ Crew Tee,Ice Blue,Ice Blue,Pick
+4I670BLN,4I67-YXS,3312-XS,Next Level,FJ Crew Tee,Ice Blue,Ice Blue,Pick
+4S118BLN,4S11-2XL,3516-2XL,LAT Apparel,Women Boyfriend T,Natural,Natural,Custom
+4S116BLN,4S11-L,3516-L,LAT Apparel,Women Boyfriend T,Natural,Natural,Custom
+4S115BLN,4S11-M,3516-M,LAT Apparel,Women Boyfriend T,Natural,Natural,Custom
+4S114BLN,4S11-S,3516-S,LAT Apparel,Women Boyfriend T,Natural,Natural,Custom
+4S117BLN,4S11-XL,3516-XL,LAT Apparel,Women Boyfriend T,Natural,Natural,Custom
 4T128BLN,4T12-2XL,3516-2XL,LAT Apparel,Women Boyfriend T,Indigo,Denim,Custom
 4T126BLN,4T12-L,3516-L,LAT Apparel,Women Boyfriend T,Indigo,Denim,Custom
 4T125BLN,4T12-M,3516-M,LAT Apparel,Women Boyfriend T,Indigo,Denim,Custom
 4T124BLN,4T12-S,3516-S,LAT Apparel,Women Boyfriend T,Indigo,Denim,Custom
 4T127BLN,4T12-XL,3516-XL,LAT Apparel,Women Boyfriend T,Indigo,Denim,Custom
-4T938BLN,4T93-2XL,3516-2XL,LAT Apparel,Women Boyfriend T,Natural Heather,Natural Heather,Custom Pick
-4T936BLN,4T93-L,3516-L,LAT Apparel,Women Boyfriend T,Natural Heather,Natural Heather,Custom Pick
-4T935BLN,4T93-M,3516-M,LAT Apparel,Women Boyfriend T,Natural Heather,Natural Heather,Custom Pick
-4T934BLN,4T93-S,3516-S,LAT Apparel,Women Boyfriend T,Natural Heather,Natural Heather,Custom Pick
-4T937BLN,4T93-XL,3516-XL,LAT Apparel,Women Boyfriend T,Natural Heather,Natural Heather,Custom Pick
-4U118BLN,4U11-2XL,6901-2XL,LAT Apparel,M Crew Tee,Natural,Natural,Custom Pick
-4U119BLN,4U11-3XL,6901-3XL,LAT Apparel,M Crew Tee,Natural,Natural,Custom Pick
-4U116BLN,4U11-L,6901-L,LAT Apparel,M Crew Tee,Natural,Natural,Custom Pick
-4U115BLN,4U11-M,6901-M,LAT Apparel,M Crew Tee,Natural,Natural,Custom Pick
-4U114BLN,4U11-S,6901-S,LAT Apparel,M Crew Tee,Natural,Natural,Custom Pick
-4U117BLN,4U11-XL,6901-XL,LAT Apparel,M Crew Tee,Natural,Natural,Custom Pick
-4V938BLN,4V93-2XL,6901-2XL,LAT Apparel,M Crew Tee,Natural Heather,Natural Heather,Custom Pick
-4V939BLN,4V93-3XL,6901-3XL,LAT Apparel,M Crew Tee,Natural Heather,Natural Heather,Custom Pick
-4V936BLN,4V93-L,6901-L,LAT Apparel,M Crew Tee,Natural Heather,Natural Heather,Custom Pick
-4V935BLN,4V93-M,6901-M,LAT Apparel,M Crew Tee,Natural Heather,Natural Heather,Custom Pick
-4V934BLN,4V93-S,6901-S,LAT Apparel,M Crew Tee,Natural Heather,Natural Heather,Custom Pick
-4V937BLN,4V93-XL,6901-XL,LAT Apparel,M Crew Tee,Natural Heather,Natural Heather,Custom Pick
+4T938BLN,4T93-2XL,3516-2XL,LAT Apparel,Women Boyfriend T,Natural Heather,Natural Heather,Custom
+4T936BLN,4T93-L,3516-L,LAT Apparel,Women Boyfriend T,Natural Heather,Natural Heather,Custom
+4T935BLN,4T93-M,3516-M,LAT Apparel,Women Boyfriend T,Natural Heather,Natural Heather,Custom
+4T934BLN,4T93-S,3516-S,LAT Apparel,Women Boyfriend T,Natural Heather,Natural Heather,Custom
+4T937BLN,4T93-XL,3516-XL,LAT Apparel,Women Boyfriend T,Natural Heather,Natural Heather,Custom
+4U118BLN,4U11-2XL,6901-2XL,LAT Apparel,M Crew Tee,Natural,Natural,Custom
+4U119BLN,4U11-3XL,6901-3XL,LAT Apparel,M Crew Tee,Natural,Natural,Custom
+4U116BLN,4U11-L,6901-L,LAT Apparel,M Crew Tee,Natural,Natural,Custom
+4U115BLN,4U11-M,6901-M,LAT Apparel,M Crew Tee,Natural,Natural,Custom
+4U114BLN,4U11-S,6901-S,LAT Apparel,M Crew Tee,Natural,Natural,Custom
+4U117BLN,4U11-XL,6901-XL,LAT Apparel,M Crew Tee,Natural,Natural,Custom
+4V938BLN,4V93-2XL,6901-2XL,LAT Apparel,M Crew Tee,Natural Heather,Natural Heather,Custom
+4V939BLN,4V93-3XL,6901-3XL,LAT Apparel,M Crew Tee,Natural Heather,Natural Heather,Custom
+4V936BLN,4V93-L,6901-L,LAT Apparel,M Crew Tee,Natural Heather,Natural Heather,Custom
+4V935BLN,4V93-M,6901-M,LAT Apparel,M Crew Tee,Natural Heather,Natural Heather,Custom
+4V934BLN,4V93-S,6901-S,LAT Apparel,M Crew Tee,Natural Heather,Natural Heather,Custom
+4V937BLN,4V93-XL,6901-XL,LAT Apparel,M Crew Tee,Natural Heather,Natural Heather,Custom
 4Z023BLN,4Z02-YL,6101-L,LAT Apparel,FJ Crew Tee,Natural,Natural,Custom
 4Z022BLN,4Z02-YM,6101-M,LAT Apparel,FJ Crew Tee,Natural,Natural,Custom
 4Z021BLN,4Z02-YS,6101-S,LAT Apparel,FJ Crew Tee,Natural,Natural,Custom
@@ -204,15 +204,21 @@ Del Sol Sku,Silverscreen Sku,Primary Vendor Sku,Primary Vendor,Item Description,
 6H105BLN,6H10-M,3592-M,LAT Apparel,W Tank Top,White,White,Custom
 6H104BLN,6H10-S,3592-S,LAT Apparel,W Tank Top,White,White,Custom
 6H107BLN,6H10-XL,3592-XL,LAT Apparel,W Tank Top,White,White,Custom
-74108BLN,7410-2XL,LPC54V-2XL,SanMar,W VNeck,White,White,Custom Pick
-74109BLN,7410-3XL,LPC54V-3XL,SanMar,W VNeck,White,White,Custom Pick
-74106BLN,7410-L,LPC54V-L,SanMar,W VNeck,White,White,Custom Pick
-74105BLN,7410-M,LPC54V-M,SanMar,W VNeck,White,White,Custom Pick
-74104BLN,7410-S,LPC54V-S,SanMar,W VNeck,White,White,Custom Pick
-74107BLN,7410-XL,LPC54V-XL,SanMar,W VNeck,White,White,Custom Pick
+74108BLN,7410-2XL,LPC54V-2XL,SanMar,W VNeck,White,White,Custom
+74109BLN,7410-3XL,LPC54V-3XL,SanMar,W VNeck,White,White,Custom
+74106BLN,7410-L,LPC54V-L,SanMar,W VNeck,White,White,Custom
+74105BLN,7410-M,LPC54V-M,SanMar,W VNeck,White,White,Custom
+74104BLN,7410-S,LPC54V-S,SanMar,W VNeck,White,White,Custom
+74107BLN,7410-XL,LPC54V-XL,SanMar,W VNeck,White,White,Custom
 6B938BLN,6B93-2XL,6926-2XL,LAT Apparel,M Hoodie,Natural Heather,Natural Heather,Custom
 6B939BLN,6B93-3XL,6926-3XL,LAT Apparel,M Hoodie,Natural Heather,Natural Heather,Custom
 6B936BLN,6B93-L,6926-L,LAT Apparel,M Hoodie,Natural Heather,Natural Heather,Custom
 6B935BLN,6B93-M,6926-M,LAT Apparel,M Hoodie,Natural Heather,Natural Heather,Custom
 6B934BLN,6B93-S,6926-S,LAT Apparel,M Hoodie,Natural Heather,Natural Heather,Custom
 6B937BLN,6B93-XL,6926-XL,LAT Apparel,M Hoodie,Natural Heather,Natural Heather,Custom
+6C938BLN,6C93-2XL,6925-2XL,LAT Apparel,M Crew,Natural Heather,Natural Heather,Custom
+6C939BLN,6C93-3XL,6925-3XL,LAT Apparel,M Crew,Natural Heather,Natural Heather,Custom
+6C936BLN,6C93-L,6925-L,LAT Apparel,M Crew,Natural Heather,Natural Heather,Custom
+6C935BLN,6C93-M,6925-M,LAT Apparel,M Crew,Natural Heather,Natural Heather,Custom
+6C934BLN,6C93-S,6925-S,LAT Apparel,M Crew,Natural Heather,Natural Heather,Custom
+6C937BLN,6C93-XL,6925-XL,LAT Apparel,M Crew,Natural Heather,Natural Heather,Custom
