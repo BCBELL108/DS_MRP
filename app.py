@@ -1,4 +1,3 @@
-
 import math, re, io
 import pandas as pd
 import numpy as np
@@ -181,8 +180,16 @@ def build_velocity(proj_df, selected_month):
         raise ValueError("Selected projection month not found in uploaded file.")
     slim = proj_df[[join_col, selected_month]].copy()
     slim = slim.rename(columns={join_col:"ItemNumberJoin", selected_month:"VelocityMonthly"})
+    slim["ItemNumberJoin"] = slim["ItemNumberJoin"].astype(str).str.strip()
+    slim.loc[slim["ItemNumberJoin"].str.lower().isin(["nan", "none", ""]), "ItemNumberJoin"] = np.nan
     slim["VelocityMonthly"] = pd.to_numeric(slim["VelocityMonthly"], errors="coerce").fillna(0.0)
-    slim = slim.drop_duplicates(subset=["ItemNumberJoin"], keep="first")
+    drop_words = {"total", "grand total", "subtotal"}
+    slim = slim[slim["ItemNumberJoin"].notna()]
+    slim = slim[~slim["ItemNumberJoin"].str.lower().isin(drop_words)]
+    slim = slim[slim["ItemNumberJoin"].str.fullmatch(r"[A-Za-z0-9\-_\/]+")]
+    slim = (slim
+            .groupby("ItemNumberJoin", as_index=False, sort=False)
+            .agg(VelocityMonthly=("VelocityMonthly", "sum")))
     return slim
 
 def slim_allocations(alloc_df):
@@ -250,7 +257,7 @@ def build_master_sku(inv, alloc, oo, im):
             if add:
                 extra_df = pd.DataFrame(add)
                 for col in ["ProductName","WarehouseName"]:
-                    if col not in extra_df.columns: extra_df[col] = pd.NA
+                    if col not in extra_df.columns: add_df[col] = pd.NA
                 base = pd.concat([base, extra_df], ignore_index=True)
                 base["_JOIN_SKU"] = base["SKU"].map(_norm_key)
 
