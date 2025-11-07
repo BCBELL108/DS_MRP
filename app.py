@@ -257,7 +257,7 @@ def build_master_sku(inv, alloc, oo, im):
             if add:
                 extra_df = pd.DataFrame(add)
                 for col in ["ProductName","WarehouseName"]:
-                    if col not in extra_df.columns: add_df[col] = pd.NA
+                    if col not in extra_df.columns: extra_df[col] = pd.NA
                 base = pd.concat([base, extra_df], ignore_index=True)
                 base["_JOIN_SKU"] = base["SKU"].map(_norm_key)
 
@@ -311,9 +311,10 @@ with left:
 
 with right:
     st.subheader("② Parameters")
-    lt  = st.number_input("Lead Time (days)",  min_value=0, max_value=365, value=st.session_state.lt, step=1)
-    rc  = st.number_input("Replen Cycle (days)", min_value=0, max_value=365, value=st.session_state.rc, step=1)
-    ss  = st.number_input("Safety Stock (days)", min_value=0, max_value=365, value=st.session_state.ss, step=1)
+    # Bind the number_inputs to session_state keys so session_state always reflects UI values
+    lt  = st.number_input("Lead Time (days)",  min_value=0, max_value=365, value=st.session_state.lt, step=1, key="lt")
+    rc  = st.number_input("Replen Cycle (days)", min_value=0, max_value=365, value=st.session_state.rc, step=1, key="rc")
+    ss  = st.number_input("Safety Stock (days)", min_value=0, max_value=365, value=st.session_state.ss, step=1, key="ss")
     aggregate = st.checkbox("Aggregate OnHand by SKU (sum across locations)", value=True)
 
 with b1:
@@ -426,12 +427,15 @@ with b2:
 
     # --------- Calculation (matches your spreadsheet) ---------
     # RECOMMENDED = ((RC+SS+LT)*(VelocityMonthly/30)) - (OnHand - AllocatedQty + OpenOrderQty)
-    lt, rc, ss = st.session_state.lt, st.session_state.rc, st.session_state.ss
+    # Use values from session_state which are kept in sync with the UI via keys above
+    lt, rc, ss = st.session_state["lt"], st.session_state["rc"], st.session_state["ss"]
+
     master["VelocityMonthly"] = pd.to_numeric(master.get("VelocityMonthly", 0), errors="coerce").fillna(0.0)
     master["OnHand"]          = pd.to_numeric(master.get("OnHand", 0), errors="coerce").fillna(0.0)
     master["OpenOrderQty"]    = pd.to_numeric(master.get("OpenOrderQty", 0), errors="coerce").fillna(0.0)
     master["AllocatedQty"]    = pd.to_numeric(master.get("AllocatedQty", 0), errors="coerce").fillna(0.0)
 
+    # compute daily velocity and target
     daily_velocity = master["VelocityMonthly"] / 30.0
     target_level   = (rc + ss + lt) * daily_velocity
     rhs            = master["OnHand"] - master["AllocatedQty"] + master["OpenOrderQty"]
