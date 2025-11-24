@@ -7,7 +7,7 @@ from datetime import datetime
 
 # ------------------ App meta ------------------
 st.set_page_config(page_title="DelSol MRP Tool", layout="wide")
-APP_VERSION = "v10.2"  # tiny sidebar version tag
+APP_VERSION = "v10.3"  # tiny sidebar version tag
 st.sidebar.markdown(f"**App version:** {APP_VERSION}")
 
 # ------------------ Paths / defaults ------------------
@@ -28,8 +28,8 @@ with col_c:
         )
     st.markdown(
         "<div style='text-align:center;color:#9aa0a6;margin:-0.25rem 0 0.75rem;'>Built and Deployed by Brandon Bell</div>",
-            unsafe_allow_html=True,
-        )
+        unsafe_allow_html=True,
+    )
 
 # Parameters (same defaults)
 st.session_state.setdefault("lt", 7)
@@ -260,7 +260,7 @@ def slim_allocations(alloc_df):
     )
     return df
 
-# ------------------ Build master rows (now includes cost, multiples, color) ------------------
+# ------------------ Build master rows (enriched with IM + vendor SKU) ------------------
 def build_master_sku(inv, alloc, oo, im):
     base_cols = ["SKU","ProductName","WarehouseName","OnHand"]
     if inv is not None:
@@ -334,7 +334,6 @@ def build_master_sku(inv, alloc, oo, im):
         base = base.merge(im_union, left_on="_JOIN_SKU", right_on="_JOIN", how="left", suffixes=("", "_im"))
         base.drop(columns=["_JOIN"], inplace=True, errors="ignore")
 
-        # Fill blanks in base from right-side (*_im) columns, then drop *_im
         for c in ["DelSolSku","ProductName","Primary Vendor","Primary Vendor Sku",
                   "Status","Primary Vendor Color","UnitCost","OrderMultiple"]:
             if c + "_im" in base.columns:
@@ -343,6 +342,35 @@ def build_master_sku(inv, alloc, oo, im):
                 else:
                     base[c] = base[c].combine_first(base[c + "_im"])
                 base.drop(columns=[c + "_im"], inplace=True, errors="ignore")
+
+        # SECOND enrichment by Primary Vendor Sku for Color/Cost/Multiple
+        if "Primary Vendor Sku" in base.columns and "Primary Vendor Sku" in im2.columns:
+            im_vendor = im2[
+                ["Primary Vendor Sku","Primary Vendor Color","UnitCost","OrderMultiple"]
+            ].dropna(subset=["Primary Vendor Sku"]).drop_duplicates("Primary Vendor Sku")
+
+            base = base.merge(
+                im_vendor.add_suffix("_v"),
+                left_on="Primary Vendor Sku",
+                right_on="Primary Vendor Sku_v",
+                how="left",
+            )
+
+            def combine_col(col):
+                col_v = col + "_v"
+                if col_v in base.columns:
+                    if col not in base.columns:
+                        base[col] = base[col_v]
+                    else:
+                        base[col] = base[col].combine_first(base[col_v])
+                    base.drop(columns=[col_v], inplace=True, errors="ignore")
+
+            for col in ["Primary Vendor Color","UnitCost","OrderMultiple"]:
+                combine_col(col)
+
+            if "Primary Vendor Sku_v" in base.columns:
+                base.drop(columns=["Primary Vendor Sku_v"], inplace=True, errors="ignore")
+
     else:
         for c in ["DelSolSku","Primary Vendor","Primary Vendor Sku",
                   "Status","Primary Vendor Color","UnitCost","OrderMultiple"]:
@@ -446,7 +474,7 @@ with b1:
 with b2:
     st.subheader("④ Recommended Orders")
 
-    # Build master (now enriched with cost, multiples, color from IM)
+    # Build master (now enriched with cost, multiples, color from IM & Primary Vendor Sku)
     master = build_master_sku(inv, alloc, oo, im)
 
     # Projections join (DelSolSku -> VelocityMonthly), else 0
