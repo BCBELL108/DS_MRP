@@ -7,12 +7,12 @@ from datetime import datetime
 
 # ------------------ App meta ------------------
 st.set_page_config(page_title="DelSol MRP Tool", layout="wide")
-APP_VERSION = "v5"  # tiny sidebar version tag
+APP_VERSION = "v6"  # tiny sidebar version tag
 st.sidebar.markdown(f"**App version:** {APP_VERSION}")
 
 # ------------------ Paths / defaults ------------------
 DATA_DIR = Path("data")
-DEFAULT_IM   = DATA_DIR / "item_master_default.csv"
+DEFAULT_IM   = DATA_DIR / "item_master_default_v2.csv"
 DEFAULT_PROJ = DATA_DIR / "projections_default.csv"
 LOGO_PATH    = DATA_DIR / "silverscreen_logo.png"   # <- add your logo here
 
@@ -146,20 +146,22 @@ def slim_open_orders(oo_df):
     return slim
 
 def slim_item_master(im_df):
-    # Required keys
     sku_col  = first_col(im_df, ["SKU","Silverscreen Sku","ItemNumber","itemnumber","sku"])
     dels_col = first_col(im_df, ["DelSolSku","Del Sol Sku","ItemNumber","itemnumber"])
     if not sku_col or not dels_col:
         raise ValueError("Item Master must include Inventory SKU and DelSolSku/Item Number.")
-    # Optional fields (description/name + vendor fields)
+
     prod_col = first_col(im_df, [
         "ProductName","Product Name","Item Description","Description","Item Name","Name"
     ])
     vendor     = first_col(im_df, ["Primary Vendor","Vendor","PrimaryVendor","primary vendor","primary_vendor"])
     vendor_sku = first_col(im_df, ["Primary Vendor Sku","Primary Vendor SKU","Vendor Sku","Vendor SKU","primary vendor sku","primary_vendor_sku"])
     status     = first_col(im_df, ["Status","Item Status","status"])
+    color_col  = first_col(im_df, ["Vendor Color","Color","VendorColor","Vendor Colour","Colour"])
+    cost_col   = first_col(im_df, ["Cost","Unit Cost","Std Cost","Standard Cost","UnitCost","Unit_Price"])
+    mult_col   = first_col(im_df, ["Order Multiple","OrderMultiple","MOQ","Min Order","Multiple","Case Qty","Case Quantity"])
 
-    keep = [sku_col, dels_col] + [c for c in [prod_col, vendor, vendor_sku, status] if c]
+    keep = [sku_col, dels_col] + [c for c in [prod_col, vendor, vendor_sku, status, color_col, cost_col, mult_col] if c]
     im = im_df[keep].copy()
 
     rename_map = {sku_col:"SKU", dels_col:"DelSolSku"}
@@ -167,9 +169,18 @@ def slim_item_master(im_df):
     if vendor:     rename_map[vendor]     = "Primary Vendor"
     if vendor_sku: rename_map[vendor_sku] = "Primary Vendor Sku"
     if status:     rename_map[status]     = "Status"
+    if color_col:  rename_map[color_col]  = "Vendor Color"
+    if cost_col:   rename_map[cost_col]   = "UnitCost"
+    if mult_col:   rename_map[mult_col]   = "OrderMultiple"
 
     im = im.rename(columns=rename_map)
     im = im.drop_duplicates(subset=["SKU"], keep="first")
+
+    if "UnitCost" in im.columns:
+        im["UnitCost"] = pd.to_numeric(im["UnitCost"], errors="coerce").fillna(0.0)
+    if "OrderMultiple" in im.columns:
+        im["OrderMultiple"] = pd.to_numeric(im["OrderMultiple"], errors="coerce").fillna(1.0).replace(0, 1)
+
     return im
 
 def build_velocity(proj_df, selected_month):
@@ -187,9 +198,11 @@ def build_velocity(proj_df, selected_month):
     slim = slim[slim["ItemNumberJoin"].notna()]
     slim = slim[~slim["ItemNumberJoin"].str.lower().isin(drop_words)]
     slim = slim[slim["ItemNumberJoin"].str.fullmatch(r"[A-Za-z0-9\-_\/]+")]
-    slim = (slim
-            .groupby("ItemNumberJoin", as_index=False, sort=False)
-            .agg(VelocityMonthly=("VelocityMonthly", "sum")))
+    slim = (
+        slim
+        .groupby("ItemNumberJoin", as_index=False, sort=False)
+        .agg(VelocityMonthly=("VelocityMonthly", "sum"))
+    )
     return slim
 
 def slim_allocations(alloc_df):
@@ -211,10 +224,6 @@ def slim_allocations(alloc_df):
 
 # ------------------ Build master rows (FIXED & ENRICHED) ------------------
 def build_master_sku(inv, alloc, oo, im):
-    """
-    Build base SKU list from Inventory, add SKUs appearing only in Allocations/Open Orders (raw strings),
-    then enrich all rows with Item Master fields by joining on a union key (SKU OR DelSolSku).
-    """
     base_cols = ["SKU","ProductName","WarehouseName","OnHand"]
     if inv is not None:
         base = inv.copy()
@@ -226,12 +235,11 @@ def build_master_sku(inv, alloc, oo, im):
 
     base["_JOIN_SKU"] = base["SKU"].map(_norm_key)
 
-    # Ensure Allocation SKUs exist
     if alloc is not None and len(alloc) > 0:
         have = set(base["_JOIN_SKU"].dropna().tolist())
         missing_keys = sorted(list(set(alloc["_JOIN_SKU"].dropna().tolist()) - have))
         if missing_keys:
-            raw_lookup = dict(zip(alloc["_JOIN_SKU"], alloc["SKU"]))  # normalized -> raw SKU
+            raw_lookup = dict(zip(alloc["_JOIN_SKU"], alloc["SKU"]))
             add = [{"SKU": raw_lookup[k], "OnHand": 0.0} for k in missing_keys if k in raw_lookup]
             if add:
                 add_df = pd.DataFrame(add)
@@ -240,7 +248,6 @@ def build_master_sku(inv, alloc, oo, im):
                 base = pd.concat([base, add_df], ignore_index=True)
                 base["_JOIN_SKU"] = base["SKU"].map(_norm_key)
 
-    # Ensure Open-Order SKUs exist
     if oo is not None and len(oo) > 0:
         oo_tmp = oo.copy()
         oo_tmp["_JOIN_ITEM"] = oo_tmp["ItemNumber"].map(_norm_key)
@@ -261,38 +268,53 @@ def build_master_sku(inv, alloc, oo, im):
                 base = pd.concat([base, extra_df], ignore_index=True)
                 base["_JOIN_SKU"] = base["SKU"].map(_norm_key)
 
-    # Deduplicate on normalized key (keep first occurrence)
     base = base.drop_duplicates(subset=["_JOIN_SKU"], keep="first")
 
-    # Enrich with Item Master at the END using a UNION key (SKU OR DelSolSku)
     if im is not None and "SKU" in im.columns:
         im2 = im.copy()
         im2["_JOIN_SKU"]    = im2["SKU"].map(_norm_key)
         im2["_JOIN_DELSOL"] = im2["DelSolSku"].map(_norm_key) if "DelSolSku" in im2.columns else np.nan
 
-        # Union table where either SKU or DelSolSku can match the base SKU
+        cols_union = [
+            "_JOIN","DelSolSku","ProductName","Primary Vendor","Primary Vendor Sku",
+            "Status","Vendor Color","UnitCost","OrderMultiple"
+        ]
+
         im_union_a = im2.rename(columns={"_JOIN_SKU":"_JOIN"})[
-            ["_JOIN","DelSolSku","ProductName","Primary Vendor","Primary Vendor Sku","Status"]
+            [c for c in cols_union if c in im2.rename(columns={"_JOIN_SKU":"_JOIN"}).columns]
         ]
         im_union_b = im2.rename(columns={"_JOIN_DELSOL":"_JOIN"})[
-            ["_JOIN","DelSolSku","ProductName","Primary Vendor","Primary Vendor Sku","Status"]
+            [c for c in cols_union if c in im2.rename(columns={"_JOIN_DELSOL":"_JOIN"}).columns]
         ]
+
         im_union = pd.concat([im_union_a, im_union_b], ignore_index=True)
         im_union = im_union.dropna(subset=["_JOIN"]).drop_duplicates("_JOIN")
 
         base = base.merge(im_union, left_on="_JOIN_SKU", right_on="_JOIN", how="left", suffixes=("", "_im"))
         base.drop(columns=["_JOIN"], inplace=True, errors="ignore")
 
-        # Fill blanks in base from right-side (*_im) columns, then drop *_im
-        for c in ["DelSolSku","ProductName","Primary Vendor","Primary Vendor Sku","Status"]:
+        for c in ["DelSolSku","ProductName","Primary Vendor","Primary Vendor Sku",
+                  "Status","Vendor Color","UnitCost","OrderMultiple"]:
             if c + "_im" in base.columns:
                 if c not in base.columns:
                     base[c] = pd.NA
                 base[c] = base[c].combine_first(base[c + "_im"])
                 base.drop(columns=[c + "_im"], inplace=True, errors="ignore")
     else:
-        for c in ["DelSolSku","Primary Vendor","Primary Vendor Sku","Status"]:
+        for c in ["DelSolSku","Primary Vendor","Primary Vendor Sku","Status","Vendor Color","UnitCost","OrderMultiple"]:
             if c not in base.columns: base[c] = pd.NA
+
+    if "UnitCost" not in base.columns:
+        base["UnitCost"] = 0.0
+    base["UnitCost"] = pd.to_numeric(base["UnitCost"], errors="coerce").fillna(0.0)
+
+    if "OrderMultiple" not in base.columns:
+        base["OrderMultiple"] = 1.0
+    base["OrderMultiple"] = (
+        pd.to_numeric(base["OrderMultiple"], errors="coerce")
+        .fillna(1.0)
+        .replace(0, 1.0)
+    )
 
     return base
 
@@ -311,7 +333,6 @@ with left:
 
 with right:
     st.subheader("② Parameters")
-    # Bind the number_inputs to session_state keys so session_state always reflects UI values
     lt  = st.number_input("Lead Time (days)",  min_value=0, max_value=365, value=st.session_state.lt, step=1, key="lt")
     rc  = st.number_input("Replen Cycle (days)", min_value=0, max_value=365, value=st.session_state.rc, step=1, key="rc")
     ss  = st.number_input("Safety Stock (days)", min_value=0, max_value=365, value=st.session_state.ss, step=1, key="ss")
@@ -425,33 +446,56 @@ with b2:
     else:
         master["AllocatedQty"] = 0.0
 
-    # --------- Calculation (matches your spreadsheet) ---------
-    # RECOMMENDED = ((RC+SS+LT)*(VelocityMonthly/30)) - (OnHand - AllocatedQty + OpenOrderQty)
-    # Use values from session_state which are kept in sync with the UI via keys above
+    # --------- Calculation ---------
     lt, rc, ss = st.session_state["lt"], st.session_state["rc"], st.session_state["ss"]
 
     master["VelocityMonthly"] = pd.to_numeric(master.get("VelocityMonthly", 0), errors="coerce").fillna(0.0)
     master["OnHand"]          = pd.to_numeric(master.get("OnHand", 0), errors="coerce").fillna(0.0)
     master["OpenOrderQty"]    = pd.to_numeric(master.get("OpenOrderQty", 0), errors="coerce").fillna(0.0)
     master["AllocatedQty"]    = pd.to_numeric(master.get("AllocatedQty", 0), errors="coerce").fillna(0.0)
+    master["OrderMultiple"]   = (
+        pd.to_numeric(master.get("OrderMultiple", 1), errors="coerce")
+        .fillna(1.0)
+        .replace(0, 1.0)
+    )
+    master["UnitCost"]        = pd.to_numeric(master.get("UnitCost", 0), errors="coerce").fillna(0.0)
 
-    # compute daily velocity and target
     daily_velocity = master["VelocityMonthly"] / 30.0
     target_level   = (rc + ss + lt) * daily_velocity
     rhs            = master["OnHand"] - master["AllocatedQty"] + master["OpenOrderQty"]
 
     master["recommended_raw"] = target_level - rhs
-    master["recommended"]     = master["recommended_raw"].apply(lambda x: max(0, math.ceil(float(x))))
+
+    def round_up_to_multiple(x, multiple):
+        x = float(x)
+        if x <= 0:
+            return 0
+        m = multiple if multiple and multiple > 0 else 1
+        return int(math.ceil(x / m) * m)
+
+    master["recommended"] = master.apply(
+        lambda row: round_up_to_multiple(row["recommended_raw"], row["OrderMultiple"]),
+        axis=1
+    )
+
+    master["EstimatedCost"] = master["recommended"] * master["UnitCost"]
 
     # --------- Output ---------
-    cols = ["SKU","DelSolSku","ProductName",
-            "Primary Vendor","Primary Vendor Sku","Status",
-            "OnHand","AllocatedQty","OpenOrderQty","VelocityMonthly","recommended"]  # WarehouseName removed
+    cols = [
+        "SKU","DelSolSku","ProductName",
+        "Primary Vendor","Primary Vendor Sku","Vendor Color","Status",
+        "OnHand","AllocatedQty","OpenOrderQty","VelocityMonthly",
+        "OrderMultiple","recommended","UnitCost","EstimatedCost"
+    ]
     cols = [c for c in cols if c in master.columns]
 
-    out = master[(master["AllocatedQty"] > 0) | (master["OpenOrderQty"] > 0) | (master["recommended"] > 0)][cols] \
-            .sort_values(by=["recommended","AllocatedQty","OpenOrderQty"], ascending=[False, False, False]) \
-            .reset_index(drop=True)
+    out = master[
+        (master["AllocatedQty"] > 0) |
+        (master["OpenOrderQty"] > 0) |
+        (master["recommended"] > 0)
+    ][cols].sort_values(
+        by=["recommended","AllocatedQty","OpenOrderQty"], ascending=[False, False, False]
+    ).reset_index(drop=True)
 
     st.dataframe(out, use_container_width=True)
 
@@ -466,7 +510,11 @@ with b2:
 
     csv, xlsx = to_csv_xlsx(out, "Final_Recommended_Orders_Report")
     st.download_button("Download CSV", data=csv[0], file_name=csv[1], mime="text/csv")
-    st.download_button("Download XLSX", data=xlsx[0], file_name=xlsx[1],
-                       mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    st.download_button(
+        "Download XLSX",
+        data=xlsx[0],
+        file_name=xlsx[1],
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
 
 st.caption("SilverScreen – DelSol MRP")
