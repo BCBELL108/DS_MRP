@@ -7,7 +7,7 @@ from datetime import datetime
 
 # ------------------ App meta ------------------
 st.set_page_config(page_title="DelSol MRP Tool", layout="wide")
-APP_VERSION = "v8"  # tiny sidebar version tag
+APP_VERSION = "v9"  # tiny sidebar version tag
 st.sidebar.markdown(f"**App version:** {APP_VERSION}")
 
 # ------------------ Paths / defaults ------------------
@@ -174,11 +174,15 @@ def slim_item_master(im_df):
     vendor     = first_col(im_df, ["Primary Vendor","Vendor","PrimaryVendor","primary vendor","primary_vendor"])
     vendor_sku = first_col(im_df, ["Primary Vendor Sku","Primary Vendor SKU","Vendor Sku","Vendor SKU","primary vendor sku","primary_vendor_sku"])
     status     = first_col(im_df, ["Status","Item Status","status"])
-    color_col  = first_col(im_df, ["Vendor Color","Color","VendorColor","Vendor Colour","Colour"])
+    color_col  = first_col(im_df, ["Primary Vendor Color","Vendor Color","Color","VendorColor","Vendor Colour","Colour"])
 
     # New fields: exact names Cost and OrderMultiples preferred
-    cost_col = "Cost" if "Cost" in im_df.columns else first_col(im_df, ["Cost","Unit Cost","Std Cost","Standard Cost","UnitCost","Unit_Price"])
-    mult_col = "OrderMultiples" if "OrderMultiples" in im_df.columns else first_col(im_df, ["OrderMultiples","Order Multiple","OrderMultiple","MOQ","Min Order","Multiple","Case Qty","Case Quantity"])
+    cost_col = "Cost" if "Cost" in im_df.columns else first_col(
+        im_df, ["Cost","Unit Cost","Std Cost","Standard Cost","UnitCost","Unit_Price"]
+    )
+    mult_col = "OrderMultiples" if "OrderMultiples" in im_df.columns else first_col(
+        im_df, ["OrderMultiples","Order Multiple","OrderMultiple","MOQ","Min Order","Multiple","Case Qty","Case Quantity"]
+    )
 
     keep = [sku_col, dels_col] + [c for c in [prod_col, vendor, vendor_sku, status, color_col, cost_col, mult_col] if c]
     im = im_df[keep].copy()
@@ -188,20 +192,35 @@ def slim_item_master(im_df):
     if vendor:     rename_map[vendor]     = "Primary Vendor"
     if vendor_sku: rename_map[vendor_sku] = "Primary Vendor Sku"
     if status:     rename_map[status]     = "Status"
-    if color_col:  rename_map[color_col]  = "Vendor Color"
+    if color_col:  rename_map[color_col]  = "Primary Vendor Color"
     if cost_col:   rename_map[cost_col]   = "UnitCost"
+    # Order multiple gets special cleaning below; just rename raw col first
     if mult_col:   rename_map[mult_col]   = "OrderMultiple"
 
     im = im.rename(columns=rename_map)
     im = im.drop_duplicates(subset=["SKU"], keep="first")
 
-    if "UnitCost" not in im.columns:
-        im["UnitCost"] = 0.0
-    im["UnitCost"] = pd.to_numeric(im["UnitCost"], errors="coerce").fillna(0.0)
+    # Clean UnitCost
+    if "UnitCost" in im.columns:
+        im["UnitCost"] = (
+            im["UnitCost"]
+            .astype(str)
+            .str.replace(r"[\$,]", "", regex=True)
+        )
+        im["UnitCost"] = pd.to_numeric(im["UnitCost"], errors="coerce")
+    else:
+        im["UnitCost"] = np.nan
 
-    if "OrderMultiple" not in im.columns:
-        im["OrderMultiple"] = 1.0
-    im["OrderMultiple"] = pd.to_numeric(im["OrderMultiple"], errors="coerce").fillna(1.0).replace(0, 1.0)
+    # Clean OrderMultiple: treat DISC, #N/A, blanks, <=0 as no multiple
+    if "OrderMultiple" in im.columns:
+        raw = im["OrderMultiple"].astype(str).str.strip()
+        invalid_tokens = raw.str.upper().isin(["DISC", "#N/A", "N/A", "NA", ""])
+        numeric = pd.to_numeric(raw, errors="coerce")
+        numeric[invalid_tokens] = np.nan
+        numeric[(numeric <= 0)] = np.nan
+        im["OrderMultiple"] = numeric
+    else:
+        im["OrderMultiple"] = np.nan
 
     return im
 
@@ -423,15 +442,15 @@ with b2:
     # Build master (original union IM join)
     master = build_master_sku(inv, alloc, oo, im)
 
-    # Add new IM fields (Vendor Color, UnitCost, OrderMultiple) by SKU without touching old logic
+    # Add new IM fields (Primary Vendor Color, UnitCost, OrderMultiple) by SKU
     if im is not None:
         enrich_cols = ["SKU"]
-        for c in ["Vendor Color","UnitCost","OrderMultiple"]:
+        for c in ["Primary Vendor Color","UnitCost","OrderMultiple"]:
             if c in im.columns:
                 enrich_cols.append(c)
         extra = im[enrich_cols].drop_duplicates(subset=["SKU"])
         master = master.merge(extra, on="SKU", how="left", suffixes=("", "_im2"))
-        for c in ["Vendor Color","UnitCost","OrderMultiple"]:
+        for c in ["Primary Vendor Color","UnitCost","OrderMultiple"]:
             if c + "_im2" in master.columns:
                 if c not in master.columns:
                     master[c] = master[c + "_im2"]
@@ -474,8 +493,8 @@ with b2:
     master["OnHand"]          = pd.to_numeric(master.get("OnHand", 0), errors="coerce").fillna(0.0)
     master["OpenOrderQty"]    = pd.to_numeric(master.get("OpenOrderQty", 0), errors="coerce").fillna(0.0)
     master["AllocatedQty"]    = pd.to_numeric(master.get("AllocatedQty", 0), errors="coerce").fillna(0.0)
-    master["OrderMultiple"]   = pd.to_numeric(master.get("OrderMultiple", 1), errors="coerce").fillna(1.0).replace(0, 1.0)
-    master["UnitCost"]        = pd.to_numeric(master.get("UnitCost", 0), errors="coerce").fillna(0.0)
+    master["OrderMultiple"]   = pd.to_numeric(master.get("OrderMultiple"), errors="coerce")
+    master["UnitCost"]        = pd.to_numeric(master.get("UnitCost"), errors="coerce")
 
     daily_velocity = master["VelocityMonthly"] / 30.0
     target_level   = (rc + ss + lt) * daily_velocity
@@ -487,21 +506,25 @@ with b2:
         x = float(x)
         if x <= 0:
             return 0
-        m = multiple if multiple and multiple > 0 else 1
-        return int(math.ceil(x / m) * m)
+        # If no valid multiple, just use ceiling of units
+        if pd.isna(multiple) or multiple <= 0:
+            return int(math.ceil(x))
+        return int(math.ceil(x / multiple) * multiple)
 
     master["recommended"] = master.apply(
         lambda row: round_up_to_multiple(row["recommended_raw"], row["OrderMultiple"]),
         axis=1
     )
 
-    master["EstimatedCost"] = master["recommended"] * master["UnitCost"]
+    master["EstimatedCost"] = master["recommended"] * master["UnitCost"].fillna(0.0)
 
     # --------- Output ---------
-    cols = ["SKU","DelSolSku","ProductName",
-            "Primary Vendor","Primary Vendor Sku","Vendor Color","Status",
-            "OnHand","AllocatedQty","OpenOrderQty","VelocityMonthly",
-            "OrderMultiple","UnitCost","EstimatedCost","recommended"]
+    cols = [
+        "SKU","DelSolSku","ProductName",
+        "Primary Vendor","Primary Vendor Sku","Primary Vendor Color","Status",
+        "OnHand","AllocatedQty","OpenOrderQty",
+        "UnitCost","EstimatedCost","recommended"
+    ]
     cols = [c for c in cols if c in master.columns]
 
     out = master[(master["AllocatedQty"] > 0) | (master["OpenOrderQty"] > 0) | (master["recommended"] > 0)][cols] \
