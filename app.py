@@ -7,7 +7,7 @@ from datetime import datetime
 
 # ------------------ App meta ------------------
 st.set_page_config(page_title="DelSol MRP Tool", layout="wide")
-APP_VERSION = "v10.1"  # tiny sidebar version tag
+APP_VERSION = "v10.2"  # tiny sidebar version tag
 st.sidebar.markdown(f"**App version:** {APP_VERSION}")
 
 # ------------------ Paths / defaults ------------------
@@ -28,8 +28,8 @@ with col_c:
         )
     st.markdown(
         "<div style='text-align:center;color:#9aa0a6;margin:-0.25rem 0 0.75rem;'>Built and Deployed by Brandon Bell</div>",
-        unsafe_allow_html=True,
-    )
+            unsafe_allow_html=True,
+        )
 
 # Parameters (same defaults)
 st.session_state.setdefault("lt", 7)
@@ -260,7 +260,7 @@ def slim_allocations(alloc_df):
     )
     return df
 
-# ------------------ Build master rows (original logic, unchanged) ------------------
+# ------------------ Build master rows (now includes cost, multiples, color) ------------------
 def build_master_sku(inv, alloc, oo, im):
     base_cols = ["SKU","ProductName","WarehouseName","OnHand"]
     if inv is not None:
@@ -317,12 +317,17 @@ def build_master_sku(inv, alloc, oo, im):
         im2["_JOIN_SKU"]    = im2["SKU"].map(_norm_key)
         im2["_JOIN_DELSOL"] = im2["DelSolSku"].map(_norm_key) if "DelSolSku" in im2.columns else np.nan
 
-        im_union_a = im2.rename(columns={"_JOIN_SKU":"_JOIN"})[
-            ["_JOIN","DelSolSku","ProductName","Primary Vendor","Primary Vendor Sku","Status"]
+        desired_cols = [
+            "DelSolSku","ProductName","Primary Vendor","Primary Vendor Sku",
+            "Status","Primary Vendor Color","UnitCost","OrderMultiple"
         ]
-        im_union_b = im2.rename(columns={"_JOIN_DELSOL":"_JOIN"})[
-            ["_JOIN","DelSolSku","ProductName","Primary Vendor","Primary Vendor Sku","Status"]
-        ]
+
+        cols_a = ["_JOIN"] + [c for c in desired_cols if c in im2.columns]
+        cols_b = ["_JOIN"] + [c for c in desired_cols if c in im2.columns]
+
+        im_union_a = im2.rename(columns={"_JOIN_SKU":"_JOIN"})[cols_a]
+        im_union_b = im2.rename(columns={"_JOIN_DELSOL":"_JOIN"})[cols_b]
+
         im_union = pd.concat([im_union_a, im_union_b], ignore_index=True)
         im_union = im_union.dropna(subset=["_JOIN"]).drop_duplicates("_JOIN")
 
@@ -330,14 +335,17 @@ def build_master_sku(inv, alloc, oo, im):
         base.drop(columns=["_JOIN"], inplace=True, errors="ignore")
 
         # Fill blanks in base from right-side (*_im) columns, then drop *_im
-        for c in ["DelSolSku","ProductName","Primary Vendor","Primary Vendor Sku","Status"]:
+        for c in ["DelSolSku","ProductName","Primary Vendor","Primary Vendor Sku",
+                  "Status","Primary Vendor Color","UnitCost","OrderMultiple"]:
             if c + "_im" in base.columns:
                 if c not in base.columns:
-                    base[c] = pd.NA
-                base[c] = base[c].combine_first(base[c + "_im"])
+                    base[c] = base[c + "_im"]
+                else:
+                    base[c] = base[c].combine_first(base[c + "_im"])
                 base.drop(columns=[c + "_im"], inplace=True, errors="ignore")
     else:
-        for c in ["DelSolSku","Primary Vendor","Primary Vendor Sku","Status"]:
+        for c in ["DelSolSku","Primary Vendor","Primary Vendor Sku",
+                  "Status","Primary Vendor Color","UnitCost","OrderMultiple"]:
             if c not in base.columns: base[c] = pd.NA
 
     return base
@@ -438,24 +446,8 @@ with b1:
 with b2:
     st.subheader("④ Recommended Orders")
 
-    # Build master (original union IM join)
+    # Build master (now enriched with cost, multiples, color from IM)
     master = build_master_sku(inv, alloc, oo, im)
-
-    # Add new IM fields (Primary Vendor Color, UnitCost, OrderMultiple) by SKU
-    if im is not None:
-        enrich_cols = ["SKU"]
-        for c in ["Primary Vendor Color","UnitCost","OrderMultiple"]:
-            if c in im.columns:
-                enrich_cols.append(c)
-        extra = im[enrich_cols].drop_duplicates(subset=["SKU"])
-        master = master.merge(extra, on="SKU", how="left", suffixes=("", "_im2"))
-        for c in ["Primary Vendor Color","UnitCost","OrderMultiple"]:
-            if c + "_im2" in master.columns:
-                if c not in master.columns:
-                    master[c] = master[c + "_im2"]
-                else:
-                    master[c] = master[c].combine_first(master[c + "_im2"])
-                master.drop(columns=[c + "_im2"], inplace=True, errors="ignore")
 
     # Projections join (DelSolSku -> VelocityMonthly), else 0
     if 'DelSolSku' in master.columns and proj is not None:
@@ -493,10 +485,10 @@ with b2:
     master["OpenOrderQty"]    = pd.to_numeric(master.get("OpenOrderQty", 0), errors="coerce").fillna(0.0)
     master["AllocatedQty"]    = pd.to_numeric(master.get("AllocatedQty", 0), errors="coerce").fillna(0.0)
 
-    # Keep OrderMultiple as numeric with NaN (no default to 1)
+    # OrderMultiple stays numeric with NaN for "no multiple"
     master["OrderMultiple"]   = pd.to_numeric(master.get("OrderMultiple"), errors="coerce")
 
-    # Keep UnitCost as numeric with NaN so blanks show in Excel when missing
+    # UnitCost stays numeric with NaN so blanks show in Excel when missing
     master["UnitCost"]        = pd.to_numeric(master.get("UnitCost"), errors="coerce")
 
     daily_velocity = master["VelocityMonthly"] / 30.0
@@ -509,7 +501,6 @@ with b2:
         x = float(x)
         if x <= 0:
             return 0
-        # If no valid multiple, just use ceiling of units
         if pd.isna(multiple) or multiple <= 0:
             return int(math.ceil(x))
         return int(math.ceil(x / multiple) * multiple)
