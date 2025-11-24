@@ -7,7 +7,7 @@ from datetime import datetime
 
 # ------------------ App meta ------------------
 st.set_page_config(page_title="DelSol MRP Tool", layout="wide")
-APP_VERSION = "v10.3"  # tiny sidebar version tag
+APP_VERSION = "v10.4"  # tiny sidebar version tag
 st.sidebar.markdown(f"**App version:** {APP_VERSION}")
 
 # ------------------ Paths / defaults ------------------
@@ -99,7 +99,6 @@ def load_tabular(file):
     return df
 
 def load_default_item_master():
-    # Try v2 first, then fall back to original file, and try both CSV/XLSX/XLS
     candidates = [
         DATA_DIR / "item_master_default_v2.csv",
         DATA_DIR / "item_master_default_v2.xlsx",
@@ -161,13 +160,11 @@ def slim_open_orders(oo_df):
     return slim
 
 def slim_item_master(im_df):
-    # Required keys
     sku_col  = first_col(im_df, ["SKU","Silverscreen Sku","ItemNumber","itemnumber","sku"])
     dels_col = first_col(im_df, ["DelSolSku","Del Sol Sku","ItemNumber","itemnumber"])
     if not sku_col or not dels_col:
         raise ValueError("Item Master must include Inventory SKU and DelSolSku/Item Number.")
 
-    # Optional fields (description/name + vendor fields)
     prod_col   = first_col(im_df, [
         "ProductName","Product Name","Item Description","Description","Item Name","Name"
     ])
@@ -176,7 +173,6 @@ def slim_item_master(im_df):
     status     = first_col(im_df, ["Status","Item Status","status"])
     color_col  = first_col(im_df, ["Primary Vendor Color","Vendor Color","Color","VendorColor","Vendor Colour","Colour"])
 
-    # New fields: exact names Cost and OrderMultiples preferred
     cost_col = "Cost" if "Cost" in im_df.columns else first_col(
         im_df, ["Cost","Unit Cost","Std Cost","Standard Cost","UnitCost","Unit_Price"]
     )
@@ -199,7 +195,6 @@ def slim_item_master(im_df):
     im = im.rename(columns=rename_map)
     im = im.drop_duplicates(subset=["SKU"], keep="first")
 
-    # Clean UnitCost (keep NaN if missing so it shows as blank)
     if "UnitCost" in im.columns:
         im["UnitCost"] = (
             im["UnitCost"]
@@ -210,7 +205,6 @@ def slim_item_master(im_df):
     else:
         im["UnitCost"] = np.nan
 
-    # Clean OrderMultiple: treat DISC, #N/A, blanks, <=0 as no multiple (NaN)
     if "OrderMultiple" in im.columns:
         raw = im["OrderMultiple"].astype(str).str.strip()
         invalid_tokens = raw.str.upper().isin(["DISC", "#N/A", "N/A", "NA", ""])
@@ -260,7 +254,7 @@ def slim_allocations(alloc_df):
     )
     return df
 
-# ------------------ Build master rows (enriched with IM + vendor SKU) ------------------
+# ------------------ Build master rows (enriched with IM) ------------------
 def build_master_sku(inv, alloc, oo, im):
     base_cols = ["SKU","ProductName","WarehouseName","OnHand"]
     if inv is not None:
@@ -273,12 +267,11 @@ def build_master_sku(inv, alloc, oo, im):
 
     base["_JOIN_SKU"] = base["SKU"].map(_norm_key)
 
-    # Ensure Allocation SKUs exist
     if alloc is not None and len(alloc) > 0:
         have = set(base["_JOIN_SKU"].dropna().tolist())
         missing_keys = sorted(list(set(alloc["_JOIN_SKU"].dropna().tolist()) - have))
         if missing_keys:
-            raw_lookup = dict(zip(alloc["_JOIN_SKU"], alloc["SKU"]))  # normalized -> raw SKU
+            raw_lookup = dict(zip(alloc["_JOIN_SKU"], alloc["SKU"]))
             add = [{"SKU": raw_lookup[k], "OnHand": 0.0} for k in missing_keys if k in raw_lookup]
             if add:
                 add_df = pd.DataFrame(add)
@@ -287,7 +280,6 @@ def build_master_sku(inv, alloc, oo, im):
                 base = pd.concat([base, add_df], ignore_index=True)
                 base["_JOIN_SKU"] = base["SKU"].map(_norm_key)
 
-    # Ensure Open-Order SKUs exist
     if oo is not None and len(oo) > 0:
         oo_tmp = oo.copy()
         oo_tmp["_JOIN_ITEM"] = oo_tmp["ItemNumber"].map(_norm_key)
@@ -308,10 +300,8 @@ def build_master_sku(inv, alloc, oo, im):
                 base = pd.concat([base, extra_df], ignore_index=True)
                 base["_JOIN_SKU"] = base["SKU"].map(_norm_key)
 
-    # Deduplicate on normalized key (keep first occurrence)
     base = base.drop_duplicates(subset=["_JOIN_SKU"], keep="first")
 
-    # Enrich with Item Master at the END using a UNION key (SKU OR DelSolSku)
     if im is not None and "SKU" in im.columns:
         im2 = im.copy()
         im2["_JOIN_SKU"]    = im2["SKU"].map(_norm_key)
@@ -342,35 +332,6 @@ def build_master_sku(inv, alloc, oo, im):
                 else:
                     base[c] = base[c].combine_first(base[c + "_im"])
                 base.drop(columns=[c + "_im"], inplace=True, errors="ignore")
-
-        # SECOND enrichment by Primary Vendor Sku for Color/Cost/Multiple
-        if "Primary Vendor Sku" in base.columns and "Primary Vendor Sku" in im2.columns:
-            im_vendor = im2[
-                ["Primary Vendor Sku","Primary Vendor Color","UnitCost","OrderMultiple"]
-            ].dropna(subset=["Primary Vendor Sku"]).drop_duplicates("Primary Vendor Sku")
-
-            base = base.merge(
-                im_vendor.add_suffix("_v"),
-                left_on="Primary Vendor Sku",
-                right_on="Primary Vendor Sku_v",
-                how="left",
-            )
-
-            def combine_col(col):
-                col_v = col + "_v"
-                if col_v in base.columns:
-                    if col not in base.columns:
-                        base[col] = base[col_v]
-                    else:
-                        base[col] = base[col].combine_first(base[col_v])
-                    base.drop(columns=[col_v], inplace=True, errors="ignore")
-
-            for col in ["Primary Vendor Color","UnitCost","OrderMultiple"]:
-                combine_col(col)
-
-            if "Primary Vendor Sku_v" in base.columns:
-                base.drop(columns=["Primary Vendor Sku_v"], inplace=True, errors="ignore")
-
     else:
         for c in ["DelSolSku","Primary Vendor","Primary Vendor Sku",
                   "Status","Primary Vendor Color","UnitCost","OrderMultiple"]:
@@ -404,7 +365,6 @@ with b1:
     issues = []
     inv = im = proj = oo = alloc = None
 
-    # Inventory
     if inv_u is not None:
         try:
             inv = slim_inventory(load_tabular(inv_u), aggregate=aggregate)
@@ -412,7 +372,6 @@ with b1:
         except Exception as e:
             issues.append(str(e))
 
-    # Open Orders
     if oo_u is not None:
         try:
             oo = slim_open_orders(load_tabular(oo_u))
@@ -420,7 +379,6 @@ with b1:
         except Exception as e:
             issues.append("Open Orders: " + str(e))
 
-    # Allocations
     if alloc_u is not None:
         try:
             alloc = slim_allocations(load_tabular(alloc_u))
@@ -428,7 +386,6 @@ with b1:
         except Exception as e:
             issues.append("Allocations: " + str(e))
 
-    # Item Master
     if im_u is not None:
         im_raw = load_tabular(im_u)
     else:
@@ -441,7 +398,6 @@ with b1:
         except Exception as e:
             issues.append("Item Master: " + str(e))
 
-    # Projections + Month Picker (with Apply)
     proj_raw = None
     if proj_u is not None:
         proj_raw = detect_header_and_load(proj_u)
@@ -474,16 +430,13 @@ with b1:
 with b2:
     st.subheader("④ Recommended Orders")
 
-    # Build master (now enriched with cost, multiples, color from IM & Primary Vendor Sku)
     master = build_master_sku(inv, alloc, oo, im)
 
-    # Projections join (DelSolSku -> VelocityMonthly), else 0
     if 'DelSolSku' in master.columns and proj is not None:
         master = master.merge(proj, left_on="DelSolSku", right_on="ItemNumberJoin", how="left")
     if "VelocityMonthly" not in master.columns:
         master["VelocityMonthly"] = 0.0
 
-    # Open Orders (aggregate by your SKU)
     if oo is not None and len(oo) > 0:
         oo_agg = oo.groupby("ItemNumber", as_index=False)["OrderQTY"].sum()
         master["_JOIN_SKU"]  = master["SKU"].map(_norm_key)
@@ -496,7 +449,6 @@ with b2:
     else:
         master["OpenOrderQty"] = 0.0
 
-    # Allocations (your SKU)
     if alloc is not None and len(alloc) > 0:
         if "_JOIN_SKU" not in master.columns:
             master["_JOIN_SKU"] = master["SKU"].map(_norm_key)
@@ -505,18 +457,13 @@ with b2:
     else:
         master["AllocatedQty"] = 0.0
 
-    # --------- Calculation ---------
     lt, rc, ss = st.session_state["lt"], st.session_state["rc"], st.session_state["ss"]
 
     master["VelocityMonthly"] = pd.to_numeric(master.get("VelocityMonthly", 0), errors="coerce").fillna(0.0)
     master["OnHand"]          = pd.to_numeric(master.get("OnHand", 0), errors="coerce").fillna(0.0)
     master["OpenOrderQty"]    = pd.to_numeric(master.get("OpenOrderQty", 0), errors="coerce").fillna(0.0)
     master["AllocatedQty"]    = pd.to_numeric(master.get("AllocatedQty", 0), errors="coerce").fillna(0.0)
-
-    # OrderMultiple stays numeric with NaN for "no multiple"
     master["OrderMultiple"]   = pd.to_numeric(master.get("OrderMultiple"), errors="coerce")
-
-    # UnitCost stays numeric with NaN so blanks show in Excel when missing
     master["UnitCost"]        = pd.to_numeric(master.get("UnitCost"), errors="coerce")
 
     daily_velocity = master["VelocityMonthly"] / 30.0
@@ -538,10 +485,8 @@ with b2:
         axis=1
     ).astype(int)
 
-    # Estimated cost: if UnitCost is NaN, result will be NaN (blank in Excel)
     master["EstimatedCost"] = master["recommended"] * master["UnitCost"]
 
-    # --------- Output ---------
     cols = [
         "SKU","DelSolSku","ProductName",
         "Primary Vendor","Primary Vendor Sku","Primary Vendor Color","Status",
@@ -561,7 +506,6 @@ with b2:
 
     st.dataframe(out, use_container_width=True)
 
-    # Downloads
     def to_csv_xlsx(df, base):
         now = datetime.now().strftime("%Y%m%d_%H%M%S")
         csv = df.to_csv(index=False).encode("utf-8")
