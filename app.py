@@ -7,7 +7,7 @@ from datetime import datetime
 
 # ------------------ App meta ------------------
 st.set_page_config(page_title="DelSol MRP Tool", layout="wide")
-APP_VERSION = "v9"  # tiny sidebar version tag
+APP_VERSION = "v10.1"  # tiny sidebar version tag
 st.sidebar.markdown(f"**App version:** {APP_VERSION}")
 
 # ------------------ Paths / defaults ------------------
@@ -194,13 +194,12 @@ def slim_item_master(im_df):
     if status:     rename_map[status]     = "Status"
     if color_col:  rename_map[color_col]  = "Primary Vendor Color"
     if cost_col:   rename_map[cost_col]   = "UnitCost"
-    # Order multiple gets special cleaning below; just rename raw col first
     if mult_col:   rename_map[mult_col]   = "OrderMultiple"
 
     im = im.rename(columns=rename_map)
     im = im.drop_duplicates(subset=["SKU"], keep="first")
 
-    # Clean UnitCost
+    # Clean UnitCost (keep NaN if missing so it shows as blank)
     if "UnitCost" in im.columns:
         im["UnitCost"] = (
             im["UnitCost"]
@@ -211,7 +210,7 @@ def slim_item_master(im_df):
     else:
         im["UnitCost"] = np.nan
 
-    # Clean OrderMultiple: treat DISC, #N/A, blanks, <=0 as no multiple
+    # Clean OrderMultiple: treat DISC, #N/A, blanks, <=0 as no multiple (NaN)
     if "OrderMultiple" in im.columns:
         raw = im["OrderMultiple"].astype(str).str.strip()
         invalid_tokens = raw.str.upper().isin(["DISC", "#N/A", "N/A", "NA", ""])
@@ -493,7 +492,11 @@ with b2:
     master["OnHand"]          = pd.to_numeric(master.get("OnHand", 0), errors="coerce").fillna(0.0)
     master["OpenOrderQty"]    = pd.to_numeric(master.get("OpenOrderQty", 0), errors="coerce").fillna(0.0)
     master["AllocatedQty"]    = pd.to_numeric(master.get("AllocatedQty", 0), errors="coerce").fillna(0.0)
+
+    # Keep OrderMultiple as numeric with NaN (no default to 1)
     master["OrderMultiple"]   = pd.to_numeric(master.get("OrderMultiple"), errors="coerce")
+
+    # Keep UnitCost as numeric with NaN so blanks show in Excel when missing
     master["UnitCost"]        = pd.to_numeric(master.get("UnitCost"), errors="coerce")
 
     daily_velocity = master["VelocityMonthly"] / 30.0
@@ -514,9 +517,10 @@ with b2:
     master["recommended"] = master.apply(
         lambda row: round_up_to_multiple(row["recommended_raw"], row["OrderMultiple"]),
         axis=1
-    )
+    ).astype(int)
 
-    master["EstimatedCost"] = master["recommended"] * master["UnitCost"].fillna(0.0)
+    # Estimated cost: if UnitCost is NaN, result will be NaN (blank in Excel)
+    master["EstimatedCost"] = master["recommended"] * master["UnitCost"]
 
     # --------- Output ---------
     cols = [
@@ -527,9 +531,14 @@ with b2:
     ]
     cols = [c for c in cols if c in master.columns]
 
-    out = master[(master["AllocatedQty"] > 0) | (master["OpenOrderQty"] > 0) | (master["recommended"] > 0)][cols] \
-            .sort_values(by=["recommended","AllocatedQty","OpenOrderQty"], ascending=[False, False, False]) \
-            .reset_index(drop=True)
+    out = master[
+        (master["AllocatedQty"] > 0) |
+        (master["OpenOrderQty"] > 0) |
+        (master["recommended"] > 0)
+    ][cols].sort_values(
+        by=["recommended","AllocatedQty","OpenOrderQty"],
+        ascending=[False, False, False]
+    ).reset_index(drop=True)
 
     st.dataframe(out, use_container_width=True)
 
