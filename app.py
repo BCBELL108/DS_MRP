@@ -7,7 +7,7 @@ from datetime import datetime
 
 # ------------------ App meta ------------------
 st.set_page_config(page_title="DelSol MRP Tool", layout="wide")
-APP_VERSION = "v10.7"  # Updated version with Cost & Color fixes
+APP_VERSION = "v10.8"
 st.sidebar.markdown(f"**App version:** {APP_VERSION}")
 
 # ------------------ Paths / defaults ------------------
@@ -484,18 +484,21 @@ with b2:
         x = float(x)
         if x <= 0:
             return 0
-        if pd.isna(multiple) or multiple <= 0:
+        # If multiple is not a valid positive integer, just round up normally
+        if pd.isna(multiple) or multiple <= 0 or not isinstance(multiple, (int, float)) or multiple != int(multiple):
             return int(math.ceil(x))
+        # Round up to nearest multiple
+        multiple = int(multiple)
         return int(math.ceil(x / multiple) * multiple)
 
-    master["recommended"] = master.apply(
+    master["RecommendedQty"] = master.apply(
         lambda row: round_up_to_multiple(row["recommended_raw"], row["OrderMultiple"]),
         axis=1
     ).astype(int)
 
     # Calculate EstimatedCost - handle None values properly
     master["EstimatedCost"] = master.apply(
-        lambda row: row["recommended"] * row["UnitCost"] if row["UnitCost"] is not None else None,
+        lambda row: row["RecommendedQty"] * row["UnitCost"] if row["UnitCost"] is not None else None,
         axis=1
     )
 
@@ -503,30 +506,30 @@ with b2:
         "SKU","DelSolSku","ProductName",
         "Primary Vendor","Primary Vendor Sku","Primary Vendor Color","Status",
         "OnHand","AllocatedQty","OpenOrderQty",
-        "UnitCost","EstimatedCost","recommended"
+        "UnitCost","EstimatedCost","RecommendedQty"
     ]
     cols = [c for c in cols if c in master.columns]
 
     out = master[
         (master["AllocatedQty"] > 0) |
         (master["OpenOrderQty"] > 0) |
-        (master["recommended"] > 0)
+        (master["RecommendedQty"] > 0)
     ][cols].sort_values(
-        by=["recommended","AllocatedQty","OpenOrderQty"],
+        by=["RecommendedQty","AllocatedQty","OpenOrderQty"],
         ascending=[False, False, False]
     ).reset_index(drop=True)
 
     st.dataframe(out, use_container_width=True)
 
     def to_csv_xlsx(df, base):
-        now = datetime.now().strftime("%Y%m%d_%H%M%S")
+        now = datetime.now().strftime("%m.%d.%Y")
         csv = df.to_csv(index=False).encode("utf-8")
         xbuf = io.BytesIO()
         with pd.ExcelWriter(xbuf, engine="openpyxl") as w:
             df.to_excel(w, index=False, sheet_name="RecommendedOrders")
         return (csv, f"{base}_{now}.csv"), (xbuf.getvalue(), f"{base}_{now}.xlsx")
 
-    csv, xlsx = to_csv_xlsx(out, "Final_Recommended_Orders_Report")
+    csv, xlsx = to_csv_xlsx(out, "Order_Recommendations")
     st.download_button("Download CSV", data=csv[0], file_name=csv[1], mime="text/csv")
     st.download_button("Download XLSX", data=xlsx[0], file_name=xlsx[1],
                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
