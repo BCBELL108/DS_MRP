@@ -7,14 +7,14 @@ from datetime import datetime
 
 # ------------------ App meta ------------------
 st.set_page_config(page_title="DelSol MRP Tool", layout="wide")
-APP_VERSION = "v10.4"  # tiny sidebar version tag
+APP_VERSION = "v10.5"  # Updated version with Cost & Color fixes
 st.sidebar.markdown(f"**App version:** {APP_VERSION}")
 
 # ------------------ Paths / defaults ------------------
 DATA_DIR = Path("data")
 
 DEFAULT_PROJ = DATA_DIR / "projections_default.csv"
-LOGO_PATH    = DATA_DIR / "silverscreen_logo.png"   # <- add your logo here
+LOGO_PATH    = DATA_DIR / "silverscreen_logo.png"
 
 # ------------------ Header / Branding ------------------
 col_l, col_c, col_r = st.columns([1, 4, 1])
@@ -35,7 +35,7 @@ with col_c:
 st.session_state.setdefault("lt", 7)
 st.session_state.setdefault("rc", 7)
 st.session_state.setdefault("ss", 21)
-st.session_state.setdefault("proj_month", None)  # chosen forecast month
+st.session_state.setdefault("proj_month", None)
 
 # ------------------ Month helpers ------------------
 MONTHS_ORDER = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
@@ -171,14 +171,13 @@ def slim_item_master(im_df):
     vendor     = first_col(im_df, ["Primary Vendor","Vendor","PrimaryVendor","primary vendor","primary_vendor"])
     vendor_sku = first_col(im_df, ["Primary Vendor Sku","Primary Vendor SKU","Vendor Sku","Vendor SKU","primary vendor sku","primary_vendor_sku"])
     status     = first_col(im_df, ["Status","Item Status","status"])
-    color_col  = first_col(im_df, ["Primary Vendor Color","Vendor Color","Color","VendorColor","Vendor Colour","Colour"])
+    color_col  = first_col(im_df, ["Primary Vendor Color","Primay Vendor Color","Vendor Color","Color","VendorColor","Vendor Colour","Colour"])
 
-    cost_col = "Cost" if "Cost" in im_df.columns else first_col(
-        im_df, ["Cost","Unit Cost","Std Cost","Standard Cost","UnitCost","Unit_Price"]
-    )
-    mult_col = "OrderMultiples" if "OrderMultiples" in im_df.columns else first_col(
-        im_df, ["OrderMultiples","Order Multiple","OrderMultiple","MOQ","Min Order","Multiple","Case Qty","Case Quantity"]
-    )
+    # IMPORTANT: Look for Cost column with all possible variations
+    cost_col = first_col(im_df, ["Cost","Unit Cost","Std Cost","Standard Cost","UnitCost","Unit_Price"])
+    
+    # Look for OrderMultiples with all possible variations
+    mult_col = first_col(im_df, ["MultiplesOf","OrderMultiples","Order Multiple","OrderMultiple","MOQ","Min Order","Multiple","Case Qty","Case Quantity"])
 
     keep = [sku_col, dels_col] + [c for c in [prod_col, vendor, vendor_sku, status, color_col, cost_col, mult_col] if c]
     im = im_df[keep].copy()
@@ -195,6 +194,7 @@ def slim_item_master(im_df):
     im = im.rename(columns=rename_map)
     im = im.drop_duplicates(subset=["SKU"], keep="first")
 
+    # Handle UnitCost - convert to numeric, replace invalid values with None (will show as blank in Excel)
     if "UnitCost" in im.columns:
         im["UnitCost"] = (
             im["UnitCost"]
@@ -202,8 +202,10 @@ def slim_item_master(im_df):
             .str.replace(r"[\$,]", "", regex=True)
         )
         im["UnitCost"] = pd.to_numeric(im["UnitCost"], errors="coerce")
+        # Replace NaN with None so it exports as blank cells
+        im["UnitCost"] = im["UnitCost"].where(pd.notna(im["UnitCost"]), None)
     else:
-        im["UnitCost"] = np.nan
+        im["UnitCost"] = None
 
     if "OrderMultiple" in im.columns:
         raw = im["OrderMultiple"].astype(str).str.strip()
@@ -335,7 +337,8 @@ def build_master_sku(inv, alloc, oo, im):
     else:
         for c in ["DelSolSku","Primary Vendor","Primary Vendor Sku",
                   "Status","Primary Vendor Color","UnitCost","OrderMultiple"]:
-            if c not in base.columns: base[c] = pd.NA
+            if c not in base.columns: 
+                base[c] = None if c == "UnitCost" else pd.NA
 
     return base
 
@@ -439,7 +442,8 @@ with b2:
 
     if oo is not None and len(oo) > 0:
         oo_agg = oo.groupby("ItemNumber", as_index=False)["OrderQTY"].sum()
-        master["_JOIN_SKU"]  = master["SKU"].map(_norm_key)
+        if "_JOIN_SKU" not in master.columns:
+            master["_JOIN_SKU"]  = master["SKU"].map(_norm_key)
         oo_agg["_JOIN_ITEM"] = oo_agg["ItemNumber"].map(_norm_key)
         m = master.merge(
             oo_agg[["_JOIN_ITEM","OrderQTY"]].rename(columns={"OrderQTY":"OpenOrderQty"}),
@@ -464,7 +468,11 @@ with b2:
     master["OpenOrderQty"]    = pd.to_numeric(master.get("OpenOrderQty", 0), errors="coerce").fillna(0.0)
     master["AllocatedQty"]    = pd.to_numeric(master.get("AllocatedQty", 0), errors="coerce").fillna(0.0)
     master["OrderMultiple"]   = pd.to_numeric(master.get("OrderMultiple"), errors="coerce")
-    master["UnitCost"]        = pd.to_numeric(master.get("UnitCost"), errors="coerce")
+    
+    # Handle UnitCost - keep as None for blank cells instead of NaN
+    if "UnitCost" in master.columns:
+        master["UnitCost"] = pd.to_numeric(master.get("UnitCost"), errors="coerce")
+        master["UnitCost"] = master["UnitCost"].where(pd.notna(master["UnitCost"]), None)
 
     daily_velocity = master["VelocityMonthly"] / 30.0
     target_level   = (rc + ss + lt) * daily_velocity
@@ -485,7 +493,11 @@ with b2:
         axis=1
     ).astype(int)
 
-    master["EstimatedCost"] = master["recommended"] * master["UnitCost"]
+    # Calculate EstimatedCost - handle None values properly
+    master["EstimatedCost"] = master.apply(
+        lambda row: row["recommended"] * row["UnitCost"] if row["UnitCost"] is not None else None,
+        axis=1
+    )
 
     cols = [
         "SKU","DelSolSku","ProductName",
