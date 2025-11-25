@@ -440,10 +440,12 @@ with b2:
     if "VelocityMonthly" not in master.columns:
         master["VelocityMonthly"] = 0.0
 
+    # Ensure _JOIN_SKU exists once at the beginning
+    if "_JOIN_SKU" not in master.columns:
+        master["_JOIN_SKU"] = master["SKU"].map(_norm_key)
+
     if oo is not None and len(oo) > 0:
         oo_agg = oo.groupby("ItemNumber", as_index=False)["OrderQTY"].sum()
-        if "_JOIN_SKU" not in master.columns:
-            master["_JOIN_SKU"]  = master["SKU"].map(_norm_key)
         oo_agg["_JOIN_ITEM"] = oo_agg["ItemNumber"].map(_norm_key)
         m = master.merge(
             oo_agg[["_JOIN_ITEM","OrderQTY"]].rename(columns={"OrderQTY":"OpenOrderQty"}),
@@ -454,8 +456,6 @@ with b2:
         master["OpenOrderQty"] = 0.0
 
     if alloc is not None and len(alloc) > 0:
-        if "_JOIN_SKU" not in master.columns:
-            master["_JOIN_SKU"] = master["SKU"].map(_norm_key)
         master = master.merge(alloc[["_JOIN_SKU","AllocatedQty"]], on="_JOIN_SKU", how="left")
         master["AllocatedQty"] = master["AllocatedQty"].fillna(0.0)
     else:
