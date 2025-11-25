@@ -7,7 +7,7 @@ from datetime import datetime
 
 # ------------------ App meta ------------------
 st.set_page_config(page_title="DelSol MRP Tool", layout="wide")
-APP_VERSION = "v10.5"  # Updated version with Cost & Color fixes
+APP_VERSION = "v10.7"  # Updated version with Cost & Color fixes
 st.sidebar.markdown(f"**App version:** {APP_VERSION}")
 
 # ------------------ Paths / defaults ------------------
