@@ -7,7 +7,7 @@ from datetime import datetime
 
 # ------------------ App meta ------------------
 st.set_page_config(page_title="DelSol MRP Tool", layout="wide")
-APP_VERSION = "v10.8"
+APP_VERSION = "v108"
 st.sidebar.markdown(f"**App version:** {APP_VERSION}")
 
 # ------------------ Paths / defaults ------------------
@@ -347,7 +347,7 @@ left, right = st.columns([0.66, 0.34])
 b1, b2 = st.columns([0.5, 0.5])
 
 with left:
-    st.subheader("① Upload your data")
+    st.subheader("① Upload the data")
     st.caption("Allocations: your SKU + Qty. Duplicates will be summed.")
     inv_u   = st.file_uploader("Inventory", type=["csv","xlsx","xls"])
     oo_u    = st.file_uploader("Open Orders (PO report)", type=["csv","xlsx","xls"])
@@ -356,7 +356,7 @@ with left:
     proj_u  = st.file_uploader("Projections (optional; default bundled)", type=["csv","xlsx","xls"])
 
 with right:
-    st.subheader("② Parameters")
+    st.subheader("② Set the Parameters")
     lt  = st.number_input("Lead Time (days)",  min_value=0, max_value=365, value=st.session_state.lt, step=1, key="lt")
     rc  = st.number_input("Replen Cycle (days)", min_value=0, max_value=365, value=st.session_state.rc, step=1, key="rc")
     ss  = st.number_input("Safety Stock (days)", min_value=0, max_value=365, value=st.session_state.ss, step=1, key="ss")
@@ -534,4 +534,4 @@ with b2:
     st.download_button("Download XLSX", data=xlsx[0], file_name=xlsx[1],
                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
-st.caption("SilverScreen – DelSol MRP")
+st.caption("SilverScreen | DelSol MRP")
