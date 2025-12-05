@@ -151,7 +151,7 @@ def slim_open_orders(oo_df):
     item_col = first_col(oo_df, ["SKU","ItemNumber","Item Number","DelSolSku","Del Sol Sku"])
     if item_col is None:
         raise ValueError("Open Orders require a SKU/ItemNumber column.")
-    qty_col = first_col(oo_df, ["Qty Ordered","OrderQTY","QtyOrdered","Quantity Ordered","Qty"])
+    qty_col = first_col(oo_df, ["Qty Ordered","QtyOrdered","Quantity Ordered","QuantityOrdered","OrderQTY","Order QTY","Qty","Quantity","QTY"])
     if qty_col is None:
         raise ValueError("Open Orders require a quantity column.")
     slim = oo_df[[item_col, qty_col]].copy()
