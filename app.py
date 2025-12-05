@@ -7,7 +7,7 @@ from datetime import datetime
 
 # ------------------ App meta ------------------
 st.set_page_config(page_title="DelSol MRP Tool", layout="wide")
-APP_VERSION = "v108"
+APP_VERSION = "v109"
 st.sidebar.markdown(f"**App version:** {APP_VERSION}")
 
 # ------------------ Paths / defaults ------------------
@@ -481,20 +481,36 @@ with b2:
     master["recommended_raw"] = target_level - rhs
 
     def round_up_to_multiple(x, multiple):
+        # Handle None/NaN for x
+        if pd.isna(x):
+            return 0
+        
         x = float(x)
         if x <= 0:
             return 0
-        # If multiple is not a valid positive integer, just round up normally
-        if pd.isna(multiple) or multiple <= 0 or not isinstance(multiple, (int, float)) or multiple != int(multiple):
+        
+        # If multiple is not valid, just round up normally
+        if pd.isna(multiple) or multiple <= 0:
             return int(math.ceil(x))
+        
+        # Convert to int for multiple checking
+        try:
+            multiple = int(multiple)
+            if multiple <= 0:
+                return int(math.ceil(x))
+        except (ValueError, TypeError):
+            return int(math.ceil(x))
+        
         # Round up to nearest multiple
-        multiple = int(multiple)
         return int(math.ceil(x / multiple) * multiple)
 
     master["RecommendedQty"] = master.apply(
-        lambda row: round_up_to_multiple(row["recommended_raw"], row["OrderMultiple"]),
+        lambda row: round_up_to_multiple(
+            row.get("recommended_raw", 0), 
+            row.get("OrderMultiple", np.nan)
+        ),
         axis=1
-    ).astype(int)
+    ).fillna(0).astype(int)
 
     # Calculate EstimatedCost - handle None values properly
     master["EstimatedCost"] = master.apply(
