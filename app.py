@@ -7,7 +7,7 @@ from datetime import datetime
 
 # ------------------ App meta ------------------
 st.set_page_config(page_title="DelSol MRP Tool", layout="wide")
-APP_VERSION = "v109"
+APP_VERSION = "v108"
 st.sidebar.markdown(f"**App version:** {APP_VERSION}")
 
 # ------------------ Paths / defaults ------------------
@@ -474,11 +474,23 @@ with b2:
         master["UnitCost"] = pd.to_numeric(master.get("UnitCost"), errors="coerce")
         master["UnitCost"] = master["UnitCost"].where(pd.notna(master["UnitCost"]), None)
 
-    daily_velocity = master["VelocityMonthly"] / 30.0
-    target_level   = (rc + ss + lt) * daily_velocity
-    rhs            = master["OnHand"] - master["AllocatedQty"] + master["OpenOrderQty"]
+    # MODIFIED SECTION: Custom status handling
+    def calculate_recommendation(row):
+        status = str(row.get("Status", "")).strip().upper()
+        
+        if status == "CUSTOM":
+            # Custom items: only fulfill allocations not covered by on-hand + open orders
+            available = row["OnHand"] + row["OpenOrderQty"]
+            needed = row["AllocatedQty"]
+            return max(0, needed - available)
+        else:
+            # Regular items: standard MRP calculation
+            daily_velocity = row["VelocityMonthly"] / 30.0
+            target_level = (rc + ss + lt) * daily_velocity
+            rhs = row["OnHand"] - row["AllocatedQty"] + row["OpenOrderQty"]
+            return target_level - rhs
 
-    master["recommended_raw"] = target_level - rhs
+    master["recommended_raw"] = master.apply(calculate_recommendation, axis=1)
 
     def round_up_to_multiple(x, multiple):
         # Handle None/NaN for x
