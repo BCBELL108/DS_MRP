@@ -26,11 +26,11 @@ with col_c:
         st.image(str(LOGO_PATH), use_container_width=True)
     else:
         st.markdown(
-            "<h2 style='text-align:center;margin:0 0 0.25rem;'>SilverScreen – Decoration & Fulfillment</h2>",
+            "<h2 style='text-align:center;margin:0 0 0.25rem;'>SilverScreen Decoration & Fulfillment</h2>",
             unsafe_allow_html=True,
         )
     st.markdown(
-        "<div style='text-align:center;color:#9aa0a6;margin:-0.25rem 0 0.75rem;'>Built & Deployed by Brandon Bell</div>",
+        "<div style='text-align:center;color:#9aa0a6;margin:-0.25rem 0 0.75rem;'>SilverScreen | DelSol MRP</div>",
         unsafe_allow_html=True,
     )
     st.markdown(
@@ -572,4 +572,4 @@ with b2:
     st.download_button("Download XLSX", data=xlsx[0], file_name=xlsx[1],
                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
-st.caption("SilverScreen | DelSol MRP")
+st.caption("Built & deployed by Brandon Bell")
