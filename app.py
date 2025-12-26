@@ -20,7 +20,7 @@ DEFAULT_PROJ = DATA_DIR / "projections_default.csv"
 LOGO_PATH    = DATA_DIR / "silverscreen_logo.png"
 
 # ------------------ Header / Branding ------------------
-col_l, col_c, col_r = st.columns([2, 3, 2])
+col_l, col_c, col_r = st.columns([3, 2, 3])
 with col_c:
     if LOGO_PATH.exists():
         st.image(str(LOGO_PATH), use_container_width=True)
