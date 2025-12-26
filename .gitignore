@@ -1,10 +1,37 @@
-.DS_Store
+# Python
 __pycache__/
-*.pyc
-.venv/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual Environment
 venv/
 env/
-.streamlit/secrets.toml
+ENV/
+
+# IDE
 .vscode/
 .idea/
-.gitignore.save
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Data (if you don't want to commit data files)
+# data/*.csv
+# data/*.xlsx
+
+# Local backups
+*.bak
+*.backup
+*.tmp
