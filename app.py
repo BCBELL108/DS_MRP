@@ -6,9 +6,12 @@ from pathlib import Path
 from datetime import datetime
 
 # ------------------ App meta ------------------
-st.set_page_config(page_title="DelSol MRP Automation", layout="wide")
+st.set_page_config(
+    page_title="DelSol MRP Tool", 
+    layout="wide",
+    initial_sidebar_state="collapsed"  # Sidebar hidden by default
+)
 APP_VERSION = "v108.1"
-st.sidebar.markdown(f"**App version:** {APP_VERSION}")
 
 # ------------------ Paths / defaults ------------------
 DATA_DIR = Path("data")
@@ -17,7 +20,7 @@ DEFAULT_PROJ = DATA_DIR / "projections_default.csv"
 LOGO_PATH    = DATA_DIR / "silverscreen_logo.png"
 
 # ------------------ Header / Branding ------------------
-col_l, col_c, col_r = st.columns([1, 4, 1])
+col_l, col_c, col_r = st.columns([2, 3, 2])
 with col_c:
     if LOGO_PATH.exists():
         st.image(str(LOGO_PATH), use_container_width=True)
@@ -27,7 +30,11 @@ with col_c:
             unsafe_allow_html=True,
         )
     st.markdown(
-        "<div style='text-align:center;color:#9aa0a6;margin:-0.25rem 0 0.75rem;'>Built and Deployed by Brandon Bell</div>",
+        "<div style='text-align:center;color:#9aa0a6;margin:-0.25rem 0 0.75rem;'>Built & Deployed by Brandon Bell</div>",
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        f"<div style='text-align:center;color:#666;font-size:0.8rem;margin:-0.5rem 0 1rem;'>App version: {APP_VERSION}</div>",
         unsafe_allow_html=True,
     )
 
@@ -565,4 +572,4 @@ with b2:
     st.download_button("Download XLSX", data=xlsx[0], file_name=xlsx[1],
                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
-st.caption("DelSol MRP | SilverScreen Printing & Fulfillment")
+st.caption("SilverScreen | DelSol MRP")
