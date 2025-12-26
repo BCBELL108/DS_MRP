@@ -6,8 +6,8 @@ from pathlib import Path
 from datetime import datetime
 
 # ------------------ App meta ------------------
-st.set_page_config(page_title="DelSol MRP Tool", layout="wide")
-APP_VERSION = "v108"
+st.set_page_config(page_title="DelSol MRP Automation", layout="wide")
+APP_VERSION = "v108.1"
 st.sidebar.markdown(f"**App version:** {APP_VERSION}")
 
 # ------------------ Paths / defaults ------------------
@@ -30,12 +30,6 @@ with col_c:
         "<div style='text-align:center;color:#9aa0a6;margin:-0.25rem 0 0.75rem;'>Built and Deployed by Brandon Bell</div>",
         unsafe_allow_html=True,
     )
-
-# Parameters (same defaults)
-st.session_state.setdefault("lt", 7)
-st.session_state.setdefault("rc", 7)
-st.session_state.setdefault("ss", 21)
-st.session_state.setdefault("proj_month", None)
 
 # ------------------ Month helpers ------------------
 MONTHS_ORDER = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
@@ -357,9 +351,10 @@ with left:
 
 with right:
     st.subheader("② Set the Parameters")
-    lt  = st.number_input("Lead Time (days)",  min_value=0, max_value=365, value=st.session_state.lt, step=1, key="lt")
-    rc  = st.number_input("Replen Cycle (days)", min_value=0, max_value=365, value=st.session_state.rc, step=1, key="rc")
-    ss  = st.number_input("Safety Stock (days)", min_value=0, max_value=365, value=st.session_state.ss, step=1, key="ss")
+    # FIXED: Don't use session_state values in the value parameter when using key
+    lt  = st.number_input("Lead Time (days)",  min_value=0, max_value=365, value=7, step=1, key="lt")
+    rc  = st.number_input("Replen Cycle (days)", min_value=0, max_value=365, value=7, step=1, key="rc")
+    ss  = st.number_input("Safety Stock (days)", min_value=0, max_value=365, value=21, step=1, key="ss")
     aggregate = st.checkbox("Aggregate OnHand by SKU (sum across locations)", value=True)
 
 with b1:
@@ -413,11 +408,16 @@ with b1:
             if not month_cols:
                 raise ValueError("Projections sheet is missing month columns like 'Sep 2025 Qty'.")
             auto_month = auto_select_projection_month(month_cols)
-            idx = month_cols.index(st.session_state.get("proj_month") or auto_month)
+            
+            # Initialize proj_month only if not set
+            if "proj_month" not in st.session_state:
+                st.session_state.proj_month = auto_month
+            
+            idx = month_cols.index(st.session_state.proj_month)
             sel = st.selectbox("Forecast month", month_cols, index=idx, key="proj_month_select")
             if st.button("Apply month"):
                 st.session_state.proj_month = sel
-            selected_month = st.session_state.get("proj_month") or auto_month
+            selected_month = st.session_state.proj_month
             proj = build_velocity(proj_raw, selected_month)
             st.info(f"Using projection month: {selected_month}")
         except Exception as e:
@@ -461,7 +461,10 @@ with b2:
     else:
         master["AllocatedQty"] = 0.0
 
-    lt, rc, ss = st.session_state["lt"], st.session_state["rc"], st.session_state["ss"]
+    # Get parameter values from session state (now they're managed by the widgets)
+    lt = st.session_state["lt"]
+    rc = st.session_state["rc"]
+    ss = st.session_state["ss"]
 
     master["VelocityMonthly"] = pd.to_numeric(master.get("VelocityMonthly", 0), errors="coerce").fillna(0.0)
     master["OnHand"]          = pd.to_numeric(master.get("OnHand", 0), errors="coerce").fillna(0.0)
@@ -562,4 +565,4 @@ with b2:
     st.download_button("Download XLSX", data=xlsx[0], file_name=xlsx[1],
                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
-st.caption("SilverScreen | DelSol MRP")
+st.caption("DelSol MRP | SilverScreen Printing & Fulfillment")
