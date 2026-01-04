@@ -107,11 +107,12 @@ BEACH TOWEL,3N07-M,BEACH TOWEL,BEACH TOWEL,BEACH TOWEL,BEACH TOWEL,BEACH TOWEL,B
 3X487BLN,3X48-XL,6926-XL,LAT Apparel,M Hoodie,Black,Black,Custom,11,1
 3X488BLN,3X48-2XL,6926-2XL,LAT Apparel,M Hoodie,Black,Black,Custom,11,1
 3X489BLN,3X48-3XL,6926-3XL,LAT Apparel,M Hoodie,Black,Black,Custom,11,1
-4A104BLN,4A10-S,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-4A105BLN,4A10-M,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-4A106BLN,4A10-L,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-4A107BLN,4A10-XL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-4A108BLN,4A10-2XL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
+4A104BLN,4A10-S,Unknown,Unknown,W. Curvy Scoop T,Unknown,Unknown,Unknown,0,1
+4A105BLN,4A10-M,Unknown,Unknown,W. Curvy Scoop T,Unknown,Unknown,Unknown,0,1
+4A106BLN,4A10-L,Unknown,Unknown,W. Curvy Scoop T,Unknown,Unknown,Unknown,0,1
+4A107BLN,4A10-XL,Unknown,Unknown,W. Curvy Scoop T,Unknown,Unknown,Unknown,0,1
+4A108BLN,4A10-2XL,Unknown,Unknown,W. Curvy Scoop T,Unknown,Unknown,Unknown,0,1
+4A109BLN,4A10-3XL,Unknown,Unknown,W. Curvy Scoop T,Unknown,Unknown,Unknown,0,1
 4D168BLN,4D16-2XL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
 4D169BLN,4D16-3XL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
 4D166BLN,4D16-L,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
@@ -265,8 +266,10 @@ BEACH TOWEL,3N07-M,BEACH TOWEL,BEACH TOWEL,BEACH TOWEL,BEACH TOWEL,BEACH TOWEL,B
 5Z57YBLN,5Z57-YXL,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 5Z574BLN,5Z57-S,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 5Z575BLN,5Z57-M,DISC,DISC,DISC,DISC,DISC,DISC,0,1
-5Z577BLN,5Z57-L,DISC,DISC,DISC,DISC,DISC,DISC,0,1
-5Z579BLN,5Z57-XL,DISC,DISC,DISC,DISC,DISC,DISC,0,1
+5Z576BLN,5Z57-L,DISC,DISC,DISC,DISC,DISC,DISC,0,1
+5Z577BLN,5Z57-XL,DISC,DISC,DISC,DISC,DISC,DISC,0,1
+5Z578BLN,5Z57-2XL,DISC,DISC,DISC,DISC,DISC,DISC,0,1
+5Z579BLN,5Z57-3XL,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 5Z588BLN,5Z58-2XL,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 5Z589BLN,5Z58-3XL,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 5Z670BLN,5Z67-YXS,DISC,DISC,DISC,DISC,DISC,DISC,0,1
@@ -285,7 +288,7 @@ BEACH TOWEL,3N07-M,BEACH TOWEL,BEACH TOWEL,BEACH TOWEL,BEACH TOWEL,BEACH TOWEL,B
 6A00YBLN,6A00-YXL,Unknown,Unknown,Y. ECO Tee,HoneyDew,Unknown,Unknown,0,1
 6A004BLN,6A00-S,Unknown,Unknown,W. ECO Tee,HoneyDew,Unknown,Unknown,0,1
 6A005BLN,6A00-M,Unknown,Unknown,W. ECO Tee,HoneyDew,Unknown,Unknown,0,1
-6A006BLN,6A00-LG,Unknown,Unknown,W. ECO Tee,HoneyDew,Unknown,Unknown,0,1
+6A006BLN,6A00-L,Unknown,Unknown,W. ECO Tee,HoneyDew,Unknown,Unknown,0,1
 6A007BLN,6A00-XL,Unknown,Unknown,W. ECO Tee,Unknown,Unknown,Unknown,0,1
 6A008BLN,6A00-2XL,Unknown,Unknown,W. ECO Tee,Unknown,Unknown,Unknown,0,1
 6A150BLN,6A15-YXS,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
@@ -349,6 +352,7 @@ BEACH TOWEL,3N07-M,BEACH TOWEL,BEACH TOWEL,BEACH TOWEL,BEACH TOWEL,BEACH TOWEL,B
 6C936BLN,6C93-L,6925-L,LAT Apparel,M Crew,Natural Heather,Natural Heather,Custom,9.33,1
 6C935BLN,6C93-M,6925-M,LAT Apparel,M Crew,Natural Heather,Natural Heather,Custom,9.33,1
 6C934BLN,6C93-S,6925-S,LAT Apparel,M Crew,Natural Heather,Natural Heather,Custom,9.33,1
+6C937BLN,6C93-XL,6925-XL,LAT Apparel,M Crew,Natural Heather,Natural Heather,Custom,9.33,1
 6D483BLN,6D48-YL,2296-L,LAT Apparel,Y Hoodie,Black,Black,Custom,8.65,1
 6D482BLN,6D48-YM,2296-M,LAT Apparel,Y Hoodie,Black,Black,Custom,8.65,1
 6D481BLN,6D48-YS,2296-S,LAT Apparel,Y Hoodie,Black,Black,Custom,8.65,1
