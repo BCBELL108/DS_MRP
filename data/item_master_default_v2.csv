@@ -58,23 +58,23 @@ Del Sol Sku,Silverscreen Sku,Primary Vendor Sku,Primary Vendor,Item Description,
 2D512BLN,2D51-YM,PC54Y-M,SanMar,FJ Crew Tee,Ash,Ash,Pick,1.97,72
 2D513BLN,2D51-YL,PC54Y-L,SanMar,FJ Crew Tee,Ash,Ash,Pick,1.97,72
 2D51YBLN,2D51-YXL,PC54Y-XL,SanMar,FJ Crew Tee,Ash,Ash,Pick,1.97,72
-2W108BLN,2W10-2XL,Unknown,Unknown,Men's Long Sleeve,Unknown,Unknown,Custom,#N/A,1
-2W106BLN,2W10-L,Unknown,Unknown,Men's Long Sleeve,Unknown,Unknown,Custom,#N/A,1
-2W105BLN,2W10-M,Unknown,Unknown,Men's Long Sleeve,Unknown,Unknown,Custom,#N/A,1
-2W104BLN,2W10-S,Unknown,Unknown,Men's Long Sleeve,Unknown,Unknown,Custom,#N/A,1
-2W107BLN,2W10-XL,Unknown,Unknown,Men's Long Sleeve,Unknown,Unknown,Custom,#N/A,1
-2Z104BLN,2Z10-S,DISC,DISC,DISC,DISC,DISC,DISC,#N/A,1
-2Z105BLN,2Z10-M,DISC,DISC,DISC,DISC,DISC,DISC,#N/A,1
-2Z106BLN,2Z10-L,DISC,DISC,DISC,DISC,DISC,DISC,#N/A,1
-2Z107BLN,2Z10-XL,DISC,DISC,DISC,DISC,DISC,DISC,#N/A,1
-2Z108BLN,2Z10-2XL,DISC,DISC,DISC,DISC,DISC,DISC,#N/A,1
-2Z109BLN,2Z10-3XL,DISC,DISC,DISC,DISC,DISC,DISC,#N/A,1
-3B100BLN,3B10-YXS,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,#N/A,1
-3B101BLN,3B10-YS,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,#N/A,1
-3B102BLN,3B10-YM,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,#N/A,1
-3B103BLN,3B10-YL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,#N/A,1
-3B10YBLN,3B10-YXL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,#N/A,1
-3N075BLN,3N075BLN,BEACH TOWEL,BEACH TOWEL,BEACH TOWEL,BEACH TOWEL,BEACH TOWEL,Custom,#N/A,1
+2W108BLN,2W10-2XL,Unknown,Unknown,Men's Long Sleeve,Unknown,Unknown,Custom,0,1
+2W106BLN,2W10-L,Unknown,Unknown,Men's Long Sleeve,Unknown,Unknown,Custom,0,1
+2W105BLN,2W10-M,Unknown,Unknown,Men's Long Sleeve,Unknown,Unknown,Custom,0,1
+2W104BLN,2W10-S,Unknown,Unknown,Men's Long Sleeve,Unknown,Unknown,Custom,0,1
+2W107BLN,2W10-XL,Unknown,Unknown,Men's Long Sleeve,Unknown,Unknown,Custom,0,1
+2Z104BLN,2Z10-S,DISC,DISC,DISC,DISC,DISC,DISC,0,1
+2Z105BLN,2Z10-M,DISC,DISC,DISC,DISC,DISC,DISC,0,1
+2Z106BLN,2Z10-L,DISC,DISC,DISC,DISC,DISC,DISC,0,1
+2Z107BLN,2Z10-XL,DISC,DISC,DISC,DISC,DISC,DISC,0,1
+2Z108BLN,2Z10-2XL,DISC,DISC,DISC,DISC,DISC,DISC,0,1
+2Z109BLN,2Z10-3XL,DISC,DISC,DISC,DISC,DISC,DISC,0,1
+3B100BLN,3B10-YXS,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+3B101BLN,3B10-YS,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+3B102BLN,3B10-YM,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+3B103BLN,3B10-YL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+3B10YBLN,3B10-YXL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+3N075BLN,3N075BLN,BEACH TOWEL,BEACH TOWEL,BEACH TOWEL,BEACH TOWEL,BEACH TOWEL,Custom,0,1
 3U104BLN,3U10-S,LPC54-S,SanMar,Women FJ Crew T,White,White,Pick,2.33,72
 3U105BLN,3U10-M,LPC54-M,SanMar,Women FJ Crew T,White,White,Pick,2.33,72
 3U106BLN,3U10-L,LPC54-L,SanMar,Women FJ Crew T,White,White,Pick,2.33,72
@@ -424,12 +424,12 @@ Del Sol Sku,Silverscreen Sku,Primary Vendor Sku,Primary Vendor,Item Description,
 6H106BLN,6H10-L,3592-L,LAT Apparel,W. Tank T,White,White,Custom,3.75,1
 6H107BLN,6H10-XL,3592-XL,LAT Apparel,W. Tank T,White,White,Custom,3.75,1
 6H108BLN,6H10-2XL,3592-2XL,LAT Apparel,W. Tank T,White,White,Custom,4.59,1
-72124,72124,DISC,DelSol,DISC,DISC,DISC,DISC,#N/A,50
-72125,72125,Canvas Beach Tote,DelSol,Canvas Beach Tote,Canvas Beach Tote,Canvas Beach Tote,Custom,#N/A,50
+72124,72124,DISC,DelSol,DISC,DISC,DISC,DISC,0,50
+72125,72125,Canvas Beach Tote,DelSol,Canvas Beach Tote,Canvas Beach Tote,Canvas Beach Tote,Custom,0,50
 74104BLN,7410-S,LPC54V-S,SanMar,W. V-Neck T,White,White,Pick,2.61,72
 74105BLN,7410-M,LPC54V-M,SanMar,W. V-Neck T,White,White,Pick,2.61,72
 74106BLN,7410-L,LPC54V-L,SanMar,W. V-Neck T,White,White,Pick,2.61,72
 74107BLN,7410-XL,LPC54V-XL,SanMar,W. V-Neck T,White,White,Pick,2.61,72
 74108BLN,7410-2XL,LPC54V-2XL,SanMar,W. V-Neck T,White,White,Pick,3.81,36
 74109BLN,7410-3XL,LPC54V-3XL,SanMar,W. V-Neck T,White,White,Pick,4.72,36
-CB124,CB124,CANCNCH BLANK NAT L (CINCHBAG),DelSol,CANCNCH BLANK NAT L (CINCHBAG),Natural,Natural,Custom,#N/A,100
+CB124,CB124,CANCNCH BLANK NAT L (CINCHBAG),DelSol,CANCNCH BLANK NAT L (CINCHBAG),Natural,Natural,Custom,0,100
