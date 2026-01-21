@@ -1,4 +1,4 @@
-﻿Del Sol Sku,Silverscreen Sku,Primary Vendor Sku,Primary Vendor,Item Description,Del Sol Color,Primay Vendor Color,Status,Cost,MultiplesOf
+Del Sol Sku,Silverscreen Sku,Primary Vendor Sku,Primary Vendor,Item Description,Del Sol Color,Primay Vendor Color,Status,Cost,MultiplesOf
 10104BLN,1010-S,PC54-S,SanMar,M Crew T,White,White,Pick,1.92,72
 10105BLN,1010-M,PC54-M,SanMar,M Crew T,White,White,Pick,1.92,72
 10106BLN,1010-L,PC54-L,SanMar,M Crew T,White,White,Pick,1.92,72
@@ -58,23 +58,23 @@
 2D512BLN,2D51-YM,PC54Y-M,SanMar,FJ Crew Tee,Ash,Ash,Pick,1.97,72
 2D513BLN,2D51-YL,PC54Y-L,SanMar,FJ Crew Tee,Ash,Ash,Pick,1.97,72
 2D51YBLN,2D51-YXL,PC54Y-XL,SanMar,FJ Crew Tee,Ash,Ash,Pick,1.97,72
-2W108BLN,2W10-2XL,Unknown,Unknown,Men's Long Sleeve,Unknown,Unknown,Unknown,0,1
-2W106BLN,2W10-L,Unknown,Unknown,Men's Long Sleeve,Unknown,Unknown,Unknown,0,1
-2W105BLN,2W10-M,Unknown,Unknown,Men's Long Sleeve,Unknown,Unknown,Unknown,0,1
-2W104BLN,2W10-S,Unknown,Unknown,Men's Long Sleeve,Unknown,Unknown,Unknown,0,1
-2W107BLN,2W10-XL,Unknown,Unknown,Men's Long Sleeve,Unknown,Unknown,Unknown,0,1
-2Z104BLN,2Z10-S,DISC,DISC,DISC,DISC,DISC,DISC,0,1
-2Z105BLN,2Z10-M,DISC,DISC,DISC,DISC,DISC,DISC,0,1
-2Z106BLN,2Z10-L,DISC,DISC,DISC,DISC,DISC,DISC,0,1
-2Z107BLN,2Z10-XL,DISC,DISC,DISC,DISC,DISC,DISC,0,1
-2Z108BLN,2Z10-2XL,DISC,DISC,DISC,DISC,DISC,DISC,0,1
-2Z109BLN,2Z10-3XL,DISC,DISC,DISC,DISC,DISC,DISC,0,1
-3B100BLN,3B10-YXS,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-3B101BLN,3B10-YS,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-3B102BLN,3B10-YM,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-3B103BLN,3B10-YL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-3B10YBLN,3B10-YXL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-3N075BLN,3N075BLN,BEACH TOWEL,BEACH TOWEL,BEACH TOWEL,BEACH TOWEL,BEACH TOWEL,BEACH TOWEL,0,1
+2W108BLN,2W10-2XL,Unknown,Unknown,Men's Long Sleeve,Unknown,Unknown,Custom,#N/A,1
+2W106BLN,2W10-L,Unknown,Unknown,Men's Long Sleeve,Unknown,Unknown,Custom,#N/A,1
+2W105BLN,2W10-M,Unknown,Unknown,Men's Long Sleeve,Unknown,Unknown,Custom,#N/A,1
+2W104BLN,2W10-S,Unknown,Unknown,Men's Long Sleeve,Unknown,Unknown,Custom,#N/A,1
+2W107BLN,2W10-XL,Unknown,Unknown,Men's Long Sleeve,Unknown,Unknown,Custom,#N/A,1
+2Z104BLN,2Z10-S,DISC,DISC,DISC,DISC,DISC,DISC,#N/A,1
+2Z105BLN,2Z10-M,DISC,DISC,DISC,DISC,DISC,DISC,#N/A,1
+2Z106BLN,2Z10-L,DISC,DISC,DISC,DISC,DISC,DISC,#N/A,1
+2Z107BLN,2Z10-XL,DISC,DISC,DISC,DISC,DISC,DISC,#N/A,1
+2Z108BLN,2Z10-2XL,DISC,DISC,DISC,DISC,DISC,DISC,#N/A,1
+2Z109BLN,2Z10-3XL,DISC,DISC,DISC,DISC,DISC,DISC,#N/A,1
+3B100BLN,3B10-YXS,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,#N/A,1
+3B101BLN,3B10-YS,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,#N/A,1
+3B102BLN,3B10-YM,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,#N/A,1
+3B103BLN,3B10-YL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,#N/A,1
+3B10YBLN,3B10-YXL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,#N/A,1
+3N075BLN,3N075BLN,BEACH TOWEL,BEACH TOWEL,BEACH TOWEL,BEACH TOWEL,BEACH TOWEL,Custom,#N/A,1
 3U104BLN,3U10-S,LPC54-S,SanMar,Women FJ Crew T,White,White,Pick,2.33,72
 3U105BLN,3U10-M,LPC54-M,SanMar,Women FJ Crew T,White,White,Pick,2.33,72
 3U106BLN,3U10-L,LPC54-L,SanMar,Women FJ Crew T,White,White,Pick,2.33,72
@@ -95,37 +95,37 @@
 3U516BLN,3U51-L,LPC54-L,SanMar,Women FJ Crew T,Ash,Ash,Pick,2.78,72
 3U517BLN,3U51-XL,LPC54-XL,SanMar,Women FJ Crew T,Ash,Ash,Pick,2.78,72
 3U518BLN,3U51-2XL,LPC54-2XL,SanMar,Women FJ Crew T,Ash,Ash,Pick,3.54,36
-3X104BLN,3X10-S,6926-S,LAT Apparel,M Hoodie,White,White,Custom,11,1
-3X105BLN,3X10-M,6926-M,LAT Apparel,M Hoodie,White,White,Custom,11,1
-3X106BLN,3X10-L,6926-L,LAT Apparel,M Hoodie,White,White,Custom,11,1
-3X107BLN,3X10-XL,6926-XL,LAT Apparel,M Hoodie,White,White,Custom,11,1
-3X108BLN,3X10-2XL,6926-2XL,LAT Apparel,M Hoodie,White,White,Custom,11,1
-3X109BLN,3X10-3XL,6926-3XL,LAT Apparel,M Hoodie,White,White,Custom,11,1
-3X484BLN,3X48-S,6926-S,LAT Apparel,M Hoodie,Black,Black,Custom,11,1
-3X485BLN,3X48-M,6926-M,LAT Apparel,M Hoodie,Black,Black,Custom,11,1
-3X486BLN,3X48-L,6926-L,LAT Apparel,M Hoodie,Black,Black,Custom,11,1
-3X487BLN,3X48-XL,6926-XL,LAT Apparel,M Hoodie,Black,Black,Custom,11,1
-3X488BLN,3X48-2XL,6926-2XL,LAT Apparel,M Hoodie,Black,Black,Custom,11,1
-3X489BLN,3X48-3XL,6926-3XL,LAT Apparel,M Hoodie,Black,Black,Custom,11,1
-4A104BLN,4A10-S,Unknown,Unknown,W. Curvy Scoop T,Unknown,Unknown,Unknown,0,1
-4A105BLN,4A10-M,Unknown,Unknown,W. Curvy Scoop T,Unknown,Unknown,Unknown,0,1
-4A106BLN,4A10-L,Unknown,Unknown,W. Curvy Scoop T,Unknown,Unknown,Unknown,0,1
-4A10XBLN,4A10-XL,Unknown,Unknown,W. Curvy Scoop T,Unknown,Unknown,Unknown,0,1
-4A10YBLN,4A10-2XL,Unknown,Unknown,W. Curvy Scoop T,Unknown,Unknown,Unknown,0,1
-4A109BLN,4A10-3XL,Unknown,Unknown,W. Curvy Scoop T,Unknown,Unknown,Unknown,0,1
-4D168BLN,4D16-2XL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-4D169BLN,4D16-3XL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-4D166BLN,4D16-L,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-4D165BLN,4D16-M,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-4D164BLN,4D16-S,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-4D167BLN,4D16-XL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-4E103BLN,4E10-XS,Unknown,Unknown,Women's Gathered Tank Top,Unknown,Unknown,Unknown,0,1
-4E104BLN,4E10-S,Unknown,Unknown,Women's Gathered Tank Top,Unknown,Unknown,Unknown,0,1
-4E105BLN,4E10-M,Unknown,Unknown,Women's Gathered Tank Top,Unknown,Unknown,Unknown,0,1
-4E106BLN,4E10-L,Unknown,Unknown,Women's Gathered Tank Top,Unknown,Unknown,Unknown,0,1
-4E107BLN,4E10-XL,Unknown,Unknown,Women's Gathered Tank Top,Unknown,Unknown,Unknown,0,1
-4E108BLN,4E10-2XL,Unknown,Unknown,Women's Gathered Tank Top,Unknown,Unknown,Unknown,0,1
-4E109BLN,4E10-3XL,Unknown,Unknown,Women's Gathered Tank Top,Unknown,Unknown,Unknown,0,1
+3X104BLN,3X10-S,6926-S,LAT Apparel,M Hoodie,White,White,Custom,0,1
+3X105BLN,3X10-M,6926-M,LAT Apparel,M Hoodie,White,White,Custom,0,1
+3X106BLN,3X10-L,6926-L,LAT Apparel,M Hoodie,White,White,Custom,0,1
+3X107BLN,3X10-XL,6926-XL,LAT Apparel,M Hoodie,White,White,Custom,0,1
+3X108BLN,3X10-2XL,6926-2XL,LAT Apparel,M Hoodie,White,White,Custom,0,1
+3X109BLN,3X10-3XL,6926-3XL,LAT Apparel,M Hoodie,White,White,Custom,0,1
+3X484BLN,3X48-S,6926-S,LAT Apparel,M Hoodie,Black,Black,Custom,0,1
+3X485BLN,3X48-M,6926-M,LAT Apparel,M Hoodie,Black,Black,Custom,0,1
+3X486BLN,3X48-L,6926-L,LAT Apparel,M Hoodie,Black,Black,Custom,0,1
+3X487BLN,3X48-XL,6926-XL,LAT Apparel,M Hoodie,Black,Black,Custom,0,1
+3X488BLN,3X48-2XL,6926-2XL,LAT Apparel,M Hoodie,Black,Black,Custom,0,1
+3X489BLN,3X48-3XL,6926-3XL,LAT Apparel,M Hoodie,Black,Black,Custom,0,1
+4A104BLN,4A10-S,Unknown,Unknown,W. Curvy Scoop T,Unknown,Unknown,Custom,0,1
+4A105BLN,4A10-M,Unknown,Unknown,W. Curvy Scoop T,Unknown,Unknown,Custom,0,1
+4A106BLN,4A10-L,Unknown,Unknown,W. Curvy Scoop T,Unknown,Unknown,Custom,0,1
+4A10XBLN,4A10-XL,Unknown,Unknown,W. Curvy Scoop T,Unknown,Unknown,Custom,0,1
+4A10YBLN,4A10-2XL,Unknown,Unknown,W. Curvy Scoop T,Unknown,Unknown,Custom,0,1
+4A109BLN,4A10-3XL,Unknown,Unknown,W. Curvy Scoop T,Unknown,Unknown,Custom,0,1
+4D168BLN,4D16-2XL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+4D169BLN,4D16-3XL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+4D166BLN,4D16-L,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+4D165BLN,4D16-M,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+4D164BLN,4D16-S,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+4D167BLN,4D16-XL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+4E103BLN,4E10-XS,Unknown,Unknown,Women's Gathered Tank Top,Unknown,Unknown,Custom,0,1
+4E104BLN,4E10-S,Unknown,Unknown,Women's Gathered Tank Top,Unknown,Unknown,Custom,0,1
+4E105BLN,4E10-M,Unknown,Unknown,Women's Gathered Tank Top,Unknown,Unknown,Custom,0,1
+4E106BLN,4E10-L,Unknown,Unknown,Women's Gathered Tank Top,Unknown,Unknown,Custom,0,1
+4E107BLN,4E10-XL,Unknown,Unknown,Women's Gathered Tank Top,Unknown,Unknown,Custom,0,1
+4E108BLN,4E10-2XL,Unknown,Unknown,Women's Gathered Tank Top,Unknown,Unknown,Custom,0,1
+4E109BLN,4E10-3XL,Unknown,Unknown,Women's Gathered Tank Top,Unknown,Unknown,Custom,0,1
 4F10EBLN,4F10-2T,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 4F10FBLN,4F10-3T,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 4F10GBLN,4F10-4T,DISC,DISC,DISC,DISC,DISC,DISC,0,1
@@ -135,21 +135,21 @@
 4F102BLN,4F10-YM,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 4F103BLN,4F10-YL,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 4F104BLN,4F10-YXL,DISC,DISC,DISC,DISC,DISC,DISC,0,1
-4G674BLN,4G67-S,6210-S,SanMar,M Crew T,Ice Blue,Ice Blue,Pick,3.06,1
-4G675BLN,4G67-M,6210-M,SanMar,M Crew T,Ice Blue,Ice Blue,Pick,3.06,1
-4G676BLN,4G67-L,6210-L,SanMar,M Crew T,Ice Blue,Ice Blue,Pick,3.06,1
-4G677BLN,4G67-XL,6210-XL,SanMar,M Crew T,Ice Blue,Ice Blue,Pick,3.06,1
-4G678BLN,4G67-2XL,6210-2XL,SanMar,M Crew T,Ice Blue,Ice Blue,Pick,3.06,1
-4G679BLN,4G67-3XL,6210-3XL,SanMar,M Crew T,Ice Blue,Ice Blue,Pick,3.06,1
-4I670BLN,4I67-YXS,3312-XS,SanMar,FJ Crew Tee,Ice Blue,Ice Blue,Pick,2.8,1
-4I671BLN,4I67-YS,3312-S,SanMar,FJ Crew Tee,Ice Blue,Ice Blue,Pick,2.8,1
-4I672BLN,4I67-YM,3312-M,SanMar,FJ Crew Tee,Ice Blue,Ice Blue,Pick,2.8,1
-4I673BLN,4I67-YL,3312-L,SanMar,FJ Crew Tee,Ice Blue,Ice Blue,Pick,2.8,1
-4I674BLN,4I67-S,6610-S,SanMar,W Crew T,Ice Blue,Ice Blue,Pick,2.8,1
-4I675BLN,4I67-M,6610-M,SanMar,W Crew T,Ice Blue,Ice Blue,Pick,2.8,1
-4I676BLN,4I67-L,6610-L,SanMar,W Crew T,Ice Blue,Ice Blue,Pick,2.8,1
-4I677BLN,4I67-XL,6610-XL,SanMar,W Crew T,Ice Blue,Ice Blue,Pick,2.8,1
-4I678BLN,4I67-2XL,6610-2XL,SanMar,W Crew T,Ice Blue,Ice Blue,Pick,2.8,1
+4G674BLN,4G67-S,6210-S,SanMar,M Crew T,Ice Blue,Ice Blue,Pick,3.45,72
+4G675BLN,4G67-M,6210-M,SanMar,M Crew T,Ice Blue,Ice Blue,Pick,3.45,72
+4G676BLN,4G67-L,6210-L,SanMar,M Crew T,Ice Blue,Ice Blue,Pick,3.45,72
+4G677BLN,4G67-XL,6210-XL,SanMar,M Crew T,Ice Blue,Ice Blue,Pick,3.45,72
+4G678BLN,4G67-2XL,6210-2XL,SanMar,M Crew T,Ice Blue,Ice Blue,Pick,4.85,72
+4G679BLN,4G67-3XL,6210-3XL,SanMar,M Crew T,Ice Blue,Ice Blue,Pick,6.2,36
+4I670BLN,4I67-YXS,3312-XS,SanMar,FJ Crew Tee,Ice Blue,Ice Blue,Pick,3.45,72
+4I671BLN,4I67-YS,3312-S,SanMar,FJ Crew Tee,Ice Blue,Ice Blue,Pick,3.45,72
+4I672BLN,4I67-YM,3312-M,SanMar,FJ Crew Tee,Ice Blue,Ice Blue,Pick,3.45,72
+4I673BLN,4I67-YL,3312-L,SanMar,FJ Crew Tee,Ice Blue,Ice Blue,Pick,3.45,72
+4I674BLN,4I67-S,6610-S,SanMar,W Crew T,Ice Blue,Ice Blue,Pick,3.45,72
+4I675BLN,4I67-M,6610-M,SanMar,W Crew T,Ice Blue,Ice Blue,Pick,3.45,72
+4I676BLN,4I67-L,6610-L,SanMar,W Crew T,Ice Blue,Ice Blue,Pick,3.45,72
+4I677BLN,4I67-XL,6610-XL,SanMar,W Crew T,Ice Blue,Ice Blue,Pick,3.45,72
+4I678BLN,4I67-2XL,6610-2XL,SanMar,W Crew T,Ice Blue,Ice Blue,Pick,4.85,72
 4K364BLN,4K36-S,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 4K365BLN,4K36-M,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 4K366BLN,4K36-L,DISC,DISC,DISC,DISC,DISC,DISC,0,1
@@ -161,88 +161,88 @@
 4R166BLN,4R16-L,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 4R167BLN,4R16-XL,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 4R168BLN,4R16-2XL,DISC,DISC,DISC,DISC,DISC,DISC,0,1
-4S114BLN,4S11-S,3516-S,LAT Apparel,Women Boyfriend T,Natural,Natural,Pick,3.25,36
-4S115BLN,4S11-M,3516-M,LAT Apparel,Women Boyfriend T,Natural,Natural,Pick,3.25,36
-4S116BLN,4S11-L,3516-L,LAT Apparel,Women Boyfriend T,Natural,Natural,Pick,3.25,36
-4S117BLN,4S11-XL,3516-XL,LAT Apparel,Women Boyfriend T,Natural,Natural,Pick,3.25,36
-4S118BLN,4S11-2XL,3516-2XL,LAT Apparel,Women Boyfriend T,Natural,Natural,Pick,3.25,36
-4T124BLN,4T12-S,3516-S,LAT Apparel,Women Boyfriend T,Denim,Denim,Custom,3.25,36
-4T125BLN,4T12-M,3516-M,LAT Apparel,Women Boyfriend T,Denim,Denim,Custom,3.25,36
-4T126BLN,4T12-L,3516-L,LAT Apparel,Women Boyfriend T,Denim,Denim,Custom,3.25,36
-4T127BLN,4T12-XL,3516-XL,LAT Apparel,Women Boyfriend T,Denim,Denim,Custom,3.25,36
-4T128BLN,4T12-2XL,3516-2XL,LAT Apparel,Women Boyfriend T,Denim,Denim,Custom,3.25,36
-4T934BLN,4T93-S,3516-S,LAT Apparel,Women Boyfriend T,Natural Heather,Natural Heather,Pick,3.25,36
-4T935BLN,4T93-M,3516-M,LAT Apparel,Women Boyfriend T,Natural Heather,Natural Heather,Pick,3.25,36
-4T936BLN,4T93-L,3516-L,LAT Apparel,Women Boyfriend T,Natural Heather,Natural Heather,Pick,3.25,36
-4T937BLN,4T93-XL,3516-XL,LAT Apparel,Women Boyfriend T,Natural Heather,Natural Heather,Pick,3.25,36
-4T938BLN,4T93-2XL,3516-2XL,LAT Apparel,Women Boyfriend T,Natural Heather,Natural Heather,Pick,3.25,36
-4U114BLN,4U11-S,6901-S,LAT Apparel,M Crew T,Natural,Natural,Custom,3.55,72
-4U115BLN,4U11-M,6901-M,LAT Apparel,M Crew T,Natural,Natural,Custom,3.55,72
-4U116BLN,4U11-L,6901-L,LAT Apparel,M Crew T,Natural,Natural,Custom,3.55,72
-4U117BLN,4U11-XL,6901-XL,LAT Apparel,M Crew T,Natural,Natural,Custom,3.55,72
-4U118BLN,4U11-2XL,6901-2XL,LAT Apparel,M Crew T,Natural,Natural,Custom,4.6,36
-4U119BLN,4U11-3XL,6901-3XL,LAT Apparel,M Crew T,Natural,Natural,Custom,5.95,36
-4V934BLN,4V93-S,6901-S,LAT Apparel,M Crew T,Natural Heather,Natural Heather,Custom,3.55,72
-4V935BLN,4V93-M,6901-M,LAT Apparel,M Crew T,Natural Heather,Natural Heather,Custom,3.55,72
-4V936BLN,4V93-L,6901-L,LAT Apparel,M Crew T,Natural Heather,Natural Heather,Custom,3.55,72
-4V937BLN,4V93-XL,6901-XL,LAT Apparel,M Crew T,Natural Heather,Natural Heather,Custom,3.55,72
-4V938BLN,4V93-2XL,6901-2XL,LAT Apparel,M Crew T,Natural Heather,Natural Heather,Custom,4.6,36
-4V939BLN,4V93-3XL,6901-3XL,LAT Apparel,M Crew T,Natural Heather,Natural Heather,Custom,5.95,36
-4W160BLN,4W16-XS,Unknown,Unknown,Girls Crew T,Unknown,Unknown,Unknown,0,1
-4W161BLN,4W16-S,Unknown,Unknown,Girls Crew T,Unknown,Unknown,Unknown,0,1
-4W162BLN,4W16-M,Unknown,Unknown,Girls Crew T,Unknown,Unknown,Unknown,0,1
-4W163BLN,4W16-L,Unknown,Unknown,Girls Crew T,Unknown,Unknown,Unknown,0,1
-4W164BLN,4W16-XL,Unknown,Unknown,Girls Crew T,Unknown,Unknown,Unknown,0,1
+4S114BLN,4S11-S,3516-S,LAT Apparel,Women Boyfriend T,Natural,Natural,Custom,3.7,1
+4S115BLN,4S11-M,3516-M,LAT Apparel,Women Boyfriend T,Natural,Natural,Custom,3.7,1
+4S116BLN,4S11-L,3516-L,LAT Apparel,Women Boyfriend T,Natural,Natural,Custom,3.7,1
+4S117BLN,4S11-XL,3516-XL,LAT Apparel,Women Boyfriend T,Natural,Natural,Custom,3.7,1
+4S118BLN,4S11-2XL,3516-2XL,LAT Apparel,Women Boyfriend T,Natural,Natural,Custom,5.05,1
+4T124BLN,4T12-S,3516-S,LAT Apparel,Women Boyfriend T,Denim,Denim,Custom,3.7,1
+4T125BLN,4T12-M,3516-M,LAT Apparel,Women Boyfriend T,Denim,Denim,Custom,3.7,1
+4T126BLN,4T12-L,3516-L,LAT Apparel,Women Boyfriend T,Denim,Denim,Custom,3.7,1
+4T127BLN,4T12-XL,3516-XL,LAT Apparel,Women Boyfriend T,Denim,Denim,Custom,3.7,1
+4T128BLN,4T12-2XL,3516-2XL,LAT Apparel,Women Boyfriend T,Denim,Denim,Custom,5.05,1
+4T934BLN,4T93-S,3516-S,LAT Apparel,Women Boyfriend T,Natural Heather,Natural Heather,Custom,3.7,1
+4T935BLN,4T93-M,3516-M,LAT Apparel,Women Boyfriend T,Natural Heather,Natural Heather,Custom,3.7,1
+4T936BLN,4T93-L,3516-L,LAT Apparel,Women Boyfriend T,Natural Heather,Natural Heather,Custom,3.7,1
+4T937BLN,4T93-XL,3516-XL,LAT Apparel,Women Boyfriend T,Natural Heather,Natural Heather,Custom,3.7,1
+4T938BLN,4T93-2XL,3516-2XL,LAT Apparel,Women Boyfriend T,Natural Heather,Natural Heather,Custom,5.05,1
+4U114BLN,4U11-S,6901-S,LAT Apparel,M Crew T,Natural,Natural,Custom,3.55,1
+4U115BLN,4U11-M,6901-M,LAT Apparel,M Crew T,Natural,Natural,Custom,3.55,1
+4U116BLN,4U11-L,6901-L,LAT Apparel,M Crew T,Natural,Natural,Custom,3.55,1
+4U117BLN,4U11-XL,6901-XL,LAT Apparel,M Crew T,Natural,Natural,Custom,3.55,1
+4U118BLN,4U11-2XL,6901-2XL,LAT Apparel,M Crew T,Natural,Natural,Custom,4.6,1
+4U119BLN,4U11-3XL,6901-3XL,LAT Apparel,M Crew T,Natural,Natural,Custom,5.95,1
+4V934BLN,4V93-S,6901-S,LAT Apparel,M Crew T,Natural Heather,Natural Heather,Custom,3.55,1
+4V935BLN,4V93-M,6901-M,LAT Apparel,M Crew T,Natural Heather,Natural Heather,Custom,3.55,1
+4V936BLN,4V93-L,6901-L,LAT Apparel,M Crew T,Natural Heather,Natural Heather,Custom,3.55,1
+4V937BLN,4V93-XL,6901-XL,LAT Apparel,M Crew T,Natural Heather,Natural Heather,Custom,3.55,1
+4V938BLN,4V93-2XL,6901-2XL,LAT Apparel,M Crew T,Natural Heather,Natural Heather,Custom,4.6,1
+4V939BLN,4V93-3XL,6901-3XL,LAT Apparel,M Crew T,Natural Heather,Natural Heather,Custom,5.95,1
+4W160BLN,4W16-XS,Unknown,Unknown,Girls Crew T,Unknown,Unknown,Custom,0,1
+4W161BLN,4W16-S,Unknown,Unknown,Girls Crew T,Unknown,Unknown,Custom,0,1
+4W162BLN,4W16-M,Unknown,Unknown,Girls Crew T,Unknown,Unknown,Custom,0,1
+4W163BLN,4W16-L,Unknown,Unknown,Girls Crew T,Unknown,Unknown,Custom,0,1
+4W164BLN,4W16-XL,Unknown,Unknown,Girls Crew T,Unknown,Unknown,Custom,0,1
 4X020BLN,4X02-XS,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 4X021BLN,4X02-S,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 4X022BLN,4X02-M,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 4X023BLN,4X02-L,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 4X024BLN,4X02-XL,DISC,DISC,DISC,DISC,DISC,DISC,0,1
-4Y150BLN,4Y15-YXS,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-4Y151BLN,4Y15-YS,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-4Y152BLN,4Y15-YM,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-4Y153BLN,4Y15-YL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-4Y154BLN,4Y15-YXL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-4Y480BLN,4Y48-YXS,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-4Y481BLN,4Y48-YS,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-4Y482BLN,4Y48-YM,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-4Y483BLN,4Y48-YL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-4Y484BLN,4Y48-YXL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-4Z020BLN,4Z02-YXS,6101-XS,LAT Apparel,FJ Crew Tee,Natural,Natural,Pick,3.25,72
-4Z021BLN,4Z02-YS,6101-S,LAT Apparel,FJ Crew Tee,Natural,Natural,Pick,3.25,72
-4Z022BLN,4Z02-YM,6101-M,LAT Apparel,FJ Crew Tee,Natural,Natural,Pick,3.25,72
-4Z023BLN,4Z02-YL,6101-L,LAT Apparel,FJ Crew Tee,Natural,Natural,Pick,3.25,72
+4Y150BLN,4Y15-YXS,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+4Y151BLN,4Y15-YS,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+4Y152BLN,4Y15-YM,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+4Y153BLN,4Y15-YL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+4Y154BLN,4Y15-YXL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+4Y480BLN,4Y48-YXS,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+4Y481BLN,4Y48-YS,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+4Y482BLN,4Y48-YM,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+4Y483BLN,4Y48-YL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+4Y484BLN,4Y48-YXL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+4Z020BLN,4Z02-YXS,6101-XS,LAT Apparel,FJ Crew Tee,Natural,Natural,Custom,3.25,1
+4Z021BLN,4Z02-YS,6101-S,LAT Apparel,FJ Crew Tee,Natural,Natural,Custom,3.25,1
+4Z022BLN,4Z02-YM,6101-M,LAT Apparel,FJ Crew Tee,Natural,Natural,Custom,3.25,1
+4Z023BLN,4Z02-YL,6101-L,LAT Apparel,FJ Crew Tee,Natural,Natural,Custom,3.25,1
 4Z360BLN,4Z36-YXS,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 4Z361BLN,4Z36-YS,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 4Z362BLN,4Z36-YM,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 4Z363BLN,4Z36-YL,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 4Z36YBLN,4Z36-YXL,DISC,DISC,DISC,DISC,DISC,DISC,0,1
-5F12EBLN,5F12-2T,3321-2T,LAT Apparel,T Crew Tee,Chill,Chill,Custom,2.39,72
-5F12FBLN,5F12-3T,3321-3T,LAT Apparel,T Crew Tee,Chill,Chill,Custom,2.39,72
-5F12GBLN,5F12-4T,3321-4T,LAT Apparel,T Crew Tee,Chill,Chill,Custom,2.39,72
-5F12HBLN,5F12-5/6T,3321 - 5/6T,LAT Apparel,T Crew Tee,Chill,Chill,Custom,2.39,72
-5G51EBLN,5G51-2T,3321-2T,LAT Apparel,T Crew Tee,Ash,Ash,Pick,2.39,72
-5G51FBLN,5G51-3T,3321-3T,LAT Apparel,T Crew Tee,Ash,Ash,Pick,2.39,72
-5G51GBLN,5G51-4T,3321-4T,LAT Apparel,T Crew Tee,Ash,Ash,Pick,2.39,72
-5G51HBLN,5G51-5/6T,3321 - 5/6T,LAT Apparel,T Crew Tee,Ash,Ash,Pick,2.39,72
-5H51EBLN,5H51-2T,3321-2T,LAT Apparel,T Crew Tee,Natural,Natural,Pick,2.39,72
-5H51FBLN,5H51-3T,3321-3T,LAT Apparel,T Crew Tee,Natural,Natural,Pick,2.39,72
-5H51GBLN,5H51-4T,3321-4T,LAT Apparel,T Crew Tee,Natural,Natural,Pick,2.39,72
-5H51HBLN,5H51-5/6T,3321 - 5/6T,LAT Apparel,T Crew Tee,Natural,Natural,Pick,2.39,72
-5I46EBLN,5I46-2T,3321-2T,LAT Apparel,T Crew Tee,Balrna,Balerina,Custom,2.39,72
-5I46FBLN,5I46-3T,3321-3T,LAT Apparel,T Crew Tee,Balrna,Balerina,Custom,2.39,72
-5I46GBLN,5I46-4T,3321-4T,LAT Apparel,T Crew Tee,Balrna,Balerina,Custom,2.39,72
-5I46HBLN,5I46-5/6T,3321 - 5/6T,LAT Apparel,T Crew Tee,Balrna,Balerina,Custom,2.39,72
-5Z008BLN,5Z00-2XL,Unknown,Unknown,MENS ECO TEE HONEYDEW,Unknown,Unknown,Unknown,0,1
-5Z007BLN,5Z00-XL,Unknown,Unknown,MENS ECO TEE HONEYDEW,Unknown,Unknown,Unknown,0,1
-5Z006BLN,5Z00-L,Unknown,Unknown,MENS ECO TEE HONEYDEW,Unknown,Unknown,Unknown,0,1
-5Z005BLN,5Z00-M,Unknown,Unknown,MENS ECO TEE HONEYDEW,Unknown,Unknown,Unknown,0,1
-5Z004BLN,5Z00-S,Unknown,Unknown,MENS ECO TEE HONEYDEW,Unknown,Unknown,Unknown,0,1
-5Z000BLN,5Z00-YXS,Unknown,Unknown,Youth Eco Tee-Honeydew,Unknown,Unknown,Unknown,0,1
-5Z001BLN,5Z00-YS,Unknown,Unknown,Youth Eco Tee-Honeydew,Unknown,Unknown,Unknown,0,1
-5Z002BLN,5Z00-YM,Unknown,Unknown,Youth Eco Tee-Honeydew,Unknown,Unknown,Unknown,0,1
-5Z003BLN,5Z00-YL,Unknown,Unknown,Youth Eco Tee-Honeydew,Unknown,Unknown,Unknown,0,1
-5Z00YBLN,5Z00-YXL,Unknown,Unknown,Youth Eco Tee-Honeydew,Unknown,Unknown,Unknown,0,1
+5F12EBLN,5F12-2T,3321-2T,LAT Apparel,T Crew Tee,Chill,Chill,Custom,2.55,1
+5F12FBLN,5F12-3T,3321-3T,LAT Apparel,T Crew Tee,Chill,Chill,Custom,2.55,1
+5F12GBLN,5F12-4T,3321-4T,LAT Apparel,T Crew Tee,Chill,Chill,Custom,2.55,1
+5F12HBLN,5F12-5/6T,3321 - 5/6T,LAT Apparel,T Crew Tee,Chill,Chill,Custom,2.55,1
+5G51EBLN,5G51-2T,3321-2T,LAT Apparel,T Crew Tee,Ash,Ash,Custom,2.55,1
+5G51FBLN,5G51-3T,3321-3T,LAT Apparel,T Crew Tee,Ash,Ash,Custom,2.55,1
+5G51GBLN,5G51-4T,3321-4T,LAT Apparel,T Crew Tee,Ash,Ash,Custom,2.55,1
+5G51HBLN,5G51-5/6T,3321 - 5/6T,LAT Apparel,T Crew Tee,Ash,Ash,Custom,2.55,1
+5H51EBLN,5H51-2T,3321-2T,LAT Apparel,T Crew Tee,Natural,Natural,Custom,2.55,1
+5H51FBLN,5H51-3T,3321-3T,LAT Apparel,T Crew Tee,Natural,Natural,Custom,2.55,1
+5H51GBLN,5H51-4T,3321-4T,LAT Apparel,T Crew Tee,Natural,Natural,Custom,2.55,1
+5H51HBLN,5H51-5/6T,3321 - 5/6T,LAT Apparel,T Crew Tee,Natural,Natural,Custom,2.55,1
+5I46EBLN,5I46-2T,3321-2T,LAT Apparel,T Crew Tee,Balrna,Balerina,Custom,2.55,1
+5I46FBLN,5I46-3T,3321-3T,LAT Apparel,T Crew Tee,Balrna,Balerina,Custom,2.55,1
+5I46GBLN,5I46-4T,3321-4T,LAT Apparel,T Crew Tee,Balrna,Balerina,Custom,2.55,1
+5I46HBLN,5I46-5/6T,3321 - 5/6T,LAT Apparel,T Crew Tee,Balrna,Balerina,Custom,2.55,1
+5Z008BLN,5Z00-2XL,Unknown,Unknown,MENS ECO TEE HONEYDEW,Unknown,Unknown,Custom,0,1
+5Z007BLN,5Z00-XL,Unknown,Unknown,MENS ECO TEE HONEYDEW,Unknown,Unknown,Custom,0,1
+5Z006BLN,5Z00-L,Unknown,Unknown,MENS ECO TEE HONEYDEW,Unknown,Unknown,Custom,0,1
+5Z005BLN,5Z00-M,Unknown,Unknown,MENS ECO TEE HONEYDEW,Unknown,Unknown,Custom,0,1
+5Z004BLN,5Z00-S,Unknown,Unknown,MENS ECO TEE HONEYDEW,Unknown,Unknown,Custom,0,1
+5Z000BLN,5Z00-YXS,Unknown,Unknown,Youth Eco Tee-Honeydew,Unknown,Unknown,Custom,0,1
+5Z001BLN,5Z00-YS,Unknown,Unknown,Youth Eco Tee-Honeydew,Unknown,Unknown,Custom,0,1
+5Z002BLN,5Z00-YM,Unknown,Unknown,Youth Eco Tee-Honeydew,Unknown,Unknown,Custom,0,1
+5Z003BLN,5Z00-YL,Unknown,Unknown,Youth Eco Tee-Honeydew,Unknown,Unknown,Custom,0,1
+5Z00YBLN,5Z00-YXL,Unknown,Unknown,Youth Eco Tee-Honeydew,Unknown,Unknown,Custom,0,1
 5Z100BLN,5Z10-YXS,5370-YXS,S&S Activewear,B. ECO TEE,White,White,Pick,2.64,72
 5Z101BLN,5Z10-YS,5370-YS,S&S Activewear,B. ECO TEE,White,White,Pick,2.64,72
 5Z102BLN,5Z10-YM,5370-YM,S&S Activewear,B. ECO TEE,White,White,Pick,2.64,72
@@ -254,11 +254,11 @@
 5Z107BLN,5Z10-XL,5170-XL,S&S Activewear,M. ECO Tee,White,White,Pick,2.88,72
 5Z108BLN,5Z10-2XL,5170-2XL,S&S Activewear,M. ECO Tee,White,White,Pick,4.56,36
 5Z109BLN,5Z10-3XL,5170-3XL,S&S Activewear,M. ECO Tee,White,White,Pick,5.97,36
-5Z210BLN,5Z21-YXS,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-5Z211BLN,5Z21-YS,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-5Z212BLN,5Z21-YM,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-5Z213BLN,5Z21-YL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-5Z21YBLN,5Z21-YXL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
+5Z210BLN,5Z21-YXS,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+5Z211BLN,5Z21-YS,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+5Z212BLN,5Z21-YM,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+5Z213BLN,5Z21-YL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+5Z21YBLN,5Z21-YXL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
 5Z570BLN,5Z57-YXS,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 5Z571BLN,5Z57-YS,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 5Z572BLN,5Z57-YM,DISC,DISC,DISC,DISC,DISC,DISC,0,1
@@ -281,26 +281,26 @@
 5Z675BLN,5Z67-M,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 5Z676BLN,5Z67-L,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 5Z677BLN,5Z67-XL,DISC,DISC,DISC,DISC,DISC,DISC,0,1
-6A000BLN,6A00-YXS,Unknown,Unknown,Ladies Eco Tee,HoneyDew,Unknown,Unknown,0,1
-6A001BLN,6A00-YS,Unknown,Unknown,Ladies Eco Tee,HoneyDew,Unknown,Unknown,0,1
-6A002BLN,6A00-YM,Unknown,Unknown,Ladies Eco Tee,HoneyDew,Unknown,Unknown,0,1
-6A003BLN,6A00-YL,Unknown,Unknown,Ladies Eco Tee,HoneyDew,Unknown,Unknown,0,1
-6A00YBLN,6A00-YXL,Unknown,Unknown,Y. ECO Tee,HoneyDew,Unknown,Unknown,0,1
-6A004BLN,6A00-S,Unknown,Unknown,W. ECO Tee,HoneyDew,Unknown,Unknown,0,1
-6A005BLN,6A00-M,Unknown,Unknown,W. ECO Tee,HoneyDew,Unknown,Unknown,0,1
-6A006BLN,6A00-L,Unknown,Unknown,W. ECO Tee,HoneyDew,Unknown,Unknown,0,1
-6A007BLN,6A00-XL,Unknown,Unknown,W. ECO Tee,Unknown,Unknown,Unknown,0,1
-6A008BLN,6A00-2XL,Unknown,Unknown,W. ECO Tee,Unknown,Unknown,Unknown,0,1
-6A150BLN,6A15-YXS,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6A151BLN,6A15-YS,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6A152BLN,6A15-YM,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6A153BLN,6A15-YL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6A15YBLN,6A15-YXL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6A203BLN,6A20-YL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6A202BLN,6A20-YM,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6A201BLN,6A20-YS,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6A20YBLN,6A20-YXL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6A200BLN,6A20-YXS,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
+6A000BLN,6A00-YXS,Unknown,Unknown,Ladies Eco Tee,HoneyDew,Unknown,Custom,0,1
+6A001BLN,6A00-YS,Unknown,Unknown,Ladies Eco Tee,HoneyDew,Unknown,Custom,0,1
+6A002BLN,6A00-YM,Unknown,Unknown,Ladies Eco Tee,HoneyDew,Unknown,Custom,0,1
+6A003BLN,6A00-YL,Unknown,Unknown,Ladies Eco Tee,HoneyDew,Unknown,Custom,0,1
+6A00YBLN,6A00-YXL,Unknown,Unknown,Y. ECO Tee,HoneyDew,Unknown,Custom,0,1
+6A004BLN,6A00-S,Unknown,Unknown,W. ECO Tee,HoneyDew,Unknown,Custom,0,1
+6A005BLN,6A00-M,Unknown,Unknown,W. ECO Tee,HoneyDew,Unknown,Custom,0,1
+6A006BLN,6A00-L,Unknown,Unknown,W. ECO Tee,HoneyDew,Unknown,Custom,0,1
+6A007BLN,6A00-XL,Unknown,Unknown,W. ECO Tee,Unknown,Unknown,Custom,0,1
+6A008BLN,6A00-2XL,Unknown,Unknown,W. ECO Tee,Unknown,Unknown,Custom,0,1
+6A150BLN,6A15-YXS,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6A151BLN,6A15-YS,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6A152BLN,6A15-YM,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6A153BLN,6A15-YL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6A15YBLN,6A15-YXL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6A203BLN,6A20-YL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6A202BLN,6A20-YM,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6A201BLN,6A20-YS,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6A20YBLN,6A20-YXL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6A200BLN,6A20-YXS,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
 6A218BLN,6A21-2XL,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 6A216BLN,6A21-L,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 6A215BLN,6A21-M,DISC,DISC,DISC,DISC,DISC,DISC,0,1
@@ -311,62 +311,62 @@
 6A211BLN,6A21-YS,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 6A21YBLN,6A21-YXL,DISC,DISC,DISC,DISC,DISC,DISC,0,1
 6A210BLN,6A21-YXS,DISC,DISC,DISC,DISC,DISC,DISC,0,1
-6A574BLN,6A57-S,Unknown,Unknown,W. ECO Tee,Unknown,6A574BLN,Unknown,0,1
-6A575BLN,6A57-M,Unknown,Unknown,W. ECO Tee,Unknown,6A575BLN,Unknown,0,1
-6A576BLN,6A57-L,Unknown,Unknown,W. ECO Tee,Unknown,6A576BLN,Unknown,0,1
-6A577BLN,6A57-XL,Unknown,Unknown,W. ECO Tee,Unknown,6A577BLN,Unknown,0,1
-6A578BLN,6A57-2XL,Unknown,Unknown,W. ECO Tee,Unknown,6A578BLN,Unknown,0,1
-6A573BLN,6A57-YL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6A572BLN,6A57-YM,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6A571BLN,6A57-YS,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6A57YBLN,6A57-YXL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6A570BLN,6A57-YXS,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6A673BLN,6A67-YL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6A672BLN,6A67-YM,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6A671BLN,6A67-YS,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6A67YBLN,6A67-YXL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6A670BLN,6A67-YXS,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6B808BLN,6B80-2XL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6B806BLN,6B80-L,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6B805BLN,6B80-M,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6B804BLN,6B80-S,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6B807BLN,6B80-XL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6B939BLN,6B93-3XL,6926-3XL,LAT Apparel,M Hoodie,Natural Heather,Natural Heather,Custom,11,1
-6B938BLN,6B93-2XL,6926-2XL,LAT Apparel,M Hoodie,Natural Heather,Natural Heather,Custom,11,1
-6B937BLN,6B93-XL,6926-XL,LAT Apparel,M Hoodie,Natural Heather,Natural Heather,Custom,11,1
-6B936BLN,6B93-L,6926-L,LAT Apparel,M Hoodie,Natural Heather,Natural Heather,Custom,11,1
-6B935BLN,6B93-M,6926-M,LAT Apparel,M Hoodie,Natural Heather,Natural Heather,Custom,11,1
-6B934BLN,6B93-S,6926-S,LAT Apparel,M Hoodie,Natural Heather,Natural Heather,Custom,11,1
-6C388BLN,6C38-2XL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6C386BLN,6C38-L,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6C385BLN,6C38-M,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6C384BLN,6C38-S,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6C387BLN,6C38-XL,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,0,1
-6C488BLN,6C48-2XL,6925-2XL,LAT Apparel,Crew Sweatshirt,Black,Black,Custom,9.33,1
-6C486BLN,6C48-L,6925-L,LAT Apparel,Crew Sweatshirt,Black,Black,Custom,9.33,1
-6C485BLN,6C48-M,6925-M,LAT Apparel,Crew Sweatshirt,Black,Black,Custom,9.33,1
-6C484BLN,6C48-S,6925-S,LAT Apparel,Crew Sweatshirt,Black,Black,Custom,9.33,1
-6C487BLN,6C48-XL,6925-XL,LAT Apparel,Crew Sweatshirt,Black,Black,Custom,9.33,1
-6C938BLN,6C93-2XL,6925-2XL,LAT Apparel,M Crew,Natural Heather,Natural Heather,Custom,9.33,1
-6C939BLN,6C93-3X,6925-3XL,LAT Apparel,M Crew,Natural Heather,Natural Heather,Custom,9.33,1
-6C936BLN,6C93-L,6925-L,LAT Apparel,M Crew,Natural Heather,Natural Heather,Custom,9.33,1
-6C935BLN,6C93-M,6925-M,LAT Apparel,M Crew,Natural Heather,Natural Heather,Custom,9.33,1
-6C934BLN,6C93-S,6925-S,LAT Apparel,M Crew,Natural Heather,Natural Heather,Custom,9.33,1
-6C937BLN,6C93-XL,6925-XL,LAT Apparel,M Crew,Natural Heather,Natural Heather,Custom,9.33,1
-6D483BLN,6D48-YL,2296-L,LAT Apparel,Y Hoodie,Black,Black,Custom,8.65,1
-6D482BLN,6D48-YM,2296-M,LAT Apparel,Y Hoodie,Black,Black,Custom,8.65,1
-6D481BLN,6D48-YS,2296-S,LAT Apparel,Y Hoodie,Black,Black,Custom,8.65,1
-6D48YBLN,6D48-YXL,2296-XL,LAT Apparel,Y Hoodie,Black,Black,Custom,9.33,1
-6D480BLN,6D48-YXS,2296-XS,LAT Apparel,Y Hoodie,Black,Black,Custom,9.33,1
-6D93EBLN,6D93-2T,Unknown,LAT Apparel,T Crew Sweater,Natural Heather,Natural Heather,Custom,8.65,1
-6D93FBLN,6D93-3T,Unknown,LAT Apparel,T Crew Sweater,Natural Heather,Natural Heather,Custom,8.65,1
-6D93GBLN,6D93-4T,Unknown,LAT Apparel,T Crew Sweater,Natural Heather,Natural Heather,Custom,8.65,1
-6D93HBLN,6D93-5/6T,Unknown,LAT Apparel,T Crew Sweater,Natural Heather,Natural Heather,Custom,8.65,1
-6D930BLN,6D93-XS,2296-XS,LAT Apparel,Y Hoodie,Natural Heather,Natural Heather,Custom,8.65,1
-6D933BLN,6D93-YL,2296-L,LAT Apparel,Y Hoodie,Natural Heather,Natural Heather,Custom,8.65,1
-6D931BLN,6D93-YS,2296-S,LAT Apparel,Y Hoodie,Natural Heather,Natural Heather,Custom,8.65,1
-6D932BLN,6D93-M,2296-M,LAT Apparel,Y Hoodie,Natural Heather,Natural Heather,Custom,8.65,1
-6D93YBLN,6D93-YXL,2296-XL,LAT Apparel,Y Hoodie,Natural Heather,Natural Heather,Custom,8.65,1
+6A574BLN,6A57-S,Unknown,Unknown,W. ECO Tee,Unknown,6A574BLN,Custom,0,1
+6A575BLN,6A57-M,Unknown,Unknown,W. ECO Tee,Unknown,6A575BLN,Custom,0,1
+6A576BLN,6A57-L,Unknown,Unknown,W. ECO Tee,Unknown,6A576BLN,Custom,0,1
+6A577BLN,6A57-XL,Unknown,Unknown,W. ECO Tee,Unknown,6A577BLN,Custom,0,1
+6A578BLN,6A57-2XL,Unknown,Unknown,W. ECO Tee,Unknown,6A578BLN,Custom,0,1
+6A573BLN,6A57-YL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6A572BLN,6A57-YM,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6A571BLN,6A57-YS,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6A57YBLN,6A57-YXL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6A570BLN,6A57-YXS,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6A673BLN,6A67-YL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6A672BLN,6A67-YM,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6A671BLN,6A67-YS,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6A67YBLN,6A67-YXL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6A670BLN,6A67-YXS,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6B808BLN,6B80-2XL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6B806BLN,6B80-L,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6B805BLN,6B80-M,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6B804BLN,6B80-S,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6B807BLN,6B80-XL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6B939BLN,6B93-3XL,6926-3XL,LAT Apparel,M Hoodie,Natural Heather,Natural Heather,Custom,0,1
+6B938BLN,6B93-2XL,6926-2XL,LAT Apparel,M Hoodie,Natural Heather,Natural Heather,Custom,0,1
+6B937BLN,6B93-XL,6926-XL,LAT Apparel,M Hoodie,Natural Heather,Natural Heather,Custom,0,1
+6B936BLN,6B93-L,6926-L,LAT Apparel,M Hoodie,Natural Heather,Natural Heather,Custom,0,1
+6B935BLN,6B93-M,6926-M,LAT Apparel,M Hoodie,Natural Heather,Natural Heather,Custom,0,1
+6B934BLN,6B93-S,6926-S,LAT Apparel,M Hoodie,Natural Heather,Natural Heather,Custom,0,1
+6C388BLN,6C38-2XL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6C386BLN,6C38-L,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6C385BLN,6C38-M,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6C384BLN,6C38-S,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6C387BLN,6C38-XL,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
+6C488BLN,6C48-2XL,6925-2XL,LAT Apparel,Crew Sweatshirt,Black,Black,Custom,0,1
+6C486BLN,6C48-L,6925-L,LAT Apparel,Crew Sweatshirt,Black,Black,Custom,0,1
+6C485BLN,6C48-M,6925-M,LAT Apparel,Crew Sweatshirt,Black,Black,Custom,0,1
+6C484BLN,6C48-S,6925-S,LAT Apparel,Crew Sweatshirt,Black,Black,Custom,0,1
+6C487BLN,6C48-XL,6925-XL,LAT Apparel,Crew Sweatshirt,Black,Black,Custom,0,1
+6C938BLN,6C93-2XL,6925-2XL,LAT Apparel,M Crew,Natural Heather,Natural Heather,Custom,0,1
+6C939BLN,6C93-3X,6925-3XL,LAT Apparel,M Crew,Natural Heather,Natural Heather,Custom,0,1
+6C936BLN,6C93-L,6925-L,LAT Apparel,M Crew,Natural Heather,Natural Heather,Custom,0,1
+6C935BLN,6C93-M,6925-M,LAT Apparel,M Crew,Natural Heather,Natural Heather,Custom,0,1
+6C934BLN,6C93-S,6925-S,LAT Apparel,M Crew,Natural Heather,Natural Heather,Custom,0,1
+6C937BLN,6C93-XL,6925-XL,LAT Apparel,M Crew,Natural Heather,Natural Heather,Custom,0,1
+6D483BLN,6D48-YL,2296-L,LAT Apparel,Y Hoodie,Black,Black,Custom,0,1
+6D482BLN,6D48-YM,2296-M,LAT Apparel,Y Hoodie,Black,Black,Custom,0,1
+6D481BLN,6D48-YS,2296-S,LAT Apparel,Y Hoodie,Black,Black,Custom,0,1
+6D48YBLN,6D48-YXL,2296-XL,LAT Apparel,Y Hoodie,Black,Black,Custom,0,1
+6D480BLN,6D48-YXS,2296-XS,LAT Apparel,Y Hoodie,Black,Black,Custom,0,1
+6D93EBLN,6D93-2T,Unknown,LAT Apparel,T Crew Sweater,Natural Heather,Natural Heather,Custom,5.3,1
+6D93FBLN,6D93-3T,Unknown,LAT Apparel,T Crew Sweater,Natural Heather,Natural Heather,Custom,5.3,1
+6D93GBLN,6D93-4T,Unknown,LAT Apparel,T Crew Sweater,Natural Heather,Natural Heather,Custom,5.3,1
+6D93HBLN,6D93-5/6T,Unknown,LAT Apparel,T Crew Sweater,Natural Heather,Natural Heather,Custom,5.3,1
+6D930BLN,6D93-YXS,2296-XS,LAT Apparel,Y Hoodie,Natural Heather,Natural Heather,Custom,0,1
+6D933BLN,6D93-YL,2296-L,LAT Apparel,Y Hoodie,Natural Heather,Natural Heather,Custom,0,1
+6D931BLN,6D93-YS,2296-S,LAT Apparel,Y Hoodie,Natural Heather,Natural Heather,Custom,0,1
+6D932BLN,6D93-YM,2296-M,LAT Apparel,Y Hoodie,Natural Heather,Natural Heather,Custom,0,1
+6D93YBLN,6D93-YXL,2296-XL,LAT Apparel,Y Hoodie,Natural Heather,Natural Heather,Custom,0,1
 6E10EBLN,6E10-2T,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
 6E10FBLN,6E10-3T,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
 6E10GBLN,6E10-4T,Unknown,Unknown,Unknown,Unknown,Unknown,Custom,0,1
@@ -380,56 +380,56 @@
 6E481BLN,6E48-YS,2225-S,LAT Apparel,Y Crew Sweater,Black,Black,Custom,0,1
 6E480BLN,6E48-YXS,2225-XS,LAT Apparel,Y Crew Sweater,Black,Black,Custom,0,1
 6E48YBLN,6E48-YXL,2225-XL,LAT Apparel,Y Crew Sweater,Black,Black,Custom,0,1
-6E933BLN,6E93-YL,2225-L,LAT Apparel,Y Crew Sweatshirt,Natural Heather,Natural Heather,Custom,7.79,1
-6E932BLN,6E93-YM,2225-M,LAT Apparel,Y Crew Sweatshirt,Natural Heather,Natural Heather,Custom,7.79,1
-6E931BLN,6E93-YS,2225-S,LAT Apparel,Y Crew Sweatshirt,Natural Heather,Natural Heather,Custom,7.79,1
-6E93YBLN,6E93-YXL,2225-XL,LAT Apparel,Y Crew Sweatshirt,Natural Heather,Natural Heather,Custom,7.79,1
-6E930BLN,6E93-YXS,2225-XS,LAT Apparel,Y Crew Sweatshirt,Natural Heather,Natural Heather,Custom,7.79,1
-6F100BLN,6F10-YXS,PC380YLS-XS,SanMar,Youth UV Sunshirt,White,White,Pick,4.37,72
-6F101BLN,6F10-YS,PC380YLS-S,SanMar,Youth UV Sunshirt,White,White,Pick,4.37,72
-6F102BLN,6F10-YM,PC380YLS-M,SanMar,Youth UV Sunshirt,White,White,Pick,4.37,72
-6F103BLN,6F10-YL,PC380YLS-L,SanMar,Youth UV Sunshirt,White,White,Pick,4.37,72
-6F10YBLN,6F10-YXL,PC380YLS-XL,SanMar,Youth UV Sunshirt,White,White,Pick,4.37,72
-6F104BLN,6F10-S,PC380LS-S,SanMar,Unisex UV Sunshirt,White,White,Pick,4.37,72
-6F105BLN,6F10-M,PC380LS-M,SanMar,Unisex UV Sunshirt,White,White,Pick,4.37,72
-6F106BLN,6F10-L,PC380LS-L,SanMar,Unisex UV Sunshirt,White,White,Pick,4.37,72
-6F107BLN,6F10-XL,PC380LS-XL,SanMar,Unisex UV Sunshirt,White,White,Pick,4.37,72
-6F108BLN,6F10-2XL,PC380LS-2XL,SanMar,Unisex UV Sunshirt,White,White,Pick,4.37,36
-6F109BLN,6F10-3XL,PC380LS-3XL,SanMar,Unisex UV Sunshirt,White,White,Pick,4.37,36
-6F190BLN,6F19-YXS,PC380YLS-XS,SanMar,Youth UV Sunshirt,Gray,Silver,Pick,4.37,72
-6F191BLN,6F19-YS,PC380YLS-S,SanMar,Youth UV Sunshirt,Gray,Silver,Pick,4.37,72
-6F192BLN,6F19-YM,PC380YLS-M,SanMar,Youth UV Sunshirt,Gray,Silver,Pick,4.37,72
-6F193BLN,6F19-YL,PC380YLS-L,SanMar,Youth UV Sunshirt,Gray,Silver,Pick,4.37,72
-6F19YBLN,6F19-YXL,PC380YLS-XL,SanMar,Youth UV Sunshirt,Gray,Silver,Pick,4.37,72
-6F194BLN,6F19-S,PC380LS-S,SanMar,Unisex UV Sunshirt,Gray,Silver,Pick,4.37,72
-6F195BLN,6F19-M,PC380LS-M,SanMar,Unisex UV Sunshirt,Gray,Silver,Pick,4.37,72
-6F196BLN,6F19-L,PC380LS-L,SanMar,Unisex UV Sunshirt,Gray,Silver,Pick,4.37,72
-6F197BLN,6F19-XL,PC380LS-XL,SanMar,Unisex UV Sunshirt,Gray,Silver,Pick,4.37,72
-6F198BLN,6F19-2XL,PC380LS-2XL,SanMar,Unisex UV Sunshirt,Gray,Silver,Pick,4.37,36
-6F199BLN,6F19-3XL,PC380LS-3XL,SanMar,Unisex UV Sunshirt,Gray,Silver,Pick,4.37,36
-6G104BLN,6G10-S,PC380H-S,SanMar,Unisex UV Hoodshirt,White,White,Pick,5.63,72
-6G105BLN,6G10-M,PC380H-M,SanMar,Unisex UV Hoodshirt,White,White,Pick,5.63,72
-6G106BLN,6G10-L,PC380H-L,SanMar,Unisex UV Hoodshirt,White,White,Pick,5.63,72
-6G107BLN,6G10-XL,PC380H-XL,SanMar,Unisex UV Hoodshirt,White,White,Pick,5.63,72
-6G108BLN,6G10-2XL,PC380H-2XL,SanMar,Unisex UV Hoodshirt,White,White,Pick,5.63,36
-6G109BLN,6G10-3XL,PC380H-3XL,SanMar,Unisex UV Hoodshirt,White,White,Pick,5.63,36
-6G194BLN,6G19-S,PC380H-S,SanMar,Unisex UV Hoodshirt,Gray,Silver,Pick,5.63,72
-6G195BLN,6G19-M,PC380H-M,SanMar,Unisex UV Hoodshirt,Gray,Silver,Pick,5.63,72
-6G196BLN,6G19-L,PC380H-L,SanMar,Unisex UV Hoodshirt,Gray,Silver,Pick,5.63,72
-6G197BLN,6G19-XL,PC380H-XL,SanMar,Unisex UV Hoodshirt,Gray,Silver,Pick,5.63,72
-6G198BLN,6G19-2XL,PC380H-2XL,SanMar,Unisex UV Hoodshirt,Gray,Silver,Pick,5.63,36
-6G199BLN,6G19-3XL,PC380H-3XL,SanMar,Unisex UV Hoodshirt,Gray,Silver,Pick,5.63,36
-6H104BLN,6H10-S,3592-S,LAT Apparel,W. Tank T,White,White,Custom,3.75,36
-6H105BLN,6H10-M,3592-M,LAT Apparel,W. Tank T,White,White,Custom,3.75,36
-6H106BLN,6H10-L,3592-L,LAT Apparel,W. Tank T,White,White,Custom,3.75,36
-6H107BLN,6H10-XL,3592-XL,LAT Apparel,W. Tank T,White,White,Custom,3.75,36
-6H108BLN,6H10-2XL,3592-2XL,LAT Apparel,W. Tank T,White,White,Custom,4.59,36
-72124,72124,DISC,DelSol,DISC,DISC,DISC,DISC,0,50
-72125,72125,Canvas Beach Tote,DelSol,Canvas Beach Tote,Canvas Beach Tote,Canvas Beach Tote,Totes,0,50
+6E933BLN,6E93-YL,2225-L,LAT Apparel,Y Crew Sweatshirt,Natural Heather,Natural Heather,Custom,0,1
+6E932BLN,6E93-YM,2225-M,LAT Apparel,Y Crew Sweatshirt,Natural Heather,Natural Heather,Custom,0,1
+6E931BLN,6E93-YS,2225-S,LAT Apparel,Y Crew Sweatshirt,Natural Heather,Natural Heather,Custom,0,1
+6E93YBLN,6E93-YXL,2225-XL,LAT Apparel,Y Crew Sweatshirt,Natural Heather,Natural Heather,Custom,0,1
+6E930BLN,6E93-YXS,2225-XS,LAT Apparel,Y Crew Sweatshirt,Natural Heather,Natural Heather,Custom,0,1
+6F100BLN,6F10-YXS,PC380YLS-XS,SanMar,Youth UV Sunshirt,White,White,Pick,4.9,72
+6F101BLN,6F10-YS,PC380YLS-S,SanMar,Youth UV Sunshirt,White,White,Pick,4.9,72
+6F102BLN,6F10-YM,PC380YLS-M,SanMar,Youth UV Sunshirt,White,White,Pick,4.9,72
+6F103BLN,6F10-YL,PC380YLS-L,SanMar,Youth UV Sunshirt,White,White,Pick,4.9,72
+6F10YBLN,6F10-YXL,PC380YLS-XL,SanMar,Youth UV Sunshirt,White,White,Pick,4.9,72
+6F104BLN,6F10-S,PC380LS-S,SanMar,Unisex UV Sunshirt,White,White,Pick,4.9,72
+6F105BLN,6F10-M,PC380LS-M,SanMar,Unisex UV Sunshirt,White,White,Pick,4.9,72
+6F106BLN,6F10-L,PC380LS-L,SanMar,Unisex UV Sunshirt,White,White,Pick,4.9,72
+6F107BLN,6F10-XL,PC380LS-XL,SanMar,Unisex UV Sunshirt,White,White,Pick,4.9,72
+6F108BLN,6F10-2XL,PC380LS-2XL,SanMar,Unisex UV Sunshirt,White,White,Pick,5.66,36
+6F109BLN,6F10-3XL,PC380LS-3XL,SanMar,Unisex UV Sunshirt,White,White,Pick,6.24,36
+6F190BLN,6F19-YXS,PC380YLS-XS,SanMar,Youth UV Sunshirt,Gray,Silver,Pick,4.9,72
+6F191BLN,6F19-YS,PC380YLS-S,SanMar,Youth UV Sunshirt,Gray,Silver,Pick,4.9,72
+6F192BLN,6F19-YM,PC380YLS-M,SanMar,Youth UV Sunshirt,Gray,Silver,Pick,4.9,72
+6F193BLN,6F19-YL,PC380YLS-L,SanMar,Youth UV Sunshirt,Gray,Silver,Pick,4.9,72
+6F19YBLN,6F19-YXL,PC380YLS-XL,SanMar,Youth UV Sunshirt,Gray,Silver,Pick,4.9,72
+6F194BLN,6F19-S,PC380LS-S,SanMar,Unisex UV Sunshirt,Gray,Silver,Pick,4.9,72
+6F195BLN,6F19-M,PC380LS-M,SanMar,Unisex UV Sunshirt,Gray,Silver,Pick,4.9,72
+6F196BLN,6F19-L,PC380LS-L,SanMar,Unisex UV Sunshirt,Gray,Silver,Pick,4.9,72
+6F197BLN,6F19-XL,PC380LS-XL,SanMar,Unisex UV Sunshirt,Gray,Silver,Pick,4.9,72
+6F198BLN,6F19-2XL,PC380LS-2XL,SanMar,Unisex UV Sunshirt,Gray,Silver,Pick,5.66,36
+6F199BLN,6F19-3XL,PC380LS-3XL,SanMar,Unisex UV Sunshirt,Gray,Silver,Pick,6.24,36
+6G104BLN,6G10-S,PC380H-S,SanMar,Unisex UV Hoodshirt,White,White,Pick,6.2,72
+6G105BLN,6G10-M,PC380H-M,SanMar,Unisex UV Hoodshirt,White,White,Pick,6.2,72
+6G106BLN,6G10-L,PC380H-L,SanMar,Unisex UV Hoodshirt,White,White,Pick,6.2,72
+6G107BLN,6G10-XL,PC380H-XL,SanMar,Unisex UV Hoodshirt,White,White,Pick,6.2,72
+6G108BLN,6G10-2XL,PC380H-2XL,SanMar,Unisex UV Hoodshirt,White,White,Pick,7.75,36
+6G109BLN,6G10-3XL,PC380H-3XL,SanMar,Unisex UV Hoodshirt,White,White,Pick,8.79,36
+6G194BLN,6G19-S,PC380H-S,SanMar,Unisex UV Hoodshirt,Gray,Silver,Pick,6.2,72
+6G195BLN,6G19-M,PC380H-M,SanMar,Unisex UV Hoodshirt,Gray,Silver,Pick,6.2,72
+6G196BLN,6G19-L,PC380H-L,SanMar,Unisex UV Hoodshirt,Gray,Silver,Pick,6.2,72
+6G197BLN,6G19-XL,PC380H-XL,SanMar,Unisex UV Hoodshirt,Gray,Silver,Pick,6.2,72
+6G198BLN,6G19-2XL,PC380H-2XL,SanMar,Unisex UV Hoodshirt,Gray,Silver,Pick,7.75,36
+6G199BLN,6G19-3XL,PC380H-3XL,SanMar,Unisex UV Hoodshirt,Gray,Silver,Pick,8.79,36
+6H104BLN,6H10-S,3592-S,LAT Apparel,W. Tank T,White,White,Custom,3.75,1
+6H105BLN,6H10-M,3592-M,LAT Apparel,W. Tank T,White,White,Custom,3.75,1
+6H106BLN,6H10-L,3592-L,LAT Apparel,W. Tank T,White,White,Custom,3.75,1
+6H107BLN,6H10-XL,3592-XL,LAT Apparel,W. Tank T,White,White,Custom,3.75,1
+6H108BLN,6H10-2XL,3592-2XL,LAT Apparel,W. Tank T,White,White,Custom,4.59,1
+72124,72124,DISC,DelSol,DISC,DISC,DISC,DISC,#N/A,50
+72125,72125,Canvas Beach Tote,DelSol,Canvas Beach Tote,Canvas Beach Tote,Canvas Beach Tote,Custom,#N/A,50
 74104BLN,7410-S,LPC54V-S,SanMar,W. V-Neck T,White,White,Pick,2.61,72
 74105BLN,7410-M,LPC54V-M,SanMar,W. V-Neck T,White,White,Pick,2.61,72
 74106BLN,7410-L,LPC54V-L,SanMar,W. V-Neck T,White,White,Pick,2.61,72
 74107BLN,7410-XL,LPC54V-XL,SanMar,W. V-Neck T,White,White,Pick,2.61,72
 74108BLN,7410-2XL,LPC54V-2XL,SanMar,W. V-Neck T,White,White,Pick,3.81,36
 74109BLN,7410-3XL,LPC54V-3XL,SanMar,W. V-Neck T,White,White,Pick,4.72,36
-CB124,CB124,CANCNCH BLANK NAT L (CINCHBAG),DelSol,CANCNCH BLANK NAT L (CINCHBAG),Natural,Natural,CINCH,0,100
+CB124,CB124,CANCNCH BLANK NAT L (CINCHBAG),DelSol,CANCNCH BLANK NAT L (CINCHBAG),Natural,Natural,Custom,#N/A,100
