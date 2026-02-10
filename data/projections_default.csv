@@ -1,76 +1,81 @@
 ﻿Raw Material Wholesale Projections (Silver Screen),,,,,,,,,,
 Style,Item Number,Description,Item Status,Vendor Item Number,On Hand Qty,Last 365 Avg SPD,Feb 2026 Qty,March 2026 Qty,April 2026 Qty,May 2026 Qty
-Men's Crew Tee,10104BLN,Tee Blank Wht S,Pick,HANES01-10 - 10104BLN,0,15.65,700,700,700,700
-Men's Crew Tee,10105BLN,Tee Blank Wht M,Pick,HANES01-10 - 10105BLN,0,22.52,600,600,600,600
-Men's Crew Tee,10106BLN,Tee Blank Wht L,Pick,HANES01-10 - 10106BLN,0,26.56,800,800,800,800
-Men's Crew Tee,10107BLN,Tee Blank Wht XL,Pick,HANES01-10 - 10107BLN,0,25.86,800,800,800,800
-Men's Crew Tee,10108BLN,Tee Blank Wht 2XL,Pick,HANES01-10 - PC54 2XL White,0,19.12,700,700,700,700
-Men's Crew Tee,10109BLN,Tee Blank Wht 3XL,Pick,HANES01-10 - 10109BLN,0,12.59,500,500,500,500
+Men's Crew Tee,10104BLN,Tee Blank Wht S,Pick,HANES01-10 - 10104BLN,0,15.65,850,700,700,700
+Men's Crew Tee,10105BLN,Tee Blank Wht M,Pick,HANES01-10 - 10105BLN,0,22.52,850,600,600,600
+Men's Crew Tee,10106BLN,Tee Blank Wht L,Pick,HANES01-10 - 10106BLN,0,26.56,1060,800,800,800
+Men's Crew Tee,10107BLN,Tee Blank Wht XL,Pick,HANES01-10 - 10107BLN,0,25.86,1060,800,800,800
+Men's Crew Tee,10108BLN,Tee Blank Wht 2XL,Pick,HANES01-10 - PC54 2XL White,0,19.12,150,700,700,700
+Men's Crew Tee,10109BLN,Tee Blank Wht 3XL,Pick,HANES01-10 - 10109BLN,0,12.59,600,500,500,500
 Men's Crew Tee,10194BLN,Men's Crew Tee,Custom,Unbeknownst,0,0,0,0,0,0
 Men's Crew Tee,10195BLN,Men's Crew Tee,Custom,Unbeknownst,0,0,0,0,0,0
 Men's Crew Tee,10196BLN,Men's Crew Tee,Custom,Unbeknownst,0,0,0,0,0,0
 Men's Crew Tee,10197BLN,Men's Crew Tee,Custom,Unbeknownst,0,0,0,0,0,0
 Men's Crew Tee,10198BLN,Men's Crew Tee,Custom,Unbeknownst,0,0,0,0,0,0
 Men's Crew Tee,10199BLN,Men's Crew Tee,Custom,Unbeknownst,0,0,0,0,0,0
-Men's Crew Tee,10384BLN,Tee Blank Nvy S,Pick,10384BLN,0,5.09,300,300,300,300
-Men's Crew Tee,10385BLN,Tee Blank Nvy M,Pick,10385BLN,0,6.09,300,300,300,300
-Men's Crew Tee,10386BLN,Tee Blank Nvy L,Pick,10386BLN,0,7.66,300,300,300,300
-Men's Crew Tee,10387BLN,Tee Blank Nvy XL,Pick,10387BLN,0,7.64,300,300,300,300
-Men's Crew Tee,10388BLN,Tee Blank Nvy 2XL,Pick,10388BLN,0,5.62,300,300,300,300
-Men's Crew Tee,10389BLN,Tee Blank Nvy 3XL,Pick,10389BLN,0,3.57,300,300,300,300
-Men's Crew Tee,10484BLN,Tee Blank Blk S,Pick,HANES01-10 - 10484BLN,0,8.58,400,400,400,400
-Men's Crew Tee,10485BLN,Tee Blank Blk M,Pick,HANES01-10 - 10485BLN,0,11.81,400,400,400,400
-Men's Crew Tee,10486BLN,Tee Blank Blk L,Pick,HANES01-10 - 10486BLN,0,14.52,400,400,400,400
-Men's Crew Tee,10487BLN,Tee Blank Blk XL,Pick,HANES01-10 - 10487BLN,0,14.25,400,400,400,400
-Men's Crew Tee,10488BLN,Tee Blank Blk 2XL,Pick,HANES01-10 - 10488BLN,0,10.4,400,400,400,400
-Men's Crew Tee,10489BLN,Tee Blank Blk 3XL,Pick,HANES01-10 - 10489BLN,0,5.82,400,400,400,400
-Men's Crew Tee,10514BLN,Tee Blank Ash S,Pick,HANES01-10 - 10514BLN,0,6.63,300,300,300,300
-Men's Crew Tee,10515BLN,Tee Blank Ash M,Pick,HANES01-10 - 10515BLN,0,10.05,300,300,300,300
-Men's Crew Tee,10516BLN,Tee Blank Ash L,Pick,HANES01-10 - 10516BLN,0,12.19,300,300,300,300
-Men's Crew Tee,10517BLN,Tee Blank Ash XL,Pick,HANES01-10 - 10517BLN,0,11.83,300,300,300,300
-Men's Crew Tee,10518BLN,Tee Blank Ash 2XL,Pick,HANES01-10 - 10518BLN,0,9.65,300,300,300,300
-Men's Crew Tee,10519BLN,Tee Blank Ash 3XL,Pick,HANES01-10 - 10519BLN,0,5.81,300,300,300,300
-Boy's FJ Crew Tee,2D100BLN,FJCrwTee Blank Wht YXS,Pick,HANES01-10 - 2D100BLN,0,11.86,400,400,400,400
-Boy's FJ Crew Tee,2D101BLN,FJCrwTee Blank Wht YS,Pick,HANES01-10 - 2D101BLN,0,14.17,500,500,500,500
-Boy's FJ Crew Tee,2D102BLN,FJCrwTee Blank Wht YM,Pick,HANES01-10 - 2D102BLN,0,15.06,600,600,600,600
-Boy's FJ Crew Tee,2D103BLN,FJCrwTee Blank Wht YL,Pick,HANES01-10 - 2D103BLN,0,13.98,500,500,500,500
-Boy's Toddler Crew Tee,2D10EBLN,FJCrwTee Blank Wht 2T,Pick,LATSP01-10 - 2D10EBLN,0,16.25,300,300,300,300
-Boy's Toddler Crew Tee,2D10FBLN,FJCrwTee Blank Wht 3T,Pick,LATSP01-10 - 2D10FBLN,0,16.55,400,400,400,400
-Boy's Toddler Crew Tee,2D10GBLN,FJCrwTee Blank Wht 4T,Pick,LATSP01-10 - 2D10GBLN,0,16.06,400,400,400,400
-Boy's Toddler Crew Tee,2D10HBLN,FJCrwTee Blank Wht 5/6T,Pick,LATSP01-10 - 2D10HBLN,0,14.7,400,400,400,400
-Boy's FJ Crew Tee,2D10YBLN,FJCrwTee Blank Wht YXL,Pick,HANES01-10 - 2D10YBLN,0,6.1,300,300,300,300
+Men's Crew Tee,10384BLN,Tee Blank Nvy S,Pick,10384BLN,0,5.09,380,300,300,300
+Men's Crew Tee,10385BLN,Tee Blank Nvy M,Pick,10385BLN,0,6.09,420,300,300,300
+Men's Crew Tee,10386BLN,Tee Blank Nvy L,Pick,10386BLN,0,7.66,440,300,300,300
+Men's Crew Tee,10387BLN,Tee Blank Nvy XL,Pick,10387BLN,0,7.64,440,300,300,300
+Men's Crew Tee,10388BLN,Tee Blank Nvy 2XL,Pick,10388BLN,0,5.62,400,300,300,300
+Men's Crew Tee,10389BLN,Tee Blank Nvy 3XL,Pick,10389BLN,0,3.57,330,300,300,300
+Men's Crew Tee,10484BLN,Tee Blank Blk S,Pick,HANES01-10 - 10484BLN,0,8.58,525,400,400,400
+Men's Crew Tee,10485BLN,Tee Blank Blk M,Pick,HANES01-10 - 10485BLN,0,11.81,625,400,400,400
+Men's Crew Tee,10486BLN,Tee Blank Blk L,Pick,HANES01-10 - 10486BLN,0,14.52,650,400,400,400
+Men's Crew Tee,10487BLN,Tee Blank Blk XL,Pick,HANES01-10 - 10487BLN,0,14.25,640,400,400,400
+Men's Crew Tee,10488BLN,Tee Blank Blk 2XL,Pick,HANES01-10 - 10488BLN,0,10.4,580,400,400,400
+Men's Crew Tee,10489BLN,Tee Blank Blk 3XL,Pick,HANES01-10 - 10489BLN,0,5.82,520,400,400,400
+Men's Crew Tee,10514BLN,Tee Blank Ash S,Pick,HANES01-10 - 10514BLN,0,6.63,400,300,300,300
+Men's Crew Tee,10515BLN,Tee Blank Ash M,Pick,HANES01-10 - 10515BLN,0,10.05,400,300,300,300
+Men's Crew Tee,10516BLN,Tee Blank Ash L,Pick,HANES01-10 - 10516BLN,0,12.19,400,300,300,300
+Men's Crew Tee,10517BLN,Tee Blank Ash XL,Pick,HANES01-10 - 10517BLN,0,11.83,400,300,300,300
+Men's Crew Tee,10518BLN,Tee Blank Ash 2XL,Pick,HANES01-10 - 10518BLN,0,9.65,400,300,300,300
+Men's Crew Tee,10519BLN,Tee Blank Ash 3XL,Pick,HANES01-10 - 10519BLN,0,5.81,350,300,300,300
+Boy's FJ Crew Tee,2D100BLN,FJCrwTee Blank Wht YXS,Pick,HANES01-10 - 2D100BLN,0,11.86,500,400,400,400
+Boy's FJ Crew Tee,2D101BLN,FJCrwTee Blank Wht YS,Pick,HANES01-10 - 2D101BLN,0,14.17,600,500,500,500
+Boy's FJ Crew Tee,2D102BLN,FJCrwTee Blank Wht YM,Pick,HANES01-10 - 2D102BLN,0,15.06,700,600,600,600
+Boy's FJ Crew Tee,2D103BLN,FJCrwTee Blank Wht YL,Pick,HANES01-10 - 2D103BLN,0,13.98,600,500,500,500
+Boy's Toddler Crew Tee,2D10EBLN,FJCrwTee Blank Wht 2T,Pick,LATSP01-10 - 2D10EBLN,0,16.25,500,300,300,300
+Boy's Toddler Crew Tee,2D10FBLN,FJCrwTee Blank Wht 3T,Pick,LATSP01-10 - 2D10FBLN,0,16.55,600,400,400,400
+Boy's Toddler Crew Tee,2D10GBLN,FJCrwTee Blank Wht 4T,Pick,LATSP01-10 - 2D10GBLN,0,16.06,600,400,400,400
+Boy's Toddler Crew Tee,2D10HBLN,FJCrwTee Blank Wht 5/6T,Pick,LATSP01-10 - 2D10HBLN,0,14.7,600,400,400,400
+Boy's FJ Crew Tee,2D10YBLN,FJCrwTee Blank Wht YXL,Pick,HANES01-10 - 2D10YBLN,0,6.1,500,300,300,300
 Boy's FJ Crew Tee,2D190BLN,Boy's FJ Crew Tee,Custom,Unbeknownst,0,0,0,0,0,0
 Boy's FJ Crew Tee,2D191BLN,Boy's FJ Crew Tee,Custom,Unbeknownst,0,0,0,0,0,0
 Boy's FJ Crew Tee,2D192BLN,Boy's FJ Crew Tee,Custom,Unbeknownst,0,0,0,0,0,0
 Boy's FJ Crew Tee,2D193BLN,Boy's FJ Crew Tee,Custom,Unbeknownst,0,0,0,0,0,0
 Boy's FJ Crew Tee,2D19YBLN,Boy's FJ Crew Tee,Custom,Unbeknownst,0,0,0,0,0,0
-Boy's FJ Crew Tee,2D480BLN,FJCrwTee Blank Blk YXS,Pick,HANES01-10 - 2D480BLN,0,5.26,300,300,300,300
-Boy's FJ Crew Tee,2D481BLN,FJCrwTee Blank Blk YS,Pick,HANES01-10 - PC450Y YS Black,0,6.72,300,300,300,300
-Boy's FJ Crew Tee,2D482BLN,FJCrwTee Blank Blk YM,Pick,HANES01-10 - 2D482BLN,0,7.76,400,400,400,400
-Boy's FJ Crew Tee,2D483BLN,FJCrwTee Blank Blk YL,Pick,HANES01-10 - 2D483BLN,0,7.95,400,400,400,400
-Boy's FJ Crew Tee,2D510BLN,FJCrwTee Blank Ash YXS,Pick,HANES01-10 - 2D510BLN,0,0.87,250,250,250,250
-Boy's FJ Crew Tee,2D511BLN,FJCrwTee Blank Ash YS,Pick,HANES01-10 - 2D511BLN,0,1.31,250,250,250,250
-Boy's FJ Crew Tee,2D512BLN,FJCrwTee Blank Ash YM,Pick,HANES01-10 - 2D512BLN,0,1.25,250,250,250,250
-Boy's FJ Crew Tee,2D513BLN,FJCrwTee Blank Ash YL,Pick,HANES01-10 - 2D513BLN,0,1.25,250,250,250,250
+T Crew Tee,2D380BLN,FJ Crew Tee,,PC54Y-XS,0,0,0,0,0,0
+T Crew Tee,2D381BLN,FJ Crew Tee,,PC54Y-S,0,0,0,0,0,0
+T Crew Tee,2D382BLN,FJ Crew Tee,,PC54Y-M,0,0,0,0,0,0
+T Crew Tee,2D383BLN,FJ Crew Tee,,PC54Y-L,0,0,0,0,0,0
+T Crew Tee,2D384BLN,FJ Crew Tee,,PC54Y-XL,0,0,0,0,0,0
+Boy's FJ Crew Tee,2D480BLN,FJCrwTee Blank Blk YXS,Pick,HANES01-10 - 2D480BLN,0,5.26,580,300,300,300
+Boy's FJ Crew Tee,2D481BLN,FJCrwTee Blank Blk YS,Pick,HANES01-10 - PC450Y YS Black,0,6.72,420,300,300,300
+Boy's FJ Crew Tee,2D482BLN,FJCrwTee Blank Blk YM,Pick,HANES01-10 - 2D482BLN,0,7.76,540,400,400,400
+Boy's FJ Crew Tee,2D483BLN,FJCrwTee Blank Blk YL,Pick,HANES01-10 - 2D483BLN,0,7.95,540,400,400,400
+Boy's FJ Crew Tee,2D510BLN,FJCrwTee Blank Ash YXS,Pick,HANES01-10 - 2D510BLN,0,0.87,350,250,250,250
+Boy's FJ Crew Tee,2D511BLN,FJCrwTee Blank Ash YS,Pick,HANES01-10 - 2D511BLN,0,1.31,350,250,250,250
+Boy's FJ Crew Tee,2D512BLN,FJCrwTee Blank Ash YM,Pick,HANES01-10 - 2D512BLN,0,1.25,350,250,250,250
+Boy's FJ Crew Tee,2D513BLN,FJCrwTee Blank Ash YL,Pick,HANES01-10 - 2D513BLN,0,1.25,350,250,250,250
 Men's Jersey Tank Top,2Z105BLN,Men's Jersey Tank Top,Custom,Unbeknownst,0,0,0,0,0,0
 Men's Jersey Tank Top,2Z106BLN,Men's Jersey Tank Top,Custom,Unbeknownst,0,0,0,0,0,0
 Men's Jersey Tank Top,2Z107BLN,Men's Jersey Tank Top,Custom,Unbeknownst,0,0,0,0,0,0
 Men's Jersey Tank Top,2Z108BLN,Men's Jersey Tank Top,Custom,Unbeknownst,0,0,0,0,0,0
-Women's FJ Crew T,3U104BLN,WFJCrewT Blank Wht S,Pick,HANES01-10 - LPC54 S White,0,12.68,300,300,300,300
-Women's FJ Crew T,3U105BLN,WFJCrewT Blank Wht M,Pick,HANES01-10 - LPC54 M White,0,15.78,500,500,500,500
-Women's FJ Crew T,3U106BLN,WFJCrewT Blank Wht L,Pick,HANES01-10 - LPC54 L White,0,17.57,500,500,500,500
-Women's FJ Crew T,3U107BLN,WFJCrewT Blank Wht XL,Pick,HANES01-10 - LPC54 XL White,0,16.02,300,300,300,300
-Women's FJ Crew T,3U108BLN,WFJCrewT Blank Wht 2XL,Pick,HANES01-10 - LPC54 2XL White,0,11.66,300,300,300,300
+Women's FJ Crew T,3U104BLN,WFJCrewT Blank Wht S,Pick,HANES01-10 - LPC54 S White,0,12.68,350,300,300,300
+Women's FJ Crew T,3U105BLN,WFJCrewT Blank Wht M,Pick,HANES01-10 - LPC54 M White,0,15.78,560,500,500,500
+Women's FJ Crew T,3U106BLN,WFJCrewT Blank Wht L,Pick,HANES01-10 - LPC54 L White,0,17.57,560,500,500,500
+Women's FJ Crew T,3U107BLN,WFJCrewT Blank Wht XL,Pick,HANES01-10 - LPC54 XL White,0,16.02,360,300,300,300
+Women's FJ Crew T,3U108BLN,WFJCrewT Blank Wht 2XL,Pick,HANES01-10 - LPC54 2XL White,0,11.66,350,300,300,300
 Women's FJ Crew T,3U384BLN,WFJCrewT Blank Nvy S,Pick,3U384BLN,0,0,0,0,0,0
 Women's FJ Crew T,3U385BLN,WFJCrewT Blank Nvy M,Pick,3U385BLN,0,0,0,0,0,0
 Women's FJ Crew T,3U386BLN,WFJCrewT Blank Nvy L,Pick,3U386BLN,0,0,0,0,0,0
 Women's FJ Crew T,3U387BLN,WFJCrewT Blank Nvy XL,Pick,3U387BLN,0,0,0,0,0,0
 Women's FJ Crew T,3U388BLN,WFJCrewT Blank Nvy 2XL,Pick,3U388BLN,0,0,0,0,0,0
-Women's FJ Crew T,3U484BLN,WFJCrewT Blank Blk S,Pick,HANES01-10 - LPC54 S Black,0,3.09,200,200,200,200
-Women's FJ Crew T,3U485BLN,WFJCrewT Blank Blk M,Pick,HANES01-10 - LPC54 M Black,0,3.97,200,200,200,200
-Women's FJ Crew T,3U486BLN,WFJCrewT Blank Blk L,Pick,HANES01-10 - LPC54 L Black,0,4.52,200,200,200,200
-Women's FJ Crew T,3U487BLN,WFJCrewT Blank Blk XL,Pick,HANES01-10 - LPC54 XL Black,0,3.96,200,200,200,200
-Women's FJ Crew T,3U488BLN,WFJCrewT Blank Blk 2XL,Pick,HANES01-10 - LPC54 2XL Black,0,2.96,200,200,200,200
+Women's FJ Crew T,3U484BLN,WFJCrewT Blank Blk S,Pick,HANES01-10 - LPC54 S Black,0,3.09,300,200,200,200
+Women's FJ Crew T,3U485BLN,WFJCrewT Blank Blk M,Pick,HANES01-10 - LPC54 M Black,0,3.97,300,200,200,200
+Women's FJ Crew T,3U486BLN,WFJCrewT Blank Blk L,Pick,HANES01-10 - LPC54 L Black,0,4.52,300,200,200,200
+Women's FJ Crew T,3U487BLN,WFJCrewT Blank Blk XL,Pick,HANES01-10 - LPC54 XL Black,0,3.96,300,200,200,200
+Women's FJ Crew T,3U488BLN,WFJCrewT Blank Blk 2XL,Pick,HANES01-10 - LPC54 2XL Black,0,2.96,300,200,200,200
 Unisex Hoodie,3X484BLN,Unisex Hoodie,Custom,6926-S,0,0,0,0,0,0
 Unisex Hoodie,3X485BLN,Unisex Hoodie,Custom,6926-M,0,0,0,0,0,0
 Unisex Hoodie,3X486BLN,Unisex Hoodie,Custom,6926-L,0,0,0,0,0,0
@@ -91,11 +96,11 @@ Men's Crew Tee,4G676BLN,PremiumT Blank IceBlu L,Pick,NEXLEV01-10 - 4G676BLN,0,5.
 Men's Crew Tee,4G677BLN,PremiumT Blank IceBlu XL,Pick,NEXLEV01-10 - 4G677BLN,0,5.35,200,200,200,200
 Men's Crew Tee,4G678BLN,PremiumT Blank IceBlu 2XL,Pick,NEXLEV01-10 - 4G678BLN,0,3.68,200,200,200,200
 Men's Crew Tee,4G679BLN,PremiumT Blank IceBlu 3XL,Pick,6210-3X,0,0,0,0,0,0
-Girl's Crew T,4I670BLN,PremiumT Blank IceBlu YXS,Pick,NEXLEV01-10 - 4I670BLN,0,0.91,200,200,200,200
-Girl's Crew T,4I671BLN,PremiumT Blank IceBlu YS,Pick,NEXLEV01-10 - 4I671BLN,0,1.34,200,200,200,200
-Girl's Crew T,4I672BLN,PremiumT Blank IceBlu YM,Pick,NEXLEV01-10 - 4I672BLN,0,1.41,200,200,200,200
-Girl's Crew T,4I673BLN,PremiumT Blank IceBlu YL,Pick,NEXLEV01-10 - 4I673BLN,0,1.87,200,200,200,200
-Women's FJ Crew T,4I674BLN,PremiumT Blank IceBlu S,Pick,NEXLEV01-10 - 4I674BLN,0,4.24,200,200,200,200
+Girl's Crew T,4I670BLN,PremiumT Blank IceBlu YXS,Pick,NEXLEV01-10 - 4I670BLN,0,0.91,250,200,200,200
+Girl's Crew T,4I671BLN,PremiumT Blank IceBlu YS,Pick,NEXLEV01-10 - 4I671BLN,0,1.34,250,200,200,200
+Girl's Crew T,4I672BLN,PremiumT Blank IceBlu YM,Pick,NEXLEV01-10 - 4I672BLN,0,1.41,250,200,200,200
+Girl's Crew T,4I673BLN,PremiumT Blank IceBlu YL,Pick,NEXLEV01-10 - 4I673BLN,0,1.87,250,200,200,200
+Women's FJ Crew T,4I674BLN,PremiumT Blank IceBlu S,Pick,NEXLEV01-10 - 4I674BLN,0,4.24,250,200,200,200
 Women's FJ Crew T,4I675BLN,PremiumT Blank IceBlu M,Pick,NEXLEV01-10 - 4I675BLN,0,5.28,200,200,200,200
 Women's FJ Crew T,4I676BLN,PremiumT Blank IceBlu L,Pick,NEXLEV01-10 - 4I676BLN,0,5.47,200,200,200,200
 Women's FJ Crew T,4I677BLN,PremiumT Blank IceBlu XL,Pick,NEXLEV01-10 - 4I677BLN,0,5.41,200,200,200,200
@@ -161,10 +166,10 @@ Boy's FJ Crew Tee,4Z020BLN,FJCrwTee Nat YXS,Custom,LATSP01-10 - 4Z020BLN,0,7.41,
 Boy's FJ Crew Tee,4Z021BLN,FJCrwTee Nat YS,Custom,LATSP01-10 - 4Z021BLN,0,8.9,0,0,0,0
 Boy's FJ Crew Tee,4Z022BLN,FJCrwTee Nat YM,Custom,LATSP01-10 - 4Z022BLN,0,9.33,0,0,0,0
 Boy's FJ Crew Tee,4Z023BLN,FJCrwTee Nat YL,Custom,LATSP01-10 - 4Z023BLN,0,8.17,0,0,0,0
-Fine Jersey Crew T,4Z360BLN,Fine Jersey Crew T,Custom,Unbeknownst,0,0,0,0,0,0
-Fine Jersey Crew T,4Z361BLN,Fine Jersey Crew T,Custom,Unbeknownst,0,0,0,0,0,0
-Fine Jersey Crew T,4Z362BLN,Fine Jersey Crew T,Custom,Unbeknownst,0,0,0,0,0,0
-Fine Jersey Crew T,4Z363BLN,Fine Jersey Crew T,Custom,Unbeknownst,0,0,0,0,0,0
+Fine Jersey Crew T,4Z360BLN,Fine Jersey Crew T,Custom,Unbeknownst,0,0,200,200,200,200
+Fine Jersey Crew T,4Z361BLN,Fine Jersey Crew T,Custom,Unbeknownst,0,0,250,250,250,250
+Fine Jersey Crew T,4Z362BLN,Fine Jersey Crew T,Custom,Unbeknownst,0,0,250,250,250,250
+Fine Jersey Crew T,4Z363BLN,Fine Jersey Crew T,Custom,Unbeknownst,0,0,150,150,150,150
 Unisex Toddler Crew Tee,5F12EBLN,FJCrwTee Blank Chill 2T,Custom,LATSP01-10 - 5F12EBLN,0,2.95,0,0,0,0
 Unisex Toddler Crew Tee,5F12FBLN,FJCrwTee Blank Chill 3T,Custom,LATSP01-10 - 5F12FBLN,0,3.18,0,0,0,0
 Unisex Toddler Crew Tee,5F12GBLN,FJCrwTee Blank Chill 4T,Custom,LATSP01-10 - 5F12GBLN,0,2.75,0,0,0,0
