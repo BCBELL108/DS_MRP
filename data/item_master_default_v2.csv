@@ -53,6 +53,7 @@ Del Sol Sku,Silverscreen Sku,Primary Vendor Sku,Primary Vendor,Item Description,
 2D481BLN,2D48-YS,PC54Y-S,SanMar,FJ Crew Tee,Black,Black,Pick,1.97,72
 2D482BLN,2D48-YM,PC54Y-M,SanMar,FJ Crew Tee,Black,Black,Pick,1.97,72
 2D483BLN,2D48-YL,PC54Y-L,SanMar,FJ Crew Tee,Black,Black,Pick,1.97,72
+2D48HBLN,2D48-5/6T,Unknown,Unknown,Unknown,Black,Black,Custom,0,1
 2D510BLN,2D51-YXS,PC54Y-XS,SanMar,FJ Crew Tee,Ash,Ash,Pick,1.97,72
 2D511BLN,2D51-YS,PC54Y-S,SanMar,FJ Crew Tee,Ash,Ash,Pick,1.97,72
 2D512BLN,2D51-YM,PC54Y-M,SanMar,FJ Crew Tee,Ash,Ash,Pick,1.97,72
@@ -141,10 +142,11 @@ Del Sol Sku,Silverscreen Sku,Primary Vendor Sku,Primary Vendor,Item Description,
 4G677BLN,4G67-XL,6210-XL,SanMar,M Crew T,Ice Blue,Ice Blue,Pick,3.45,72
 4G678BLN,4G67-2XL,6210-2XL,SanMar,M Crew T,Ice Blue,Ice Blue,Pick,4.85,72
 4G679BLN,4G67-3XL,6210-3XL,SanMar,M Crew T,Ice Blue,Ice Blue,Pick,6.2,36
-4I670BLN,4I67-YXS,3312-XS,SanMar,FJ Crew Tee,Ice Blue,Ice Blue,Pick,3.45,72
-4I671BLN,4I67-YS,3312-S,SanMar,FJ Crew Tee,Ice Blue,Ice Blue,Pick,3.45,72
-4I672BLN,4I67-YM,3312-M,SanMar,FJ Crew Tee,Ice Blue,Ice Blue,Pick,3.45,72
-4I673BLN,4I67-YL,3312-L,SanMar,FJ Crew Tee,Ice Blue,Ice Blue,Pick,3.45,72
+4I670BLN,4I67-YXS,3312-XS,SanMar,FJ Crew Tee,Ice Blue,Ice Blue,Custom,3.45,72
+4I671BLN,4I67-YS,3312-S,SanMar,FJ Crew Tee,Ice Blue,Ice Blue,Custom,3.45,72
+4I672BLN,4I67-YM,3312-M,SanMar,FJ Crew Tee,Ice Blue,Ice Blue,Custom,3.45,72
+4I673BLN,4I67-YL,3312-L,SanMar,FJ Crew Tee,Ice Blue,Ice Blue,Custom,3.45,72
+4I67YBLN,4I67-YXL,ECO ONLY,ECO ONLY,FJ Crew Tee,Ice Blue,Ice Blue,Custom,0,1
 4I674BLN,4I67-S,6610-S,SanMar,W Crew T,Ice Blue,Ice Blue,Pick,3.45,72
 4I675BLN,4I67-M,6610-M,SanMar,W Crew T,Ice Blue,Ice Blue,Pick,3.45,72
 4I676BLN,4I67-L,6610-L,SanMar,W Crew T,Ice Blue,Ice Blue,Pick,3.45,72
@@ -221,6 +223,10 @@ Del Sol Sku,Silverscreen Sku,Primary Vendor Sku,Primary Vendor,Item Description,
 5F12FBLN,5F12-3T,3321-3T,LAT Apparel,T Crew Tee,Chill,Chill,Custom,2.55,1
 5F12GBLN,5F12-4T,3321-4T,LAT Apparel,T Crew Tee,Chill,Chill,Custom,2.55,1
 5F12HBLN,5F12-5/6T,3321 - 5/6T,LAT Apparel,T Crew Tee,Chill,Chill,Custom,2.55,1
+5G10EBLN,5G10-2T,Unknown,Unknown,Blank Tee Ash 2T,,Ash,Custom,0,1
+5G10FBLN,5G10-3T,Unknown,Unknown,Blank Tee Ash 3T,,Ash,Custom,0,1
+5G10GBLN,5G10-4T,Unknown,Unknown,Blank Tee Ash 4T,,Ash,Custom,0,1
+5G10HBLN,5G10-5/6T,Unknown,Unknown,Blank Tee Ash 5/6T,,Ash,Custom,0,1
 5G51EBLN,5G51-2T,3321-2T,LAT Apparel,T Crew Tee,Ash,Ash,Custom,2.55,1
 5G51FBLN,5G51-3T,3321-3T,LAT Apparel,T Crew Tee,Ash,Ash,Custom,2.55,1
 5G51GBLN,5G51-4T,3321-4T,LAT Apparel,T Crew Tee,Ash,Ash,Custom,2.55,1
