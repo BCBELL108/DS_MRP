@@ -44,11 +44,11 @@ Boy's FJ Crew Tee,2D191BLN,Boy's FJ Crew Tee,Custom,Unbeknownst,0,0,0,0,0,0
 Boy's FJ Crew Tee,2D192BLN,Boy's FJ Crew Tee,Custom,Unbeknownst,0,0,0,0,0,0
 Boy's FJ Crew Tee,2D193BLN,Boy's FJ Crew Tee,Custom,Unbeknownst,0,0,0,0,0,0
 Boy's FJ Crew Tee,2D19YBLN,Boy's FJ Crew Tee,Custom,Unbeknownst,0,0,0,0,0,0
-T Crew Tee,2D380BLN,FJ Crew Tee,,PC54Y-XS,0,0,0,0,0,0
-T Crew Tee,2D381BLN,FJ Crew Tee,,PC54Y-S,0,0,0,0,0,0
-T Crew Tee,2D382BLN,FJ Crew Tee,,PC54Y-M,0,0,0,0,0,0
-T Crew Tee,2D383BLN,FJ Crew Tee,,PC54Y-L,0,0,0,0,0,0
-T Crew Tee,2D384BLN,FJ Crew Tee,,PC54Y-XL,0,0,0,0,0,0
+T Crew Tee,2D380BLN,FJ Crew Tee,,PC54Y-XS,0,0,400,400,400,400
+T Crew Tee,2D381BLN,FJ Crew Tee,,PC54Y-S,0,0,400,400,400,400
+T Crew Tee,2D382BLN,FJ Crew Tee,,PC54Y-M,0,0,400,400,400,400
+T Crew Tee,2D383BLN,FJ Crew Tee,,PC54Y-L,0,0,400,400,400,400
+T Crew Tee,2D384BLN,FJ Crew Tee,,PC54Y-XL,0,0,400,400,400,400
 Boy's FJ Crew Tee,2D480BLN,FJCrwTee Blank Blk YXS,Pick,HANES01-10 - 2D480BLN,0,5.26,580,300,300,300
 Boy's FJ Crew Tee,2D481BLN,FJCrwTee Blank Blk YS,Pick,HANES01-10 - PC450Y YS Black,0,6.72,420,300,300,300
 Boy's FJ Crew Tee,2D482BLN,FJCrwTee Blank Blk YM,Pick,HANES01-10 - 2D482BLN,0,7.76,540,400,400,400
@@ -76,6 +76,11 @@ Women's FJ Crew T,3U485BLN,WFJCrewT Blank Blk M,Pick,HANES01-10 - LPC54 M Black,
 Women's FJ Crew T,3U486BLN,WFJCrewT Blank Blk L,Pick,HANES01-10 - LPC54 L Black,0,4.52,300,300,300,300
 Women's FJ Crew T,3U487BLN,WFJCrewT Blank Blk XL,Pick,HANES01-10 - LPC54 XL Black,0,3.96,300,300,300,300
 Women's FJ Crew T,3U488BLN,WFJCrewT Blank Blk 2XL,Pick,HANES01-10 - LPC54 2XL Black,0,2.96,300,300,300,300
+Women FJ Crew T,3U514BLN,Women FJ Crew T,Pick,LPC54-S,0,2.78,400,400,400,400
+Women FJ Crew T,3U515BLN,Women FJ Crew T,Pick,LPC54-M,0,2.78,400,400,400,400
+Women FJ Crew T,3U516BLN,Women FJ Crew T,Pick,LPC54-L,0,2.78,400,400,400,400
+Women FJ Crew T,3U517BLN,Women FJ Crew T,Pick,LPC54-XL,0,2.78,400,400,400,400
+Women FJ Crew T,3U518BLN,Women FJ Crew T,Pick,LPC54-2XL,0,2.78,400,400,400,400
 Unisex Hoodie,3X484BLN,Unisex Hoodie,Custom,6926-S,0,0,0,0,0,0
 Unisex Hoodie,3X485BLN,Unisex Hoodie,Custom,6926-M,0,0,0,0,0,0
 Unisex Hoodie,3X486BLN,Unisex Hoodie,Custom,6926-L,0,0,0,0,0,0
