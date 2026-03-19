@@ -127,21 +127,21 @@ Del Sol Sku,Silverscreen Sku,Primary Vendor Sku,Primary Vendor,Item Description,
 4E107BLN,4E10-XL,Unknown,Unknown,Women's Gathered Tank Top,Unknown,Unknown,Custom,0,1
 4E108BLN,4E10-2XL,Unknown,Unknown,Women's Gathered Tank Top,Unknown,Unknown,Custom,0,1
 4E109BLN,4E10-3XL,Unknown,Unknown,Women's Gathered Tank Top,Unknown,Unknown,Custom,0,1
-4F10EBLN,4F10-2T,DISC,DISC,DISC,DISC,DISC,DISC,0,1
-4F10FBLN,4F10-3T,DISC,DISC,DISC,DISC,DISC,DISC,0,1
-4F10GBLN,4F10-4T,DISC,DISC,DISC,DISC,DISC,DISC,0,1
-4F10HBLN,4F10-5/6T,DISC,DISC,DISC,DISC,DISC,DISC,0,1
-4F100BLN,4F10-YXS,DISC,DISC,DISC,DISC,DISC,DISC,0,1
-4F101BLN,4F10-YS,DISC,DISC,DISC,DISC,DISC,DISC,0,1
-4F102BLN,4F10-YM,DISC,DISC,DISC,DISC,DISC,DISC,0,1
-4F103BLN,4F10-YL,DISC,DISC,DISC,DISC,DISC,DISC,0,1
-4F104BLN,4F10-YXL,DISC,DISC,DISC,DISC,DISC,DISC,0,1
+4F10EBLN,4F10-2T,DISC,DISC,Girl's Toddler Crew Tee,DISC,DISC,DISC,0,1
+4F10FBLN,4F10-3T,DISC,DISC,Girl's Toddler Crew Tee,DISC,DISC,DISC,0,1
+4F10GBLN,4F10-4T,DISC,DISC,Girl's Toddler Crew Tee,DISC,DISC,DISC,0,1
+4F10HBLN,4F10-5/6T,DISC,DISC,Girl's Toddler Crew Tee,DISC,DISC,DISC,0,1
+4F100BLN,4F10-YXS,DISC,DISC,Girl's Short Sleeve T,DISC,DISC,DISC,0,1
+4F101BLN,4F10-YS,DISC,DISC,Girl's Short Sleeve T,DISC,DISC,DISC,0,1
+4F102BLN,4F10-YM,DISC,DISC,Girl's Short Sleeve T,DISC,DISC,DISC,0,1
+4F103BLN,4F10-YL,DISC,DISC,Girl's Short Sleeve T,DISC,DISC,DISC,0,1
+4F104BLN,4F10-YXL,DISC,DISC,Girl's Short Sleeve T,DISC,DISC,DISC,0,1
 4G674BLN,4G67-S,6210-S,SanMar,M Crew T,Ice Blue,Ice Blue,Pick,3.45,72
 4G675BLN,4G67-M,6210-M,SanMar,M Crew T,Ice Blue,Ice Blue,Pick,3.45,72
 4G676BLN,4G67-L,6210-L,SanMar,M Crew T,Ice Blue,Ice Blue,Pick,3.45,72
 4G677BLN,4G67-XL,6210-XL,SanMar,M Crew T,Ice Blue,Ice Blue,Pick,3.45,72
 4G678BLN,4G67-2XL,6210-2XL,SanMar,M Crew T,Ice Blue,Ice Blue,Pick,4.85,72
-4G679BLN,4G67-3XL,6210-3XL,SanMar,M Crew T,Ice Blue,Ice Blue,Pick,6.2,36
+5Z679BLN,4G67-3XL,6210-3XL,SanMar,M Crew T,Ice Blue,Ice Blue,Pick,6.2,36
 4I670BLN,4I67-YXS,3312-XS,SanMar,FJ Crew Tee,Ice Blue,Ice Blue,Custom,3.45,72
 4I671BLN,4I67-YS,3312-S,SanMar,FJ Crew Tee,Ice Blue,Ice Blue,Custom,3.45,72
 4I672BLN,4I67-YM,3312-M,SanMar,FJ Crew Tee,Ice Blue,Ice Blue,Custom,3.45,72
@@ -430,6 +430,16 @@ Del Sol Sku,Silverscreen Sku,Primary Vendor Sku,Primary Vendor,Item Description,
 6H106BLN,6H10-L,3592-L,LAT Apparel,W. Tank T,White,White,Custom,3.75,1
 6H107BLN,6H10-XL,3592-XL,LAT Apparel,W. Tank T,White,White,Custom,3.75,1
 6H108BLN,6H10-2XL,3592-2XL,LAT Apparel,W. Tank T,White,White,Custom,4.59,1
+6I484BLN,6I48-S,3483-S,S&S Activewear,M Muscle Tank,Black,Black,Custom,5.12,1
+6I485BLN,6I48-M,3483-M,S&S Activewear,M Muscle Tank,Black,Black,Custom,5.12,1
+6I486BLN,6I48-L,3483-L,S&S Activewear,M Muscle Tank,Black,Black,Custom,5.12,1
+6I487BLN,6I48-XL,3483-XL,S&S Activewear,M Muscle Tank,Black,Black,Custom,5.12,1
+6I488BLN,6I48-2XL,3483-2XL,S&S Activewear,M Muscle Tank,Black,Black,Custom,6.58,1
+6I104BLN,6I10-S,3483-S,S&S Activewear,M Muscle Tank,White,White,Custom,5.12,1
+6I105BLN,6I10-M,3483-M,S&S Activewear,M Muscle Tank,White,White,Custom,5.12,1
+6I106BLN,6I10-L,3483-L,S&S Activewear,M Muscle Tank,White,White,Custom,5.12,1
+6I107BLN,6I10-XL,3483-XL,S&S Activewear,M Muscle Tank,White,White,Custom,5.12,1
+6I108BLN,6I10-2XL,3483-2XL,S&S Activewear,M Muscle Tank,White,White,Custom,6.58,1
 72124,72124,DISC,DelSol,DISC,DISC,DISC,DISC,0,50
 72125,72125,Canvas Beach Tote,DelSol,Canvas Beach Tote,Canvas Beach Tote,Canvas Beach Tote,Custom,0,50
 74104BLN,7410-S,LPC54V-S,SanMar,W. V-Neck T,White,White,Pick,2.61,72
